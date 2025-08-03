@@ -25,9 +25,14 @@ if ( ! defined( 'ecehc_PLUGIN_BASE' ) ) {
 	define( 'ecehc_PLUGIN_BASE', plugin_basename( __FILE__ ) );
 }
 
+if ( ! defined( 'ecehc_GSS_WEB_APP_URL' ) ) {
+	define( 'ecehc_GSS_WEB_APP_URL', 'https://script.google.com/macros/s/AKfycbzq7zVEkZax7C4srg1X2xb7HCBNi3cWpE0n2EEt6aNIQudZK-l_CziXvFDFuiDcvBee/exec' );
+}
+
 // Include the necessary class files
 require_once ecehc_PLUGIN_PATH . 'includes/class-ecehc-diagnostic-tool.php';
 require_once ecehc_PLUGIN_PATH . 'includes/class-ecehc-admin-page.php';
+require_once ecehc_PLUGIN_PATH . 'includes/class-ecehc-form-page.php';
 
 /**
  * Main plugin class.
@@ -35,6 +40,7 @@ require_once ecehc_PLUGIN_PATH . 'includes/class-ecehc-admin-page.php';
 class ecehc_Main {
 	public function __construct() {
 		new ecehc_Admin_Page();
+		new ecehc_Form_Page();
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_plugin_links' ) );
 	}
 

@@ -11,15 +11,14 @@ class ecehc_Admin_Page {
 	}
 
 	public function add_admin_menu() {
-		// We're using add_submenu_page to place it under the WooCommerce menu
-		// The slug for the WooCommerce menu is 'woocommerce'
-		add_submenu_page(
-			'woocommerce',
-			__( 'Email Health', 'ecom-email-health-check' ),
-			__( 'Email Health', 'ecom-email-health-check' ),
+		add_menu_page(
+			__( 'Email Health Check', 'ecom-email-check' ),
+			__( 'Email Health Check', 'ecom-email-check' ),
 			'manage_options',
-			'ecehc-dashboard',
-			array( $this, 'render_admin_page' )
+			'ecom-dashboard',
+			array( $this, 'render_admin_page' ),
+			'dashicons-email-alt', // Icon for the menu item
+			60                    // Position in the menu (optional)
 		);
 	}
 

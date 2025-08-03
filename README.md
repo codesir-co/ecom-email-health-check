@@ -1,7 +1,7 @@
 # WooCommerce Email Health Check
 
-[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/woo-email-health-check.svg)](https://wordpress.org/plugins/woo-email-health-check/)
-[![License](https://img.shields.io/github/license/wordpressfan/woo-email-health-check)](LICENSE)
+[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/ecom-email-health-check.svg)](https://wordpress.org/plugins/ecom-email-health-check/)
+[![License](https://img.shields.io/github/license/wordpressfan/ecom-email-health-check)](LICENSE)
 
 A free, simple tool to diagnose and test your WooCommerce email delivery, ensuring your order confirmations and notifications always reach your customers.
 
@@ -38,8 +38,8 @@ _Add screenshots here to show your plugin in action. Here are some ideas:_
 
 ### Manual Installation
 
-1.  Download the plugin from the [WordPress.org Plugin Repository](https://wordpress.org/plugins/woo-email-health-check/).
-2.  Unzip the file and upload the `woo-email-health-check` folder to your `/wp-content/plugins/` directory.
+1.  Download the plugin from the [WordPress.org Plugin Repository](https://wordpress.org/plugins/ecom-email-health-check/).
+2.  Unzip the file and upload the `ecom-email-health-check` folder to your `/wp-content/plugins/` directory.
 3.  Activate the plugin through the 'Plugins' menu in WordPress.
 
 ## ⚙️ Usage

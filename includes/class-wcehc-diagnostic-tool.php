@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WCEHC_Diagnostic_Tool {
+class ecehc_Diagnostic_Tool {
 
 	/**
 	 * Runs all diagnostic checks and returns the results.
@@ -16,21 +16,21 @@ class WCEHC_Diagnostic_Tool {
 
 		// Check 1: Basic Email Functionality
 		$results['basic_functionality'] = array(
-			'label' => __( 'Basic Email Functionality', 'wcehc' ),
+			'label' => __( 'Basic Email Functionality', 'ecehc' ),
 			'status' => $this->check_basic_functionality(),
 			'message' => $this->get_message_for_check('basic_functionality'),
 		);
 
 		// Check 2: From Address Validation
 		$results['from_address'] = array(
-			'label' => __( 'Sender Address Check', 'wcehc' ),
+			'label' => __( 'Sender Address Check', 'ecehc' ),
 			'status' => $this->check_from_address(),
 			'message' => $this->get_message_for_check('from_address'),
 		);
 
 		// Check 3: SPF Record
 		$results['spf_record'] = array(
-			'label' => __( 'SPF Record Validation', 'wcehc' ),
+			'label' => __( 'SPF Record Validation', 'ecehc' ),
 			'status' => $this->check_spf_record(),
 			'message' => $this->get_message_for_check('spf_record'),
 		);
@@ -90,16 +90,16 @@ class WCEHC_Diagnostic_Tool {
 		switch ( $check_name ) {
 			case 'basic_functionality':
 				return true === $this->check_basic_functionality()
-					? __( 'The WordPress `wp_mail()` function is working correctly.', 'wcehc' )
-					: __( 'The `wp_mail()` function is failing. Your hosting provider may be blocking emails.', 'wcehc' );
+					? __( 'The WordPress `wp_mail()` function is working correctly.', 'ecehc' )
+					: __( 'The `wp_mail()` function is failing. Your hosting provider may be blocking emails.', 'ecehc' );
 			case 'from_address':
 				return true === $this->check_from_address()
-					? __( 'Your sender address domain matches your site domain, which is good practice.', 'wcehc' )
-					: __( 'Your sender address domain does not match your site domain. This is a common cause of spam folder delivery.', 'wcehc' );
+					? __( 'Your sender address domain matches your site domain, which is good practice.', 'ecehc' )
+					: __( 'Your sender address domain does not match your site domain. This is a common cause of spam folder delivery.', 'ecehc' );
 			case 'spf_record':
 				return true === $this->check_spf_record()
-					? __( 'A valid SPF record was found. This helps authenticate your emails.', 'wcehc' )
-					: __( 'No SPF record was found. This is a critical issue that makes your emails look suspicious to spam filters.', 'wcehc' );
+					? __( 'A valid SPF record was found. This helps authenticate your emails.', 'ecehc' )
+					: __( 'No SPF record was found. This is a critical issue that makes your emails look suspicious to spam filters.', 'ecehc' );
 			default:
 				return '';
 		}

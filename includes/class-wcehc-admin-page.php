@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class WCEHC_Admin_Page {
+class ecehc_Admin_Page {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 		add_action( 'admin_init', array( $this, 'handle_test_email' ) );
@@ -15,30 +15,30 @@ class WCEHC_Admin_Page {
 		// The slug for the WooCommerce menu is 'woocommerce'
 		add_submenu_page(
 			'woocommerce',
-			__( 'Email Health', 'wcehc' ),
-			__( 'Email Health', 'wcehc' ),
+			__( 'Email Health', 'ecehc' ),
+			__( 'Email Health', 'ecehc' ),
 			'manage_options',
-			'wcehc-dashboard',
+			'ecehc-dashboard',
 			array( $this, 'render_admin_page' )
 		);
 	}
 
 	public function render_admin_page() {
-		$diagnostic_tool = new WCEHC_Diagnostic_Tool();
+		$diagnostic_tool = new ecehc_Diagnostic_Tool();
 		$results = $diagnostic_tool->run_all_checks();
-		include_once WCEHC_PLUGIN_PATH . 'views/admin-page.php';
+		include_once ecehc_PLUGIN_PATH . 'views/admin-page.php';
 	}
 
 	public function handle_test_email() {
-		if ( isset( $_POST['wcehc_send_test_email'] ) && current_user_can( 'manage_options' ) ) {
+		if ( isset( $_POST['ecehc_send_test_email'] ) && current_user_can( 'manage_options' ) ) {
 			// Check for the nonce to prevent CSRF attacks
-			if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'wcehc_send_test_email' ) ) {
+			if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'ecehc_send_test_email' ) ) {
 				wp_die( 'Security check failed.' );
 			}
 
 			$to = get_option('admin_email');
-			$subject = __( 'WooCommerce Email Health Check: Test Email', 'wcehc' );
-			$message = __( 'This is a test email sent from the WooCommerce Email Health Check plugin. If you received this, your site can send basic emails.', 'wcehc' );
+			$subject = __( 'WooCommerce Email Health Check: Test Email', 'ecehc' );
+			$message = __( 'This is a test email sent from the WooCommerce Email Health Check plugin. If you received this, your site can send basic emails.', 'ecehc' );
 
 			$sent = wp_mail( $to, $subject, $message );
 

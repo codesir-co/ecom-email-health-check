@@ -24,7 +24,7 @@ This plugin is a quick way to find out if you have a problem. When you find one,
 
 == Installation ==
 
-1.  Upload the `woo-email-health-check` folder to the `/wp-content/plugins/` directory.
+1.  Upload the `ecom-email-health-check` folder to the `/wp-content/plugins/` directory.
 2.  Activate the plugin through the 'Plugins' menu in WordPress.
 3.  Navigate to the new 'Email Health' menu item in your WordPress dashboard.
 4.  Run the diagnostics to get your report.

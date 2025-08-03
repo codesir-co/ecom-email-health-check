@@ -1,6 +1,6 @@
 === eCommerce Email Health Check ===
 Contributors: engahmeds3ed
-Tags: woocommerce, email, smtp, delivery, diagnostic, test, health check, givewp, charitable
+Tags: e-commerce, email, woocommerce, smtp, deliverability
 Requires at least: 5.0
 Tested up to: 6.8
 Stable tag: 1.0.0

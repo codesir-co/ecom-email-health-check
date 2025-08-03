@@ -1,7 +1,7 @@
 <div class="wrap">
-    <h1><?php _e( 'eCommerce Email Health Check', 'ecom-email-health-check' ); ?></h1>
+    <h1><?php esc_html_e( 'eCommerce Email Health Check', 'ecom-email-health-check' ); ?></h1>
     <p class="description">
-		<?php _e( 'Run a quick diagnostic to check the health of your store\'s email delivery system.', 'ecom-email-health-check' ); ?>
+		<?php esc_html_e( 'Run a quick diagnostic to check the health of your store\'s email delivery system.', 'ecom-email-health-check' ); ?>
     </p>
 
     <style>
@@ -63,17 +63,17 @@
     <div class="ecehc-grid">
         <div class="ecehc-main-col">
             <div id="ecehc-main-report" class="card">
-                <h2><?php _e( 'Email Health Report', 'ecom-email-health-check' ); ?></h2>
+                <h2><?php esc_html_e( 'Email Health Report', 'ecom-email-health-check' ); ?></h2>
                 <p>
-					<?php _e( 'The following checks will help you identify common issues that prevent emails from being delivered successfully.', 'ecom-email-health-check' ); ?>
+					<?php esc_html_e( 'The following checks will help you identify common issues that prevent emails from being delivered successfully.', 'ecom-email-health-check' ); ?>
                 </p>
 
                 <table class="widefat fixed" cellspacing="0">
                     <thead>
                     <tr>
-                        <th class="manage-column column-columnname" scope="col"><?php _e( 'Check', 'ecom-email-health-check' ); ?></th>
-                        <th class="manage-column column-columnname" scope="col"><?php _e( 'Status', 'ecom-email-health-check' ); ?></th>
-                        <th class="manage-column column-columnname" scope="col"><?php _e( 'Message', 'ecom-email-health-check' ); ?></th>
+                        <th class="manage-column column-columnname" scope="col"><?php esc_html_e( 'Check', 'ecom-email-health-check' ); ?></th>
+                        <th class="manage-column column-columnname" scope="col"><?php esc_html_e( 'Status', 'ecom-email-health-check' ); ?></th>
+                        <th class="manage-column column-columnname" scope="col"><?php esc_html_e( 'Message', 'ecom-email-health-check' ); ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -82,9 +82,9 @@
                             <td class="column-columnname"><strong><?php echo esc_html( $result['label'] ); ?></strong></td>
                             <td class="column-columnname">
 								<?php if ( $result['status'] ) : ?>
-                                    <span style="color: green; font-weight: bold;">&#10004; <?php _e( 'Pass', 'ecom-email-health-check' ); ?></span>
+                                    <span style="color: green; font-weight: bold;">&#10004; <?php esc_html_e( 'Pass', 'ecom-email-health-check' ); ?></span>
 								<?php else : ?>
-                                    <span style="color: red; font-weight: bold;">&#10006; <?php _e( 'Fail', 'ecom-email-health-check' ); ?></span>
+                                    <span style="color: red; font-weight: bold;">&#10006; <?php esc_html_e( 'Fail', 'ecom-email-health-check' ); ?></span>
 								<?php endif; ?>
                             </td>
                             <td class="column-columnname">
@@ -99,25 +99,25 @@
 
         <div class="ecehc-sidebar-col">
             <div id="ecehc-cta-card" class="card ecehc-card-padded">
-                <h2 style="margin-top: 0;"><?php _e( 'Found Issues?', 'ecom-email-health-check' ); ?></h2>
+                <h2 style="margin-top: 0;"><?php esc_html_e( 'Found Issues?', 'ecom-email-health-check' ); ?></h2>
                 <p>
-					<?php _e( 'Your email health report shows potential issues that can cause your emails to end up in spam. Don\'t lose crucial order confirmations. Our managed service automatically handles all the technical details for you.', 'ecom-email-health-check' ); ?>
+					<?php esc_html_e( 'Your email health report shows potential issues that can cause your emails to end up in spam. Don\'t lose crucial order confirmations. Our managed service automatically handles all the technical details for you.', 'ecom-email-health-check' ); ?>
                 </p>
                 <a href="https://your-saas-domain.com/?utm_source=plugin&utm_medium=banner" class="button button-primary button-hero ecehc-full-width-button" target="_blank">
-					<?php _e( 'Fix All These Issues Now', 'ecom-email-health-check' ); ?>
+					<?php esc_html_e( 'Fix All These Issues Now', 'ecom-email-health-check' ); ?>
                 </a>
             </div>
 
             <div class="card ecehc-card-padded">
-                <h2 style="margin-top: 0;"><?php _e( 'Test Your Email Sending', 'ecom-email-health-check' ); ?></h2>
+                <h2 style="margin-top: 0;"><?php esc_html_e( 'Test Your Email Sending', 'ecom-email-health-check' ); ?></h2>
                 <p>
-					<?php _e( 'Click the button below to send a test email to your admin email address (', 'ecom-email-health-check' ); ?>
+					<?php esc_html_e( 'Click the button below to send a test email to your admin email address (', 'ecom-email-health-check' ); ?>
                     <code><?php echo esc_html( get_option('admin_email') ); ?></code>
-					<?php _e( ') to confirm basic functionality.', 'ecom-email-health-check' ); ?>
+					<?php esc_html_e( ') to confirm basic functionality.', 'ecom-email-health-check' ); ?>
                 </p>
                 <form method="post">
 					<?php wp_nonce_field( 'ecehc_send_test_email' ); ?>
-                    <input type="submit" name="ecehc_send_test_email" class="button button-secondary" value="<?php _e( 'Send Test Email', 'ecom-email-health-check' ); ?>">
+                    <input type="submit" name="ecehc_send_test_email" class="button button-secondary" value="<?php esc_html_e( 'Send Test Email', 'ecom-email-health-check' ); ?>">
                 </form>
             </div>
         </div>

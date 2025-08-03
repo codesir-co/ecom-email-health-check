@@ -32,7 +32,7 @@ class ecehc_Admin_Page {
 	public function handle_test_email() {
 		if ( isset( $_POST['ecehc_send_test_email'] ) && current_user_can( 'manage_options' ) ) {
 			// Check for the nonce to prevent CSRF attacks
-			if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'ecehc_send_test_email' ) ) {
+			if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'ecehc_send_test_email' ) ) {
 				wp_die( 'Security check failed.' );
 			}
 

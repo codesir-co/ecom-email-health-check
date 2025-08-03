@@ -15,8 +15,8 @@ class ecehc_Admin_Page {
 		// The slug for the WooCommerce menu is 'woocommerce'
 		add_submenu_page(
 			'woocommerce',
-			__( 'Email Health', 'ecehc' ),
-			__( 'Email Health', 'ecehc' ),
+			__( 'Email Health', 'ecom-email-health-check' ),
+			__( 'Email Health', 'ecom-email-health-check' ),
 			'manage_options',
 			'ecehc-dashboard',
 			array( $this, 'render_admin_page' )
@@ -37,8 +37,8 @@ class ecehc_Admin_Page {
 			}
 
 			$to = get_option('admin_email');
-			$subject = __( 'eCommerce Email Health Check: Test Email', 'ecehc' );
-			$message = __( 'This is a test email sent from the eCommerce Email Health Check plugin. If you received this, your site can send basic emails.', 'ecehc' );
+			$subject = __( 'eCommerce Email Health Check: Test Email', 'ecom-email-health-check' );
+			$message = __( 'This is a test email sent from the eCommerce Email Health Check plugin. If you received this, your site can send basic emails.', 'ecom-email-health-check' );
 
 			$sent = wp_mail( $to, $subject, $message );
 

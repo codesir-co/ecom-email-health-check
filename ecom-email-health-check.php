@@ -8,7 +8,7 @@
  * Author URI:  https://your-saas-domain.com/
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: ecehc
+ * Text Domain: ecom-email-health-check
  */
 
 // Prevent direct file access
@@ -41,8 +41,8 @@ class ecehc_Main {
 	// Add custom links to the plugin list
 	public function add_plugin_links( $links ) {
 		// We're changing "Settings" to "Health Check"
-		$health_check_link = '<a href="' . esc_url( admin_url( 'admin.php?page=ecehc-dashboard' ) ) . '">' . __( 'Health Check', 'ecehc' ) . '</a>';
-		$fix_now_link = '<a href="https://your-saas-domain.com/?utm_source=plugin&utm_medium=plugin_list" target="_blank" style="font-weight: bold; color: #1e87f0;">' . __( 'Fix Now', 'ecehc' ) . '</a>';
+		$health_check_link = '<a href="' . esc_url( admin_url( 'admin.php?page=ecehc-dashboard' ) ) . '">' . __( 'Health Check', 'ecom-email-health-check' ) . '</a>';
+		$fix_now_link = '<a href="https://your-saas-domain.com/?utm_source=plugin&utm_medium=plugin_list" target="_blank" style="font-weight: bold; color: #1e87f0;">' . __( 'Fix Now', 'ecom-email-health-check' ) . '</a>';
 
 		array_unshift( $links, $fix_now_link, $health_check_link );
 

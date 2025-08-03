@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: eCommerce Email Health Check
- * Plugin URI:  https://your-saas-domain.com/
+ * Plugin URI:  https://github.com/wordpressfan/ecom-email-health-check/
  * Description: A free tool to diagnose and test your email delivery, ensuring your order confirmations and notifications always reach your customers.
  * Version:     1.0.0
- * Author:      Your Name
- * Author URI:  https://your-saas-domain.com/
+ * Author:      WordpressFan
+ * Author URI:  https://github.com/wordpressfan/
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain: ecom-email-health-check

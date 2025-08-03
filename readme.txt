@@ -1,5 +1,5 @@
 === eCommerce Email Health Check ===
-Contributors: your_wordpress_username
+Contributors: engahmeds3ed
 Tags: woocommerce, email, smtp, delivery, diagnostic, test, health check, givewp, charitable
 Requires at least: 5.0
 Tested up to: 6.2

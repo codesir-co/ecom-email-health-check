@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WooCommerce Email Health Check
+ * Plugin Name: eCommerce Email Health Check
  * Plugin URI:  https://your-saas-domain.com/
  * Description: A free tool to diagnose and test your email delivery, ensuring your order confirmations and notifications always reach your customers.
  * Version:     1.0.0

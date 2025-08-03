@@ -1,17 +1,17 @@
-# WooCommerce Email Health Check
+# eCommerce Email Health Check
 
 [![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/ecom-email-health-check.svg)](https://wordpress.org/plugins/ecom-email-health-check/)
 [![License](https://img.shields.io/github/license/wordpressfan/ecom-email-health-check)](LICENSE)
 
-A free, simple tool to diagnose and test your WooCommerce email delivery, ensuring your order confirmations and notifications always reach your customers.
+A free, simple tool to diagnose and test your eCommerce email delivery, ensuring your order confirmations and notifications always reach your customers.
 
 ## 🤔 The Problem
 
-Are your WooCommerce emails ending up in spam folders? Is your store failing to send critical order confirmations, shipping updates, or password reset emails? Many hosting providers have poor email delivery configurations that can silently fail, leaving you and your customers in the dark.
+Are your eCommerce emails ending up in spam folders? Is your store failing to send critical order confirmations, shipping updates, or password reset emails? Many hosting providers have poor email delivery configurations that can silently fail, leaving you and your customers in the dark.
 
 ## ✨ The Solution
 
-WooCommerce Email Health Check is a lightweight diagnostic tool that quickly identifies common email delivery issues on your WordPress site. It provides a clear, actionable report so you can stop guessing and start fixing the problem.
+eCommerce Email Health Check is a lightweight diagnostic tool that quickly identifies common email delivery issues on your WordPress site. It provides a clear, actionable report so you can stop guessing and start fixing the problem.
 
 ### Key Features:
 
@@ -33,7 +33,7 @@ _Add screenshots here to show your plugin in action. Here are some ideas:_
 ### Via WordPress Dashboard
 
 1.  Go to `Plugins > Add New` in your WordPress dashboard.
-2.  Search for "WooCommerce Email Health Check".
+2.  Search for "eCommerce Email Health Check".
 3.  Click "Install Now" and then "Activate".
 
 ### Manual Installation

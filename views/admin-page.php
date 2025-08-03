@@ -1,5 +1,5 @@
 <div class="wrap">
-    <h1><?php _e( 'WooCommerce Email Health Check', 'ecehc' ); ?></h1>
+    <h1><?php _e( 'eCommerce Email Health Check', 'ecehc' ); ?></h1>
     <p class="description">
 		<?php _e( 'Run a quick diagnostic to check the health of your store\'s email delivery system.', 'ecehc' ); ?>
     </p>

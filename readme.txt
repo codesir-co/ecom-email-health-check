@@ -1,17 +1,17 @@
-=== WooCommerce Email Health Check ===
+=== eCommerce Email Health Check ===
 Contributors: your_wordpress_username
-Tags: woocommerce, email, smtp, delivery, diagnostic, test, health check
+Tags: woocommerce, email, smtp, delivery, diagnostic, test, health check, givewp, charitable
 Requires at least: 5.0
 Tested up to: 6.2
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A free tool to diagnose and test your WooCommerce email delivery, ensuring your order confirmations and notifications always reach your customers.
+A free tool to diagnose and test your eCommerce email delivery, ensuring your order confirmations and notifications always reach your customers.
 
 == Description ==
 
-Stop worrying about lost WooCommerce emails! This free, simple plugin helps you diagnose your store's email delivery health in minutes. It runs a series of checks to identify common issues that cause emails to end up in spam or fail to send altogether.
+Stop worrying about lost eCommerce emails! This free, simple plugin helps you diagnose your store's email delivery health in minutes. It runs a series of checks to identify common issues that cause emails to end up in spam or fail to send altogether.
 
 **Key Features:**
 

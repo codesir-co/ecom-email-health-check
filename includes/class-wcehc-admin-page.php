@@ -37,8 +37,8 @@ class ecehc_Admin_Page {
 			}
 
 			$to = get_option('admin_email');
-			$subject = __( 'WooCommerce Email Health Check: Test Email', 'ecehc' );
-			$message = __( 'This is a test email sent from the WooCommerce Email Health Check plugin. If you received this, your site can send basic emails.', 'ecehc' );
+			$subject = __( 'eCommerce Email Health Check: Test Email', 'ecehc' );
+			$message = __( 'This is a test email sent from the eCommerce Email Health Check plugin. If you received this, your site can send basic emails.', 'ecehc' );
 
 			$sent = wp_mail( $to, $subject, $message );
 

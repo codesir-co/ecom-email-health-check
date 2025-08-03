@@ -1,6 +1,6 @@
 # WooCommerce Email Health Check
 
-[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/woo-email-health-check.svg)](https://wordpress.org/plugins/your-plugin-slug/)
+[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/woo-email-health-check.svg)](https://wordpress.org/plugins/woo-email-health-check/)
 [![License](https://img.shields.io/github/license/wordpressfan/woo-email-health-check)](LICENSE)
 
 A free, simple tool to diagnose and test your WooCommerce email delivery, ensuring your order confirmations and notifications always reach your customers.

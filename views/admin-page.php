@@ -1,62 +1,11 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+?>
 <div class="wrap">
     <h1><?php esc_html_e( 'eCommerce Email Health Check', 'ecom-email-health-check' ); ?></h1>
     <p class="description">
 		<?php esc_html_e( 'Run a quick diagnostic to check the health of your store\'s email delivery system.', 'ecom-email-health-check' ); ?>
     </p>
-
-    <style>
-        /* General Layout */
-        .ecehc-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        /* Full-width container for the main report */
-        .ecehc-main-col {
-            flex: 2; /* 2/3 width */
-            min-width: 0;
-        }
-        #ecehc-main-report.card {
-            max-width: 100% !important; /* Force override of default WP card max-width */
-            padding: 20px;
-        }
-
-        /* Sidebar container for the two smaller cards */
-        .ecehc-sidebar-col {
-            flex: 1; /* 1/3 width */
-            min-width: 300px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* Styles for the individual cards */
-        .ecehc-card-padded {
-            padding: 20px;
-        }
-        #ecehc-cta-card.card {
-            border-left: 4px solid #1e87f0;
-        }
-
-        /* Full-width button style */
-        .ecehc-full-width-button {
-            display: block;
-            text-align: center;
-            width: 100%;
-        }
-
-        /* Responsive behavior */
-        @media (max-width: 900px) {
-            .ecehc-grid {
-                flex-direction: column;
-            }
-            .ecehc-sidebar-col {
-                min-width: unset;
-            }
-        }
-    </style>
 
     <hr>
 
@@ -98,16 +47,6 @@
         </div>
 
         <div class="ecehc-sidebar-col">
-            <div id="ecehc-cta-card" class="card ecehc-card-padded">
-                <h2 style="margin-top: 0;"><?php esc_html_e( 'Found Issues?', 'ecom-email-health-check' ); ?></h2>
-                <p>
-					<?php esc_html_e( 'Your email health report shows potential issues that can cause your emails to end up in spam. Don\'t lose crucial order confirmations. Our managed service automatically handles all the technical details for you.', 'ecom-email-health-check' ); ?>
-                </p>
-                <a href="https://your-saas-domain.com/?utm_source=plugin&utm_medium=banner" class="button button-primary button-hero ecehc-full-width-button" target="_blank">
-					<?php esc_html_e( 'Fix All These Issues Now', 'ecom-email-health-check' ); ?>
-                </a>
-            </div>
-
             <div class="card ecehc-card-padded">
                 <h2 style="margin-top: 0;"><?php esc_html_e( 'Test Your Email Sending', 'ecom-email-health-check' ); ?></h2>
                 <p>

@@ -8,12 +8,14 @@ class ecehc_Admin_Page {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 		add_action( 'admin_init', array( $this, 'handle_test_email' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
+
 	}
 
 	public function add_admin_menu() {
 		add_menu_page(
-			__( 'Email Health Check', 'ecom-email-check' ),
-			__( 'Email Health Check', 'ecom-email-check' ),
+			__( 'Email Health Check', 'ecom-email-health-check' ),
+			__( 'Email Health Check', 'ecom-email-health-check' ),
 			'manage_options',
 			'ecom-dashboard',
 			array( $this, 'render_admin_page' ),
@@ -25,7 +27,7 @@ class ecehc_Admin_Page {
 	public function render_admin_page() {
 		$diagnostic_tool = new ecehc_Diagnostic_Tool();
 		$results = $diagnostic_tool->run_all_checks();
-		include_once ecehc_PLUGIN_PATH . 'views/admin-page.php';
+		include_once ECEHC_PLUGIN_PATH . 'views/admin-page.php';
 	}
 
 	public function handle_test_email() {
@@ -54,5 +56,19 @@ class ecehc_Admin_Page {
 				});
 			}
 		}
+	}
+
+	public function enqueue_admin_styles( $hook ) {
+		if ( 'toplevel_page_ecom-dashboard' !== $hook ) {
+			return;
+		}
+
+		// Enqueue the stylesheet
+		wp_enqueue_style(
+			'ecom-email-health-check-admin-style',
+			plugins_url( 'assets/style.css', ECEHC_PLUGIN_FILE ),
+			array(),
+			'1.0.0',
+		);
 	}
 }

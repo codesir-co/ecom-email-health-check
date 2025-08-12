@@ -17,17 +17,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define plugin constants
-if ( ! defined( 'ecehc_PLUGIN_PATH' ) ) {
-	define( 'ecehc_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+if ( ! defined( 'ECEHC_PLUGIN_FILE' ) ) {
+	define( 'ECEHC_PLUGIN_FILE', __FILE__ );
+}
+if ( ! defined( 'ECEHC_PLUGIN_PATH' ) ) {
+	define( 'ECEHC_PLUGIN_PATH', plugin_dir_path( ECEHC_PLUGIN_FILE ) );
 }
 // Define the plugin base file for the activation hook
-if ( ! defined( 'ecehc_PLUGIN_BASE' ) ) {
-	define( 'ecehc_PLUGIN_BASE', plugin_basename( __FILE__ ) );
+if ( ! defined( 'ECEHC_PLUGIN_BASE' ) ) {
+	define( 'ECEHC_PLUGIN_BASE', plugin_basename( ECEHC_PLUGIN_FILE ) );
 }
 
 // Include the necessary class files
-require_once ecehc_PLUGIN_PATH . 'includes/class-ecehc-diagnostic-tool.php';
-require_once ecehc_PLUGIN_PATH . 'includes/class-ecehc-admin-page.php';
+require_once ECEHC_PLUGIN_PATH . 'includes/class-ecehc-diagnostic-tool.php';
+require_once ECEHC_PLUGIN_PATH . 'includes/class-ecehc-admin-page.php';
 
 /**
  * Main plugin class.
@@ -63,7 +66,7 @@ function ecehc_do_redirect() {
 		// Delete the transient to ensure it only happens once
 		delete_transient( 'ecehc_redirect_to_dashboard' );
 
-		$redirect_url = admin_url( 'admin.php?page=ecehc-dashboard' );
+		$redirect_url = admin_url( 'admin.php?page=ecom-dashboard' );
 		wp_redirect( $redirect_url );
 		exit;
 	}

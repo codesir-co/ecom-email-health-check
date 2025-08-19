@@ -1,0 +1,16 @@
+/.git
+/.github
+/.wordpress-org
+/.distignore
+/.editorconfig
+/.eslintrc.json
+/.gitattributes
+/.gitignore
+/.jshintrc
+/.travis.yml
+/composer.json
+/composer.lock
+/gruntfile.js
+/package.json
+/phpcs.xml
+/README.md

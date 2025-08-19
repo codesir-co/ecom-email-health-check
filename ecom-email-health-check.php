@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: eCommerce Email Health Check
- * Plugin URI:  https://github.com/wordpressfan/ecom-email-health-check/
+ * Plugin URI:  https://github.com/codesir-co/ecom-email-health-check
  * Description: A free tool to diagnose and test your email delivery, ensuring your order confirmations and notifications always reach your customers.
- * Version:     1.0.0
- * Author:      WordpressFan
- * Author URI:  https://github.com/wordpressfan/
+ * Version:     1.0.1
+ * Author:      CodeSir
+ * Author URI:  https://codesir.co/
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain: ecom-email-health-check
@@ -45,7 +45,7 @@ class ecehc_Main {
 	public function add_plugin_links( $links ) {
 		// We're changing "Settings" to "Health Check"
 		$health_check_link = '<a href="' . esc_url( admin_url( 'admin.php?page=ecehc-dashboard' ) ) . '">' . __( 'Health Check', 'ecom-email-health-check' ) . '</a>';
-		$fix_now_link = '<a href="https://your-saas-domain.com/?utm_source=plugin&utm_medium=plugin_list" target="_blank" style="font-weight: bold; color: #1e87f0;">' . __( 'Fix Now', 'ecom-email-health-check' ) . '</a>';
+		$fix_now_link = '<a href="https://codesir.co/?utm_source=plugin&utm_medium=plugin_list" target="_blank" style="font-weight: bold; color: #1e87f0;">' . __( 'Fix Now', 'ecom-email-health-check' ) . '</a>';
 
 		array_unshift( $links, $fix_now_link, $health_check_link );
 

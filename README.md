@@ -57,7 +57,7 @@ This plugin is a diagnostic tool to help you identify problems. If your health r
 
 Our managed service, **[Your SaaS Name]**, handles all the technical details for you. We provide a reliable, managed email sending service specifically for WooCommerce stores, so you can focus on your business while we ensure every email gets delivered.
 
-[**Visit our website to get started.**](https://your-saas-domain.com/?utm_source=github&utm_medium=readme)
+[**Visit our website to get started.**](https://codesir.co/?utm_source=github&utm_medium=readme)
 
 ## 🤝 Contributing
 

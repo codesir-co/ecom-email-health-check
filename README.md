@@ -1,7 +1,7 @@
 # eCommerce Email Health Check
 
 [![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/ecom-email-health-check.svg)](https://wordpress.org/plugins/ecom-email-health-check/)
-[![License](https://img.shields.io/github/license/wordpressfan/ecom-email-health-check)](LICENSE)
+[![License](https://img.shields.io/github/license/codesir-co/ecom-email-health-check)](LICENSE)
 
 A free, simple tool to diagnose and test your eCommerce email delivery, ensuring your order confirmations and notifications always reach your customers.
 

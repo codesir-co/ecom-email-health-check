@@ -7,7 +7,7 @@ Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A free, simple tool to diagnose and test your eCommerce email delivery, ensuring your order confirmations and notifications always reach your customers.
+A free, simple tool to diagnose and test your eCommerce email delivery, ensuring orders and notifications reach customers.
 
 == Description ==
 

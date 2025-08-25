@@ -3,7 +3,7 @@ Contributors: engahmeds3ed
 Tags: e-commerce, email, woocommerce, smtp, deliverability
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,6 +40,9 @@ Many hosting providers have poor email delivery configurations that can silently
 It checks for common issues like email sending failures, sender address misconfigurations, and missing SPF records.
 
 == Changelog ==
+
+= 1.0.2 =
+* UI Enhancements
 
 = 1.0.1 =
 * Test plugin deployment automation.

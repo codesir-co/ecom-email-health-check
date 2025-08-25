@@ -3,7 +3,7 @@
  * Plugin Name: eCommerce Email Health Check
  * Plugin URI:  https://github.com/codesir-co/ecom-email-health-check
  * Description: A free tool to diagnose and test your email delivery, ensuring your order confirmations and notifications always reach your customers.
- * Version:     1.0.1
+ * Version:     1.0.2
  * Author:      CodeSir
  * Author URI:  https://codesir.co/
  * License:     GPL-2.0+

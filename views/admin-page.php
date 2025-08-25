@@ -47,6 +47,16 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         </div>
 
         <div class="ecehc-sidebar-col">
+            <div id="ecehc-cta-card" class="card ecehc-card-padded">
+                <h2 style="margin-top: 0;"><?php _e( 'Found Issues?', 'ecom-email-health-check' ); ?></h2>
+                <p>
+                    <?php esc_html_e( 'Your email health report shows potential issues that can cause your emails to end up in spam. Don\'t lose crucial order confirmations. Our managed service automatically handles all the technical details for you.', 'ecom-email-health-check' ); ?>
+                </p>
+                <a href="https://codesir.co/mailsir/?utm_source=plugin&utm_medium=banner" class="button button-primary button-hero ecehc-full-width-button" target="_blank" rel="noopener">
+                    <?php esc_html_e( 'Fix All These Issues Now', 'ecom-email-health-check' ); ?>
+                </a>
+            </div>
+
             <div class="card ecehc-card-padded">
                 <h2 style="margin-top: 0;"><?php esc_html_e( 'Test Your Email Sending', 'ecom-email-health-check' ); ?></h2>
                 <p>

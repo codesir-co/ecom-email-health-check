@@ -51,7 +51,7 @@ class ecehc_Admin_Page {
 				add_action( 'admin_notices', function() {
 					echo '<div class="notice notice-error is-dismissible">
                             <p><strong>Test email failed to send.</strong> This is a common issue with standard hosting providers.</p>
-                            <p>Our managed service handles all the technical details and ensures your emails are always delivered. <a href="https://codesir.co/?utm_source=plugin&utm_medium=test_email_fail" target="_blank" style="font-weight: bold;">Fix this issue now</a>.</p>
+                            <p>Our managed service handles all the technical details and ensures your emails are always delivered. <a href="https://codesir.co/mailsir/?utm_source=plugin&utm_medium=test_email_fail" target="_blank" style="font-weight: bold;">Fix this issue now</a>.</p>
                           </div>';
 				});
 			}

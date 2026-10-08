@@ -16,26 +16,22 @@ class SpfCheck implements CheckInterface {
 	}
 
 	public function run(): Result {
-		$passed = $this->has_spf_record( Domain::site_domain() );
+		if ( ! function_exists( 'dns_get_record' ) ) {
+			return Result::unknown( __( 'Your server does not allow DNS lookups, so the SPF record could not be checked. Use an online SPF checker for your domain.', 'ecom-email-health-check' ) );
+		}
 
-		return new Result(
-			$passed,
-			$passed
-				? __( 'A valid SPF record was found. This helps authenticate your emails.', 'ecom-email-health-check' )
-				: __( 'No SPF record was found. This is a critical issue that makes your emails look suspicious to spam filters.', 'ecom-email-health-check' )
-		);
-	}
+		$records = @dns_get_record( Domain::site_domain(), DNS_TXT ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 
-	private function has_spf_record( string $domain ): bool {
-		$records = @dns_get_record( $domain, DNS_TXT ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		if ( false === $records ) {
+			return Result::unknown( __( 'The DNS lookup failed, so the SPF record could not be checked. Try again later or use an online SPF checker.', 'ecom-email-health-check' ) );
+		}
 
-		if ( $records ) {
-			foreach ( $records as $record ) {
-				if ( isset( $record['txt'] ) && false !== strpos( $record['txt'], 'v=spf1' ) ) {
-					return true;
-				}
+		foreach ( $records as $record ) {
+			if ( isset( $record['txt'] ) && false !== strpos( $record['txt'], 'v=spf1' ) ) {
+				return new Result( true, __( 'A valid SPF record was found. This helps authenticate your emails.', 'ecom-email-health-check' ) );
 			}
 		}
-		return false;
+
+		return new Result( false, __( 'No SPF record was found. This is a critical issue that makes your emails look suspicious to spam filters.', 'ecom-email-health-check' ) );
 	}
 }

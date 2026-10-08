@@ -23,7 +23,13 @@ class DmarcCheck implements CheckInterface {
 	}
 
 	public function run(): Result {
-		$records = Dns::txt_records( '_dmarc.' . Domain::site_domain() );
+		$domain = Domain::mail_domain();
+
+		if ( Domain::is_free_mailbox( $domain ) ) {
+			return Result::unknown( Domain::free_mailbox_notice( $domain ) );
+		}
+
+		$records = Dns::txt_records( '_dmarc.' . $domain );
 
 		if ( null === $records ) {
 			return Result::unknown( __( 'The DNS lookup was not possible on this server, so the DMARC record could not be checked. Use an online DMARC checker for your domain.', 'ecom-email-health-check' ) );

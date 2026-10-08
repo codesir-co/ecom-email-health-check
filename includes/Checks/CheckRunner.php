@@ -47,7 +47,7 @@ class CheckRunner {
 	public function run_all(): array {
 		$results  = array();
 		$provider = MailProvider::detect();
-		$domain   = Domain::site_domain();
+		$domain   = Domain::mail_domain();
 
 		foreach ( $this->get_checks() as $check ) {
 			if ( isset( $results[ $check->get_id() ] ) ) {
@@ -63,11 +63,22 @@ class CheckRunner {
 				continue;
 			}
 
-			$result                      = $check->run();
+			$result  = $check->run();
+			$message = $result->get_message();
+
+			// Make it clear which domain the DNS checks looked at when it is not the site's own.
+			if ( in_array( $check->get_id(), array( 'spf_record', 'dkim_record', 'dmarc_record' ), true ) && $domain !== Domain::site_domain() && ! Domain::is_free_mailbox( $domain ) ) {
+				$message .= ' ' . sprintf(
+					/* translators: %s: domain of the From address */
+					__( '(Checked for %s, the domain of your From address.)', 'ecom-email-health-check' ),
+					$domain
+				);
+			}
+
 			$results[ $check->get_id() ] = array(
 				'label'    => $check->get_label(),
 				'status'   => $result->get_status(),
-				'message'  => $result->get_message(),
+				'message'  => $message,
 				'guidance' => in_array( $result->get_status(), array( Result::FAIL, Result::WARNING ), true ) ? ProviderGuidance::for_check( $check->get_id(), $provider, $domain ) : null,
 			);
 		}

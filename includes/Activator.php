@@ -28,6 +28,7 @@ class Activator {
 
 		// Never interrupt AJAX requests or network admin screens.
 		if ( wp_doing_ajax() || is_network_admin() ) {
+			delete_transient( self::REDIRECT_TRANSIENT );
 			return;
 		}
 

@@ -13,6 +13,12 @@ Namespace `CodeSir\EmailHealthCheck`, PSR-4 autoloaded from `includes/` (autoloa
 - `readme.txt` (WP.org) and `README.md` (GitHub) — keep in sync. `.wordpress-org/` = banners/icons. `.distignore` controls release zip.
 - Deploy: pushing any git tag triggers `.github/workflows/deploy-with-tag.yml` (10up SVN deploy).
 
+## Git workflow
+- `develop` is the default branch. Every feature/fix branch (`fix/<n>-slug`, `feature/slug`) is branched from `develop` and PR'd into `develop`. Merged branches are auto-deleted by the repo setting.
+- `trunk` is the released state (WordPress.org). Releases happen only by opening a PR `develop` → `trunk`, then tagging the merge commit on `trunk` (tag push triggers the deploy workflow).
+- Version bump, changelog and `Tested up to` go in a release-prep PR into `develop` before the `develop` → `trunk` PR.
+- Never push directly to `trunk`; never tag or push tags without explicit user approval.
+
 ## Conventions
 - WP coding standards: tabs, Yoda-ish spacing `( $x )`, `array()` syntax, namespaced PSR-4 classes (`ecehc_` prefix for globals/hooks/options).
 - Every PHP file starts with the `ABSPATH` guard. Escape all output (`esc_html`, `esc_url`), i18n all strings with the text domain.

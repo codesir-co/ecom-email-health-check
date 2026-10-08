@@ -30,8 +30,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                         <tr>
                             <td class="column-columnname"><strong><?php echo esc_html( $result['label'] ); ?></strong></td>
                             <td class="column-columnname">
-								<?php if ( $result['status'] ) : ?>
+								<?php if ( 'pass' === $result['status'] ) : ?>
                                     <span class="ecehc-status ecehc-status-pass">&#10004; <?php esc_html_e( 'Pass', 'ecom-email-health-check' ); ?></span>
+								<?php elseif ( 'unknown' === $result['status'] ) : ?>
+                                    <span class="ecehc-status ecehc-status-unknown">&#63; <?php esc_html_e( 'Not checked', 'ecom-email-health-check' ); ?></span>
 								<?php else : ?>
                                     <span class="ecehc-status ecehc-status-fail">&#10006; <?php esc_html_e( 'Fail', 'ecom-email-health-check' ); ?></span>
 								<?php endif; ?>

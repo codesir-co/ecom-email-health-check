@@ -11,19 +11,36 @@ defined( 'ABSPATH' ) || exit;
 
 class Result {
 
-	/** @var bool */
-	private $passed;
+	const PASS    = 'pass';
+	const FAIL    = 'fail';
+	const UNKNOWN = 'unknown';
+
+	/** @var string */
+	private $status;
 
 	/** @var string */
 	private $message;
 
 	public function __construct( bool $passed, string $message ) {
-		$this->passed  = $passed;
+		$this->status  = $passed ? self::PASS : self::FAIL;
 		$this->message = $message;
 	}
 
+	/**
+	 * A check that could not determine a result (not a pass and not a failure).
+	 */
+	public static function unknown( string $message ): Result {
+		$result         = new self( false, $message );
+		$result->status = self::UNKNOWN;
+		return $result;
+	}
+
 	public function passed(): bool {
-		return $this->passed;
+		return self::PASS === $this->status;
+	}
+
+	public function get_status(): string {
+		return $this->status;
 	}
 
 	public function get_message(): string {

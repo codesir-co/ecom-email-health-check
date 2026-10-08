@@ -1,5 +1,16 @@
 <?php
+/**
+ * Reports the outcome of the most recent test email.
+ *
+ * The report never sends mail on its own: it reflects the last explicit
+ * "Send Test Email" attempt (see Admin\TestEmailHandler).
+ *
+ * @package CodeSir\EmailHealthCheck
+ */
+
 namespace CodeSir\EmailHealthCheck\Checks;
+
+use CodeSir\EmailHealthCheck\Admin\TestEmailHandler;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -14,13 +25,17 @@ class BasicEmailCheck implements CheckInterface {
 	}
 
 	public function run(): Result {
-		$passed = (bool) wp_mail( 'test@example.com', 'Test', 'Test' );
+		$last = TestEmailHandler::get_last_result();
+
+		if ( null === $last ) {
+			return Result::unknown( __( 'No test email has been sent yet. Use "Send Test Email" to check that your site can send mail.', 'ecom-email-health-check' ) );
+		}
 
 		return new Result(
-			$passed,
-			$passed
-				? __( 'The WordPress `wp_mail()` function is working correctly.', 'ecom-email-health-check' )
-				: __( 'The `wp_mail()` function is failing. Your hosting provider may be blocking emails.', 'ecom-email-health-check' )
+			$last['success'],
+			$last['success']
+				? __( 'The last test email was accepted for sending by WordPress.', 'ecom-email-health-check' )
+				: __( 'The last test email failed to send. Your hosting provider may be blocking emails.', 'ecom-email-health-check' )
 		);
 	}
 }

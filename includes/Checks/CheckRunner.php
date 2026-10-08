@@ -35,7 +35,7 @@ class CheckRunner {
 	}
 
 	/**
-	 * @return array<string, array{label: string, status: bool, message: string}>
+	 * @return array<string, array{label: string, status: string, message: string}>
 	 */
 	public function run_all(): array {
 		$results = array();
@@ -44,7 +44,7 @@ class CheckRunner {
 			$result                      = $check->run();
 			$results[ $check->get_id() ] = array(
 				'label'   => $check->get_label(),
-				'status'  => $result->passed(),
+				'status'  => $result->get_status(),
 				'message' => $result->get_message(),
 			);
 		}

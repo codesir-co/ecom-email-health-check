@@ -31,11 +31,19 @@ class BasicEmailCheck implements CheckInterface {
 			return Result::unknown( __( 'No test email has been sent yet. Use "Send Test Email" to check that your site can send mail.', 'ecom-email-health-check' ) );
 		}
 
-		return new Result(
-			$last['success'],
-			$last['success']
-				? __( 'The last test email was accepted for sending by WordPress.', 'ecom-email-health-check' )
-				: __( 'The last test email failed to send. Your hosting provider may be blocking emails.', 'ecom-email-health-check' )
-		);
+		if ( $last['success'] ) {
+			return new Result(
+				true,
+				__( 'The last test email was accepted for sending by WordPress. This does not guarantee delivery, so check your inbox to confirm it arrived.', 'ecom-email-health-check' )
+			);
+		}
+
+		$message = __( 'The last test email failed to send. Your hosting provider may be blocking emails.', 'ecom-email-health-check' );
+		if ( '' !== $last['error'] ) {
+			/* translators: %s: error message returned by the mail system */
+			$message .= ' ' . sprintf( __( 'Error: %s', 'ecom-email-health-check' ), $last['error'] );
+		}
+
+		return new Result( false, $message );
 	}
 }

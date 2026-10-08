@@ -28,7 +28,7 @@ class SpfCheck implements CheckInterface {
 
 		$spf_records = array();
 		foreach ( $records as $record ) {
-			if ( isset( $record['txt'] ) && 0 === stripos( trim( $record['txt'] ), 'v=spf1' ) ) {
+			if ( isset( $record['txt'] ) && preg_match( '/^v=spf1(\s|$)/i', trim( $record['txt'] ) ) ) {
 				$spf_records[] = trim( $record['txt'] );
 			}
 		}
@@ -38,7 +38,7 @@ class SpfCheck implements CheckInterface {
 		}
 
 		if ( 1 === count( $spf_records ) ) {
-			if ( ! preg_match( '/\s(include:|ip4:|ip6:|a\b|mx\b|redirect=|exists:)/i', $spf_records[0] ) ) {
+			if ( ! preg_match( '/\s[+\-~?]?(include:|ip4:|ip6:|a(?=[\s:\/]|$)|mx(?=[\s:\/]|$)|exists:)|\sredirect=/i', $spf_records[0] ) ) {
 				return new Result( false, __( 'An SPF record exists but does not authorize any sending service (no include:, ip4:, ip6:, a, mx or redirect). Add the service that sends your email, such as your SMTP provider or host.', 'ecom-email-health-check' ) );
 			}
 

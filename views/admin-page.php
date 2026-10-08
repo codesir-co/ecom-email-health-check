@@ -31,9 +31,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                             <td class="column-columnname"><strong><?php echo esc_html( $result['label'] ); ?></strong></td>
                             <td class="column-columnname">
 								<?php if ( $result['status'] ) : ?>
-                                    <span style="color: green; font-weight: bold;">&#10004; <?php esc_html_e( 'Pass', 'ecom-email-health-check' ); ?></span>
+                                    <span class="ecehc-status ecehc-status-pass">&#10004; <?php esc_html_e( 'Pass', 'ecom-email-health-check' ); ?></span>
 								<?php else : ?>
-                                    <span style="color: red; font-weight: bold;">&#10006; <?php esc_html_e( 'Fail', 'ecom-email-health-check' ); ?></span>
+                                    <span class="ecehc-status ecehc-status-fail">&#10006; <?php esc_html_e( 'Fail', 'ecom-email-health-check' ); ?></span>
 								<?php endif; ?>
                             </td>
                             <td class="column-columnname">
@@ -48,7 +48,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
         <div class="ecehc-sidebar-col">
             <div id="ecehc-cta-card" class="card ecehc-card-padded">
-                <h2 style="margin-top: 0;"><?php _e( 'Found Issues?', 'ecom-email-health-check' ); ?></h2>
+                <h2 class="ecehc-card-title"><?php esc_html_e( 'Found Issues?', 'ecom-email-health-check' ); ?></h2>
                 <p>
                     <?php esc_html_e( 'Your email health report shows potential issues that can cause your emails to end up in spam. Don\'t lose crucial order confirmations. Our managed service automatically handles all the technical details for you.', 'ecom-email-health-check' ); ?>
                 </p>
@@ -58,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
             </div>
 
             <div class="card ecehc-card-padded">
-                <h2 style="margin-top: 0;"><?php esc_html_e( 'Test Your Email Sending', 'ecom-email-health-check' ); ?></h2>
+                <h2 class="ecehc-card-title"><?php esc_html_e( 'Test Your Email Sending', 'ecom-email-health-check' ); ?></h2>
                 <p>
 					<?php esc_html_e( 'Click the button below to send a test email to your admin email address (', 'ecom-email-health-check' ); ?>
                     <code><?php echo esc_html( get_option('admin_email') ); ?></code>
@@ -66,7 +66,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 </p>
                 <form method="post">
 					<?php wp_nonce_field( 'ecehc_send_test_email' ); ?>
-                    <input type="submit" name="ecehc_send_test_email" class="button button-secondary" value="<?php esc_html_e( 'Send Test Email', 'ecom-email-health-check' ); ?>">
+                    <input type="submit" name="ecehc_send_test_email" class="button button-secondary" value="<?php esc_attr_e( 'Send Test Email', 'ecom-email-health-check' ); ?>">
                 </form>
             </div>
         </div>

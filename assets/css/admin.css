@@ -49,3 +49,18 @@
         min-width: unset;
     }
 }
+.ecehc-card-title {
+	margin-top: 0;
+}
+
+.ecehc-status {
+	font-weight: bold;
+}
+
+.ecehc-status-pass {
+	color: #007017;
+}
+
+.ecehc-status-fail {
+	color: #d63638;
+}

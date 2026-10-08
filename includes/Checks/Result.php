@@ -14,6 +14,7 @@ class Result {
 	const PASS    = 'pass';
 	const FAIL    = 'fail';
 	const UNKNOWN = 'unknown';
+	const WARNING = 'warning';
 
 	/** @var string */
 	private $status;
@@ -32,6 +33,15 @@ class Result {
 	public static function unknown( string $message ): Result {
 		$result         = new self( false, $message );
 		$result->status = self::UNKNOWN;
+		return $result;
+	}
+
+	/**
+	 * A likely problem that isn't certain enough to report as a failure.
+	 */
+	public static function warning( string $message ): Result {
+		$result         = new self( false, $message );
+		$result->status = self::WARNING;
 		return $result;
 	}
 

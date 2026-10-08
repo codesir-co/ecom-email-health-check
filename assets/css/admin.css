@@ -68,3 +68,7 @@
 .ecehc-status-unknown {
 	color: #8a5a00;
 }
+
+.ecehc-status-warning {
+	color: #996800;
+}

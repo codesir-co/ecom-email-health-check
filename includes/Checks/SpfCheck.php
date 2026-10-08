@@ -2,6 +2,7 @@
 namespace CodeSir\EmailHealthCheck\Checks;
 
 use CodeSir\EmailHealthCheck\Support\Domain;
+use CodeSir\EmailHealthCheck\Support\MailProvider;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -40,6 +41,26 @@ class SpfCheck implements CheckInterface {
 		if ( 1 === count( $spf_records ) ) {
 			if ( ! preg_match( '/\s[+\-~?]?(include:|ip4:|ip6:|a(?=[\s:\/]|$)|mx(?=[\s:\/]|$)|exists:)|\sredirect=/i', $spf_records[0] ) ) {
 				return new Result( false, __( 'An SPF record exists but does not authorize any sending service (no include:, ip4:, ip6:, a, mx or redirect). Add the service that sends your email, such as your SMTP provider or host.', 'ecom-email-health-check' ) );
+			}
+
+			$provider = MailProvider::detect();
+
+			if ( $provider ) {
+				foreach ( $provider['spf'] as $spf_domain ) {
+					if ( false !== stripos( $spf_records[0], $spf_domain ) ) {
+						/* translators: %s: mail service name */
+						return new Result( true, sprintf( __( 'A valid SPF record was found and it appears to include %s, the service your site sends email through.', 'ecom-email-health-check' ), $provider['name'] ) );
+					}
+				}
+
+				return Result::warning(
+					sprintf(
+						/* translators: %s: mail service name */
+						__( 'Your site sends email through %s, but your SPF record does not appear to include it. Add the include value from your provider\'s DNS instructions to your SPF record, or emails may fail SPF. (If %s is listed inside another include, you can ignore this.)', 'ecom-email-health-check' ),
+						$provider['name'],
+						$provider['name']
+					)
+				);
 			}
 
 			return new Result( true, __( 'A valid SPF record was found. This helps authenticate your emails. Make sure it includes the service that actually sends your mail.', 'ecom-email-health-check' ) );

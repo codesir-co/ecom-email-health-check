@@ -1,6 +1,6 @@
 # eCommerce Email Health Check
 
-Tiny WordPress plugin (WP.org slug `ecom-email-health-check`, prefix `ecehc`, text domain `ecom-email-health-check`). Adds an admin page that runs email-deliverability checks and a "send test email" form, with CTAs to the SaaS (codesir.co/mailsir).
+Tiny WordPress plugin (WP.org slug `ecom-email-health-check`, prefix `ecehc`, text domain `ecom-email-health-check`). Adds an admin page that runs email-deliverability checks and a "send test email" form. (The former MailSir SaaS and its codesir.co domain no longer exist — do not link to them.)
 
 ## Layout
 Namespace `CodeSir\EmailHealthCheck`, PSR-4 autoloaded from `includes/` (autoloader in the main file). Requires PHP 7.4+.
@@ -23,7 +23,7 @@ Namespace `CodeSir\EmailHealthCheck`, PSR-4 autoloaded from `includes/` (autoloa
 - WP coding standards: tabs, Yoda-ish spacing `( $x )`, `array()` syntax, namespaced PSR-4 classes (`ecehc_` prefix for globals/hooks/options).
 - Every PHP file starts with the `ABSPATH` guard. Escape all output (`esc_html`, `esc_url`), i18n all strings with the text domain.
 - Admin actions: check `current_user_can( 'manage_options' )` + nonce.
-- SaaS links carry `utm_source=plugin&utm_medium=<placement>`.
+- No external promotional links until a new domain exists; add UTM params to any future ones.
 - No build step, no composer/npm. Test manually in the Local site (wp-admin → Email Health Check).
 
 ## Version bump touches 3 places

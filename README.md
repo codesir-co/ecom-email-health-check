@@ -49,15 +49,6 @@ After activating the plugin, you will be redirected to the plugin's page. You ca
 From this page, you can:
 * View your email health report.
 * Run a one-click test to send a sample email to your admin address.
-* Find a link to a full, managed solution if you have critical issues.
-
-## 🛠 The Full Solution
-
-This plugin is a diagnostic tool to help you identify problems. If your health report shows issues, don't worry about trying to fix complex DNS records or server configurations.
-
-Our managed service, **[Your SaaS Name]**, handles all the technical details for you. We provide a reliable, managed email sending service specifically for WooCommerce stores, so you can focus on your business while we ensure every email gets delivered.
-
-[**Visit our website to get started.**](https://codesir.co/mailsir/?utm_source=github&utm_medium=readme)
 
 ## 🤝 Contributing
 

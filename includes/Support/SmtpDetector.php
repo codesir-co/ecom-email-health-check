@@ -40,18 +40,23 @@ class SmtpDetector {
 			return self::$cache;
 		}
 
-		$files = array();
+		$files   = array();
+		$wp_mail = self::wp_mail_file();
 
-		if ( self::wp_mail_is_overridden() ) {
-			$files[] = ( new \ReflectionFunction( 'wp_mail' ) )->getFileName();
+		if ( $wp_mail ) {
+			$files[] = $wp_mail;
 		}
 
-		$hook_files = self::configuring_callback_files();
+		$probe = self::probe_phpmailer_init();
 
-		// Without a mailer to probe, any phpmailer_init hook counts, to avoid false alarms.
-		$hooked = null === $hook_files ? false !== has_action( 'phpmailer_init' ) : ! empty( $hook_files );
+		// Without a mailer to probe, or when a callback could not be judged, any hook counts, to avoid false alarms.
+		$hooked = null === $probe || $probe['inconclusive']
+			? false !== has_action( 'phpmailer_init' )
+			: false;
 
-		$files = array_merge( $files, (array) $hook_files );
+		if ( $probe ) {
+			$files = array_merge( $files, $probe['files'] );
+		}
 
 		$names = array();
 		foreach ( $files as $file ) {
@@ -64,6 +69,7 @@ class SmtpDetector {
 		self::$cache = array(
 			'configured' => null !== MailProvider::detect()
 				|| ! empty( $files )
+				|| ( $probe && $probe['confirmed'] )
 				|| $hooked
 				|| false !== has_filter( 'pre_wp_mail' ),
 			'plugins'    => array_values( $names ),
@@ -73,24 +79,36 @@ class SmtpDetector {
 	}
 
 	/**
-	 * Files of the phpmailer_init callbacks that switch the mailer away from
-	 * PHP mail (SMTP, sendmail, ...) when run against a throwaway PHPMailer.
-	 * Many plugins hook phpmailer_init for unrelated reasons, so hooking alone
-	 * does not mean SMTP is configured.
+	 * Runs each phpmailer_init callback against a throwaway PHPMailer to see which
+	 * ones switch the mailer away from PHP mail (SMTP, sendmail, ...). Many plugins
+	 * hook phpmailer_init for unrelated reasons, so hooking alone proves nothing.
 	 *
-	 * @return string[]|null Null when no PHPMailer instance could be created.
+	 * 'confirmed' is true when a callback switched the mailer, 'files' lists the
+	 * files of those callbacks, and 'inconclusive' is true when a callback threw
+	 * and so could not be judged.
+	 *
+	 * @return array{confirmed: bool, files: string[], inconclusive: bool}|null Null when no PHPMailer could be created.
 	 */
-	private static function configuring_callback_files(): ?array {
+	private static function probe_phpmailer_init(): ?array {
 		global $wp_filter;
 
-		if ( empty( $wp_filter['phpmailer_init']->callbacks ) ) {
-			return array();
-		}
+		$probe = array(
+			'confirmed'    => false,
+			'files'        => array(),
+			'inconclusive' => false,
+		);
 
-		$files = array();
+		if ( empty( $wp_filter['phpmailer_init']->callbacks ) ) {
+			return $probe;
+		}
 
 		foreach ( $wp_filter['phpmailer_init']->callbacks as $callbacks ) {
 			foreach ( $callbacks as $callback ) {
+				// WordPress could not call it either.
+				if ( ! is_callable( $callback['function'] ) ) {
+					continue;
+				}
+
 				$mailer = self::make_mailer();
 				if ( null === $mailer ) {
 					return null;
@@ -99,19 +117,21 @@ class SmtpDetector {
 				try {
 					call_user_func_array( $callback['function'], array( &$mailer ) );
 				} catch ( \Throwable $e ) {
+					$probe['inconclusive'] = true;
 					continue;
 				}
 
 				if ( is_object( $mailer ) && isset( $mailer->Mailer ) && 'mail' !== $mailer->Mailer ) {
-					$file = self::callback_file( $callback['function'] );
+					$probe['confirmed'] = true;
+					$file               = self::callback_file( $callback['function'] );
 					if ( $file ) {
-						$files[] = $file;
+						$probe['files'][] = $file;
 					}
 				}
 			}
 		}
 
-		return $files;
+		return $probe;
 	}
 
 	/**
@@ -138,24 +158,25 @@ class SmtpDetector {
 	}
 
 	/**
-	 * Mail plugins (SES, Mailgun API, etc.) often replace the pluggable wp_mail().
+	 * File defining wp_mail() when a plugin replaces the pluggable function
+	 * (SES, Mailgun API, etc.), or null when core's own version is in use.
 	 */
-	private static function wp_mail_is_overridden(): bool {
+	private static function wp_mail_file(): ?string {
 		if ( ! function_exists( 'wp_mail' ) ) {
-			return false;
+			return null;
 		}
 
 		try {
 			$file = ( new \ReflectionFunction( 'wp_mail' ) )->getFileName();
 		} catch ( \ReflectionException $e ) {
-			return false;
+			return null;
 		}
 
-		if ( ! $file ) {
-			return false;
+		if ( ! $file || wp_normalize_path( $file ) === wp_normalize_path( ABSPATH . WPINC . '/pluggable.php' ) ) {
+			return null;
 		}
 
-		return wp_normalize_path( $file ) !== wp_normalize_path( ABSPATH . WPINC . '/pluggable.php' );
+		return $file;
 	}
 
 	/**
@@ -196,10 +217,10 @@ class SmtpDetector {
 			return null;
 		}
 
-		$plugins_dir = trailingslashit( wp_normalize_path( WP_PLUGIN_DIR ) );
-		$mu_dir      = trailingslashit( wp_normalize_path( WPMU_PLUGIN_DIR ) );
+		$plugins_dir = self::dir_prefix( $file, WP_PLUGIN_DIR );
+		$mu_dir      = self::dir_prefix( $file, WPMU_PLUGIN_DIR );
 
-		if ( 0 === strpos( $file, $plugins_dir ) ) {
+		if ( null !== $plugins_dir ) {
 			$segment = explode( '/', substr( $file, strlen( $plugins_dir ) ) )[0];
 
 			if ( ! function_exists( 'get_plugins' ) ) {
@@ -219,7 +240,7 @@ class SmtpDetector {
 			return $segment;
 		}
 
-		if ( 0 === strpos( $file, $mu_dir ) ) {
+		if ( null !== $mu_dir ) {
 			$segment = explode( '/', substr( $file, strlen( $mu_dir ) ) )[0];
 
 			if ( ! function_exists( 'get_mu_plugins' ) ) {
@@ -229,6 +250,28 @@ class SmtpDetector {
 			$mu_plugins = get_mu_plugins();
 
 			return ! empty( $mu_plugins[ $segment ]['Name'] ) ? $mu_plugins[ $segment ]['Name'] : $segment;
+		}
+
+		return null;
+	}
+
+	/**
+	 * The directory prefix (with trailing slash) of $dir that $file sits under,
+	 * trying the symlink-resolved path too, or null if the file is elsewhere.
+	 */
+	private static function dir_prefix( string $file, string $dir ): ?string {
+		$candidates = array( wp_normalize_path( $dir ) );
+		$real       = realpath( $dir );
+
+		if ( $real ) {
+			$candidates[] = wp_normalize_path( $real );
+		}
+
+		foreach ( $candidates as $candidate ) {
+			$prefix = trailingslashit( $candidate );
+			if ( 0 === strpos( $file, $prefix ) ) {
+				return $prefix;
+			}
 		}
 
 		return null;

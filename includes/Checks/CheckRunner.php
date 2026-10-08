@@ -17,6 +17,7 @@ class CheckRunner {
 	public function get_checks(): array {
 		$checks = array(
 			new BasicEmailCheck(),
+			new SmtpConfiguredCheck(),
 			new SenderAddressCheck(),
 			new SpfCheck(),
 			new DkimCheck(),

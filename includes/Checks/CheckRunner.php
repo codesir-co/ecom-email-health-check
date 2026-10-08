@@ -41,7 +41,7 @@ class CheckRunner {
 		$results = array();
 
 		foreach ( $this->get_checks() as $check ) {
-			$result                    = $check->run();
+			$result                      = $check->run();
 			$results[ $check->get_id() ] = array(
 				'label'   => $check->get_label(),
 				'status'  => $result->passed(),

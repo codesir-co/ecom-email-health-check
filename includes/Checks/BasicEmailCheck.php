@@ -31,19 +31,26 @@ class BasicEmailCheck implements CheckInterface {
 			return Result::unknown( __( 'No test email has been sent yet. Use "Send Test Email" to check that your site can send mail.', 'ecom-email-health-check' ) );
 		}
 
+		$when = $last['time'] && function_exists( 'wp_date' )
+			? wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $last['time'] )
+			: '';
+		/* translators: %s: date and time the test email was sent */
+		$suffix = $when ? ' ' . sprintf( __( '(Sent %s.)', 'ecom-email-health-check' ), $when ) : '';
+
 		if ( $last['success'] ) {
 			return new Result(
 				true,
-				__( 'The last test email was accepted for sending by WordPress. This does not guarantee delivery, so check your inbox to confirm it arrived.', 'ecom-email-health-check' )
+				__( 'The last test email was accepted for sending by WordPress. This does not guarantee delivery, so check your inbox to confirm it arrived.', 'ecom-email-health-check' ) . $suffix
 			);
 		}
 
-		$message = __( 'The last test email failed to send. Your hosting provider may be blocking emails.', 'ecom-email-health-check' );
 		if ( '' !== $last['error'] ) {
 			/* translators: %s: error message returned by the mail system */
-			$message .= ' ' . sprintf( __( 'Error: %s', 'ecom-email-health-check' ), $last['error'] );
+			$message = sprintf( __( 'The last test email failed to send. Error: %s', 'ecom-email-health-check' ), wp_html_excerpt( $last['error'], 300, '…' ) );
+		} else {
+			$message = __( 'The last test email failed to send. Your hosting provider may be blocking emails.', 'ecom-email-health-check' );
 		}
 
-		return new Result( false, $message );
+		return new Result( false, $message . $suffix );
 	}
 }

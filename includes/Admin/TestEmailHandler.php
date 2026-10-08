@@ -83,13 +83,15 @@ class TestEmailHandler {
 	}
 
 	public function notice_success(): void {
-		echo '<div class="notice notice-success is-dismissible"><p><strong>Test email handed off for sending.</strong> Please check your admin inbox to confirm it actually arrived.</p></div>';
+		echo '<div class="notice notice-success is-dismissible"><p><strong>' . esc_html__( 'Test email handed off for sending.', 'ecom-email-health-check' ) . '</strong> ' . esc_html__( 'Please check your admin inbox to confirm it actually arrived.', 'ecom-email-health-check' ) . '</p></div>';
 	}
 
 	public function notice_failure(): void {
-		echo '<div class="notice notice-error is-dismissible">
-			<p><strong>Test email failed to send.</strong> This is a common issue with standard hosting providers.</p>
-			<p>Our managed service handles all the technical details and ensures your emails are always delivered. <a href="https://codesir.co/mailsir/?utm_source=plugin&utm_medium=test_email_fail" target="_blank" style="font-weight: bold;">Fix this issue now</a>.</p>
-		</div>';
+		$url = 'https://codesir.co/mailsir/?utm_source=plugin&utm_medium=test_email_fail';
+
+		echo '<div class="notice notice-error is-dismissible">';
+		echo '<p><strong>' . esc_html__( 'Test email failed to send.', 'ecom-email-health-check' ) . '</strong> ' . esc_html__( 'This is a common issue with standard hosting providers.', 'ecom-email-health-check' ) . '</p>';
+		echo '<p>' . esc_html__( 'Our managed service handles all the technical details and ensures your emails are always delivered.', 'ecom-email-health-check' ) . ' <a href="' . esc_url( $url ) . '" target="_blank" rel="noopener" style="font-weight: bold;">' . esc_html__( 'Fix this issue now', 'ecom-email-health-check' ) . '</a>.</p>';
+		echo '</div>';
 	}
 }

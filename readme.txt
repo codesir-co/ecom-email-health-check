@@ -3,8 +3,8 @@ Contributors: engahmeds3ed
 Tags: e-commerce, email, woocommerce, smtp, deliverability
 Requires at least: 5.0
 Requires PHP: 7.4
-Tested up to: 6.8
-Stable tag: 1.0.2
+Tested up to: 7.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,7 +40,22 @@ Many hosting providers have poor email delivery configurations that can silently
 = What does the plugin check? =
 It checks for common issues like email sending failures, sender address misconfigurations, and missing SPF records.
 
+== Upgrade Notice ==
+
+= 1.1.0 =
+The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
+
 == Changelog ==
+
+= 1.1.0 =
+* Fix: the report no longer sends emails to test@example.com on every page view; "Basic Email Functionality" now reflects your last test email, with the send time and any mail error.
+* Fix: "Sender Address Check" now uses the effective From address (WooCommerce setting and `wp_mail_from` filter) instead of the admin email.
+* Fix: SPF check shows "Not checked" when DNS lookups are unavailable instead of a false failure; flags multiple SPF records and records that authorize no sender.
+* Fix: only a leading "www." is stripped when detecting the site domain.
+* Fix: the "Health Check" link on the Plugins page now opens the dashboard.
+* Fix: activation redirect no longer interrupts bulk activation.
+* Fix: escaped remaining admin output and moved inline styles to the stylesheet; stylesheet is versioned with the plugin version.
+* Dev: restructured into namespaced classes with one class per check; added the `ecehc_checks` filter. Requires PHP 7.4+.
 
 = 1.0.2 =
 * UI Enhancements

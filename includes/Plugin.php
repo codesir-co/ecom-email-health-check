@@ -47,7 +47,7 @@ class Plugin {
 	 * @return array
 	 */
 	public function add_plugin_links( $links ): array {
-		$health_check_link = '<a href="' . esc_url( admin_url( 'admin.php?page=ecehc-dashboard' ) ) . '">' . __( 'Health Check', 'ecom-email-health-check' ) . '</a>';
+		$health_check_link = '<a href="' . esc_url( admin_url( 'admin.php?page=' . AdminPage::MENU_SLUG ) ) . '">' . __( 'Health Check', 'ecom-email-health-check' ) . '</a>';
 		$fix_now_link      = '<a href="https://codesir.co/mailsir?utm_source=plugin&utm_medium=plugin_list" target="_blank" style="font-weight: bold; color: #1e87f0;">' . __( 'Fix Now', 'ecom-email-health-check' ) . '</a>';
 
 		array_unshift( $links, $fix_now_link, $health_check_link );

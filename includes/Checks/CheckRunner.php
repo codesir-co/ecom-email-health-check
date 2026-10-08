@@ -19,6 +19,7 @@ class CheckRunner {
 			new BasicEmailCheck(),
 			new SenderAddressCheck(),
 			new SpfCheck(),
+			new DmarcCheck(),
 		);
 
 		/**

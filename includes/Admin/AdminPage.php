@@ -48,5 +48,13 @@ class AdminPage {
 			array(),
 			ECEHC_VERSION
 		);
+
+		wp_enqueue_script(
+			'ecom-email-health-check-admin',
+			ECEHC_PLUGIN_URL . 'assets/js/admin.js',
+			array(),
+			ECEHC_VERSION,
+			true
+		);
 	}
 }

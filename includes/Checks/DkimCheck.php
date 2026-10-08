@@ -40,8 +40,12 @@ class DkimCheck implements CheckInterface {
 	}
 
 	public function run(): Result {
-		$domain      = Domain::site_domain();
+		$domain      = Domain::mail_domain();
 		$lookup_fail = false;
+
+		if ( Domain::is_free_mailbox( $domain ) ) {
+			return Result::unknown( Domain::free_mailbox_notice( $domain ) );
+		}
 
 		foreach ( $this->get_selectors() as $selector ) {
 			$records = Dns::txt_records( $selector . '._domainkey.' . $domain );

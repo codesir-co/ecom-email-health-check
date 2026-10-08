@@ -17,7 +17,7 @@ Stop worrying about lost eCommerce emails! This free, simple plugin helps you di
 **Key Features:**
 
 * **Email Sending Test:** A one-click test to confirm if your site can send emails.
-* **Sender Address Check:** Verifies that your "From" address is configured correctly to avoid being flagged as spam.
+* **Sender Address Check:** Verifies that your "From" address is configured correctly to avoid being flagged as spam, and runs the SPF, DKIM and DMARC checks for the domain you actually send from.
 * **SPF Record Validation:** Checks that your domain has a single, valid SPF record, and warns if it doesn't include your SMTP service (WP Mail SMTP, Post SMTP and FluentSMTP are detected).
 * **DKIM and DMARC Checks:** Looks for a DKIM key and a DMARC policy, which Gmail and Yahoo expect for authenticated email.
 * **SMTP / Mail Service Check:** Warns when your site seems to send email through plain PHP mail, and names the plugin that handles your outgoing email when it finds one.

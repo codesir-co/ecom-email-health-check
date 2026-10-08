@@ -41,6 +41,19 @@ class CheckRunner {
 		$results = array();
 
 		foreach ( $this->get_checks() as $check ) {
+			if ( isset( $results[ $check->get_id() ] ) ) {
+				_doing_it_wrong(
+					__METHOD__,
+					sprintf(
+						/* translators: %s: check id */
+						esc_html__( 'Duplicate diagnostic check id "%s" was skipped.', 'ecom-email-health-check' ),
+						esc_html( $check->get_id() )
+					),
+					ECEHC_VERSION
+				);
+				continue;
+			}
+
 			$result                      = $check->run();
 			$results[ $check->get_id() ] = array(
 				'label'   => $check->get_label(),

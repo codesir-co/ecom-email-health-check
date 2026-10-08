@@ -60,11 +60,16 @@ class SiteHealth {
 	 */
 	public function build_result( array $results ): array {
 		$problems = 0;
+		$unknown  = 0;
 		$items    = '';
 
 		foreach ( $results as $result ) {
 			if ( 'fail' === $result['status'] || 'warning' === $result['status'] ) {
 				++$problems;
+			}
+
+			if ( 'unknown' === $result['status'] ) {
+				++$unknown;
 			}
 
 			$items .= sprintf(
@@ -81,10 +86,16 @@ class SiteHealth {
 			esc_html__( 'Open the Email Health Check report', 'ecom-email-health-check' )
 		);
 
+		if ( $problems ) {
+			$label = __( 'Your store\'s email deliverability could be improved', 'ecom-email-health-check' );
+		} elseif ( $unknown ) {
+			$label = __( 'Some email checks could not be completed', 'ecom-email-health-check' );
+		} else {
+			$label = __( 'Your email deliverability checks look healthy', 'ecom-email-health-check' );
+		}
+
 		return array(
-			'label'       => $problems
-				? __( 'Your store\'s email deliverability could be improved', 'ecom-email-health-check' )
-				: __( 'Your email deliverability checks look healthy', 'ecom-email-health-check' ),
+			'label'       => $label,
 			'status'      => $problems ? 'recommended' : 'good',
 			'badge'       => array(
 				'label' => __( 'Email', 'ecom-email-health-check' ),
@@ -102,10 +113,10 @@ class SiteHealth {
 				return __( 'Pass', 'ecom-email-health-check' );
 			case 'warning':
 				return __( 'Warning', 'ecom-email-health-check' );
-			case 'unknown':
-				return __( 'Not checked', 'ecom-email-health-check' );
-			default:
+			case 'fail':
 				return __( 'Fail', 'ecom-email-health-check' );
+			default:
+				return __( 'Not checked', 'ecom-email-health-check' );
 		}
 	}
 }

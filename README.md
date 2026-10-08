@@ -17,7 +17,8 @@ eCommerce Email Health Check is a lightweight diagnostic tool that quickly ident
 
 * **Email Sending Test:** A one-click test to confirm if your site is even capable of sending emails.
 * **Sender Address Check:** Verifies that your "From" email address is configured correctly to avoid being flagged as spam by mail clients.
-* **SPF Record Validation:** Checks your domain's DNS records for a crucial SPF record, a key factor in email authentication and deliverability.
+* **SPF Record Validation:** Checks your domain's SPF record (single record, authorizes a sender) and warns if your SMTP service is missing from it.
+* **DKIM and DMARC Checks:** Looks for a DKIM key and a DMARC policy.
 * **Easy-to-Read Report:** Get a simple Pass/Fail report right in your WordPress dashboard, so you know exactly where the issues are.
 
 ### Screenshots

@@ -37,7 +37,10 @@
 
 		var value = button.getAttribute( 'data-ecehc-copy' );
 		var done = function () {
-			var label = button.textContent;
+			if ( ! button.hasAttribute( 'data-label' ) ) {
+				button.setAttribute( 'data-label', button.textContent );
+			}
+			var label = button.getAttribute( 'data-label' );
 			button.textContent = button.getAttribute( 'data-copied' );
 			setTimeout( function () {
 				button.textContent = label;

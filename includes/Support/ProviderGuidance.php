@@ -2,9 +2,11 @@
 /**
  * DNS setup guidance for the detected mail provider.
  *
- * Only what each provider's own documentation states is published here: the SPF
- * include when the provider documents one for the root domain, and where to find
- * the per-account DKIM records. Per-account values are never invented.
+ * The SPF include token and the DKIM location come from each provider's own
+ * documentation; per-account DKIM values are never invented. The surrounding
+ * record (the "v=spf1 ... ~all" wrapper and the DMARC "p=none" starter) is a
+ * generic suggestion, not provider text, and some providers document a different
+ * qualifier such as -all.
  *
  * @package CodeSir\EmailHealthCheck
  */
@@ -100,8 +102,8 @@ class ProviderGuidance {
 
 				if ( null === $data['spf'] ) {
 					return array(
-						/* translators: %s: mail provider name */
-						'text'    => sprintf( __( '%1$s authenticates SPF through its own return-path records, shown in your %1$s dashboard, so no include is needed in your root domain\'s SPF record. Complete its domain setup there. Keep any SPF record you already have for other senders.', 'ecom-email-health-check' ), $name ),
+						/* translators: 1: mail provider name */
+						'text'    => sprintf( __( '%1$s authenticates SPF through its own return-path records, shown in your %1$s dashboard, so no include is needed in your root domain\'s SPF record. Complete its domain setup there. Your domain still needs a valid SPF record for your other senders, such as your web host or mailbox provider.', 'ecom-email-health-check' ), $name ),
 						'records' => array(),
 						'docs'    => $docs,
 					);

@@ -68,7 +68,7 @@ class CheckRunner {
 				'label'    => $check->get_label(),
 				'status'   => $result->get_status(),
 				'message'  => $result->get_message(),
-				'guidance' => $result->passed() ? null : ProviderGuidance::for_check( $check->get_id(), $provider, $domain ),
+				'guidance' => in_array( $result->get_status(), array( Result::FAIL, Result::WARNING ), true ) ? ProviderGuidance::for_check( $check->get_id(), $provider, $domain ) : null,
 			);
 		}
 

@@ -4,7 +4,7 @@ Tags: e-commerce, email, woocommerce, smtp, deliverability
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,8 @@ Stop worrying about lost eCommerce emails! This free, simple plugin helps you di
 
 * **Email Sending Test:** A one-click test to confirm if your site can send emails.
 * **Sender Address Check:** Verifies that your "From" address is configured correctly to avoid being flagged as spam.
-* **SPF Record Validation:** Checks if your domain has a crucial SPF record to authenticate your emails.
+* **SPF Record Validation:** Checks that your domain has a single, valid SPF record, and warns if it doesn't include your SMTP service (WP Mail SMTP, Post SMTP and FluentSMTP are detected).
+* **DKIM and DMARC Checks:** Looks for a DKIM key and a DMARC policy, which Gmail and Yahoo expect for authenticated email.
 * **Easy-to-Read Health Report:** Get a clear, actionable report with a summary of your email delivery status.
 
 == Installation ==
@@ -38,14 +39,25 @@ Stop worrying about lost eCommerce emails! This free, simple plugin helps you di
 Many hosting providers have poor email delivery configurations that can silently fail, leaving you and your customers in the dark. This plugin diagnoses those issues so you can address them.
 
 = What does the plugin check? =
-It checks for common issues like email sending failures, sender address misconfigurations, and missing SPF records.
+It checks for common issues like email sending failures, sender address misconfigurations, and missing or incomplete SPF, DKIM and DMARC records.
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discontinued website.
 
 = 1.1.0 =
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.1.1 =
+* New: DKIM check (tries common selectors; shows "Not checked" if your provider uses a custom one).
+* New: DMARC check, with a note when the policy is "none".
+* New: SPF check detects your SMTP service (WP Mail SMTP, Post SMTP, FluentSMTP) and warns if it is missing from your SPF record.
+* New: "Warning" and "Not checked" statuses, so uncertain results are no longer reported as failures.
+* Fix: DNS names that don't exist are treated as "no record" instead of "DNS unavailable".
+* Removed: links and call-to-action boxes pointing to a discontinued website.
 
 = 1.1.0 =
 * Fix: the report no longer sends emails to test@example.com on every page view; "Basic Email Functionality" now reflects your last test email, with the send time and any mail error.

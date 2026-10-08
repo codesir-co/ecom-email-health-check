@@ -17,7 +17,8 @@ eCommerce Email Health Check is a lightweight diagnostic tool that quickly ident
 
 * **Email Sending Test:** A one-click test to confirm if your site is even capable of sending emails.
 * **Sender Address Check:** Verifies that your "From" email address is configured correctly to avoid being flagged as spam by mail clients.
-* **SPF Record Validation:** Checks your domain's DNS records for a crucial SPF record, a key factor in email authentication and deliverability.
+* **SPF Record Validation:** Checks your domain's SPF record (single record, authorizes a sender) and warns if your SMTP service is missing from it.
+* **DKIM and DMARC Checks:** Looks for a DKIM key and a DMARC policy.
 * **Easy-to-Read Report:** Get a simple Pass/Fail report right in your WordPress dashboard, so you know exactly where the issues are.
 
 ### Screenshots
@@ -49,15 +50,6 @@ After activating the plugin, you will be redirected to the plugin's page. You ca
 From this page, you can:
 * View your email health report.
 * Run a one-click test to send a sample email to your admin address.
-* Find a link to a full, managed solution if you have critical issues.
-
-## 🛠 The Full Solution
-
-This plugin is a diagnostic tool to help you identify problems. If your health report shows issues, don't worry about trying to fix complex DNS records or server configurations.
-
-Our managed service, **[Your SaaS Name]**, handles all the technical details for you. We provide a reliable, managed email sending service specifically for WooCommerce stores, so you can focus on your business while we ensure every email gets delivered.
-
-[**Visit our website to get started.**](https://codesir.co/mailsir/?utm_source=github&utm_medium=readme)
 
 ## 🤝 Contributing
 

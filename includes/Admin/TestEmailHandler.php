@@ -11,7 +11,8 @@ defined( 'ABSPATH' ) || exit;
 
 class TestEmailHandler {
 
-	const ACTION = 'ecehc_send_test_email';
+	const ACTION        = 'ecehc_send_test_email';
+	const OPTION_RESULT = 'ecehc_last_test_email';
 
 	public function register(): void {
 		add_action( 'admin_init', array( $this, 'handle' ) );
@@ -32,7 +33,34 @@ class TestEmailHandler {
 			__( 'This is a test email sent from the eCommerce Email Health Check plugin. If you received this, your site can send basic emails.', 'ecom-email-health-check' )
 		);
 
+		update_option(
+			self::OPTION_RESULT,
+			array(
+				'success' => (bool) $sent,
+				'time'    => time(),
+			),
+			false
+		);
+
 		add_action( 'admin_notices', $sent ? array( $this, 'notice_success' ) : array( $this, 'notice_failure' ) );
+	}
+
+	/**
+	 * Outcome of the most recent test email, or null if none was sent.
+	 *
+	 * @return array{success: bool, time: int}|null
+	 */
+	public static function get_last_result(): ?array {
+		$last = get_option( self::OPTION_RESULT );
+
+		if ( ! is_array( $last ) || ! isset( $last['success'] ) ) {
+			return null;
+		}
+
+		return array(
+			'success' => (bool) $last['success'],
+			'time'    => isset( $last['time'] ) ? (int) $last['time'] : 0,
+		);
 	}
 
 	public function notice_success(): void {

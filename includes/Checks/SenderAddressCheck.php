@@ -18,7 +18,7 @@ class SenderAddressCheck implements CheckInterface {
 
 	public function run(): Result {
 		$from   = MailSender::from_address();
-		$domain = strtolower( Domain::email_domain( $from ) );
+		$domain = Domain::mail_domain();
 
 		if ( Domain::is_free_mailbox( $domain ) ) {
 			return new Result(

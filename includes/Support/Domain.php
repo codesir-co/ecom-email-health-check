@@ -12,10 +12,10 @@ defined( 'ABSPATH' ) || exit;
 class Domain {
 
 	/**
-	 * The site's host name without a leading "www." (only a leading prefix is stripped).
+	 * The site's host name, lower-cased, without a leading "www." (only a leading prefix is stripped).
 	 */
 	public static function site_domain(): string {
-		return preg_replace( '/^www\./i', '', (string) wp_parse_url( get_home_url(), PHP_URL_HOST ) );
+		return strtolower( preg_replace( '/^www\./i', '', (string) wp_parse_url( get_home_url(), PHP_URL_HOST ) ) );
 	}
 
 	/**

@@ -18,7 +18,7 @@ class SenderAddressCheck implements CheckInterface {
 
 	public function run(): Result {
 		$from   = MailSender::from_address();
-		$passed = Domain::email_domain( $from ) === Domain::site_domain();
+		$passed = strtolower( Domain::email_domain( $from ) ) === strtolower( Domain::site_domain() );
 
 		return new Result(
 			$passed,

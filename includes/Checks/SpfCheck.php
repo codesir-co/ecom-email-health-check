@@ -3,6 +3,7 @@ namespace CodeSir\EmailHealthCheck\Checks;
 
 use CodeSir\EmailHealthCheck\Support\Domain;
 use CodeSir\EmailHealthCheck\Support\MailProvider;
+use CodeSir\EmailHealthCheck\Support\ProviderGuidance;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -51,6 +52,17 @@ class SpfCheck implements CheckInterface {
 						/* translators: %s: mail service name */
 						return new Result( true, sprintf( __( 'A valid SPF record was found and it appears to include %s, the service your site sends email through.', 'ecom-email-health-check' ), $provider['name'] ) );
 					}
+				}
+
+				if ( ! ProviderGuidance::needs_root_spf( $provider ) ) {
+					return new Result(
+						true,
+						sprintf(
+							/* translators: %s: mail service name */
+							__( 'A valid SPF record was found. %s authenticates SPF through its own return-path records, so it does not need to appear in your root SPF record. Make sure you completed its domain setup.', 'ecom-email-health-check' ),
+							$provider['name']
+						)
+					);
 				}
 
 				return Result::warning(

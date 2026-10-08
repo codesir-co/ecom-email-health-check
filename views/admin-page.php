@@ -42,6 +42,22 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                             </td>
                             <td class="column-columnname">
 								<?php echo esc_html( $result['message'] ); ?>
+								<?php if ( ! empty( $result['guidance'] ) ) : ?>
+                                    <details class="ecehc-guidance">
+                                        <summary><?php esc_html_e( 'How to fix this', 'ecom-email-health-check' ); ?></summary>
+                                        <p><?php echo esc_html( $result['guidance']['text'] ); ?></p>
+										<?php foreach ( $result['guidance']['records'] as $record ) : ?>
+                                            <div class="ecehc-record">
+                                                <span class="ecehc-record-meta"><?php echo esc_html( $record['type'] ); ?> &middot; <?php echo esc_html( $record['host'] ); ?></span>
+                                                <code><?php echo esc_html( $record['value'] ); ?></code>
+                                                <button type="button" class="button button-small ecehc-copy" data-ecehc-copy="<?php echo esc_attr( $record['value'] ); ?>" data-copied="<?php esc_attr_e( 'Copied', 'ecom-email-health-check' ); ?>"><?php esc_html_e( 'Copy', 'ecom-email-health-check' ); ?></button>
+                                            </div>
+										<?php endforeach; ?>
+										<?php if ( ! empty( $result['guidance']['docs'] ) ) : ?>
+                                            <p><a href="<?php echo esc_url( $result['guidance']['docs'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Official setup guide', 'ecom-email-health-check' ); ?></a></p>
+										<?php endif; ?>
+                                    </details>
+								<?php endif; ?>
                             </td>
                         </tr>
 					<?php endforeach; ?>

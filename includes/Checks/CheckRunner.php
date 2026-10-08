@@ -7,6 +7,10 @@
 
 namespace CodeSir\EmailHealthCheck\Checks;
 
+use CodeSir\EmailHealthCheck\Support\Domain;
+use CodeSir\EmailHealthCheck\Support\MailProvider;
+use CodeSir\EmailHealthCheck\Support\ProviderGuidance;
+
 defined( 'ABSPATH' ) || exit;
 
 class CheckRunner {
@@ -38,10 +42,12 @@ class CheckRunner {
 	}
 
 	/**
-	 * @return array<string, array{label: string, status: string, message: string}>
+	 * @return array<string, array{label: string, status: string, message: string, guidance: array|null}>
 	 */
 	public function run_all(): array {
-		$results = array();
+		$results  = array();
+		$provider = MailProvider::detect();
+		$domain   = Domain::site_domain();
 
 		foreach ( $this->get_checks() as $check ) {
 			if ( isset( $results[ $check->get_id() ] ) ) {
@@ -59,9 +65,10 @@ class CheckRunner {
 
 			$result                      = $check->run();
 			$results[ $check->get_id() ] = array(
-				'label'   => $check->get_label(),
-				'status'  => $result->get_status(),
-				'message' => $result->get_message(),
+				'label'    => $check->get_label(),
+				'status'   => $result->get_status(),
+				'message'  => $result->get_message(),
+				'guidance' => in_array( $result->get_status(), array( Result::FAIL, Result::WARNING ), true ) ? ProviderGuidance::for_check( $check->get_id(), $provider, $domain ) : null,
 			);
 		}
 

@@ -4,7 +4,7 @@ Tags: e-commerce, email, woocommerce, smtp, deliverability
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,9 +17,13 @@ Stop worrying about lost eCommerce emails! This free, simple plugin helps you di
 **Key Features:**
 
 * **Email Sending Test:** A one-click test to confirm if your site can send emails.
-* **Sender Address Check:** Verifies that your "From" address is configured correctly to avoid being flagged as spam.
+* **Sender Address Check:** Verifies that your "From" address is configured correctly to avoid being flagged as spam, and runs the SPF, DKIM and DMARC checks for the domain you actually send from.
 * **SPF Record Validation:** Checks that your domain has a single, valid SPF record, and warns if it doesn't include your SMTP service (WP Mail SMTP, Post SMTP and FluentSMTP are detected).
 * **DKIM and DMARC Checks:** Looks for a DKIM key and a DMARC policy, which Gmail and Yahoo expect for authenticated email.
+* **SMTP / Mail Service Check:** Warns when your site seems to send email through plain PHP mail, and names the plugin that handles your outgoing email when it finds one.
+* **Fix Guidance:** Failing SPF, DKIM and DMARC checks show a "How to fix this" panel with a copy-paste record where one is documented, and a link to your mail provider's official setup guide.
+* **Unpaid Orders Check (WooCommerce):** Warns when many recent orders are stuck in "Pending payment". WooCommerce sends no order emails for those, so the real problem may be your payment gateway. Only order counts are read.
+* **Site Health Integration:** The same checks appear under Tools > Site Health, so problems show up without opening the plugin.
 * **Easy-to-Read Health Report:** Get a clear, actionable report with a summary of your email delivery status.
 
 == Installation ==
@@ -39,9 +43,15 @@ Stop worrying about lost eCommerce emails! This free, simple plugin helps you di
 Many hosting providers have poor email delivery configurations that can silently fail, leaving you and your customers in the dark. This plugin diagnoses those issues so you can address them.
 
 = What does the plugin check? =
-It checks for common issues like email sending failures, sender address misconfigurations, and missing or incomplete SPF, DKIM and DMARC records.
+It checks for common issues like email sending failures, mail sent through plain PHP mail instead of SMTP, sender address misconfigurations, missing or incomplete SPF, DKIM and DMARC records, and (for WooCommerce stores) many orders stuck in "Pending payment".
+
+= How does the plugin detect my SMTP plugin? =
+It briefly runs the mail-configuration hooks (`phpmailer_init`) that other plugins register, on a temporary object that never sends anything, to see which ones switch WordPress to SMTP. This stays on your site: no data is sent to any external service. The result is saved for up to 12 hours, and the "Re-check" button refreshes it.
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Adds an SMTP / mail service check, a Site Health test, fix guidance for SPF, DKIM and DMARC, and an unpaid orders check for WooCommerce. Fixes a misleading SPF warning for Postmark, SendGrid, Brevo, Amazon SES and SparkPost, and the DNS checks now use the domain of your From address. A different From domain is now a warning, not a failure.
 
 = 1.1.1 =
 Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discontinued website.
@@ -50,6 +60,16 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.2.0 =
+* New: "SMTP / Mail Service" check. Warns when your site seems to send email through plain PHP mail, and names the plugin that handles your outgoing email. The detection result is saved for up to 12 hours; use the new "Re-check" button to refresh it.
+* New: the email checks appear as a test on Tools > Site Health.
+* New: failing SPF, DKIM and DMARC checks show a "How to fix this" panel with a copy-paste record where one is documented, and a link to your mail provider's official setup guide (Mailgun, Mailjet, Elastic Email, Google, Microsoft 365, SendGrid, Brevo, Postmark, Amazon SES, SparkPost).
+* New: "Unpaid Orders" check for WooCommerce stores. Warns when many recent orders are stuck in "Pending payment" or "Failed", since WooCommerce sends no order emails for those. Only order counts are read.
+* Change: SPF, DKIM and DMARC are now checked for the domain of your From address instead of always the site domain. The report says which domain was checked.
+* Change: "Sender Address Check" shows a warning, not a failure, when the From domain differs from the site domain, and a failure when it is a public mailbox such as gmail.com.
+* Fix: no more "your SPF record does not include X" warning for providers that don't use a root-domain include (Postmark, SendGrid, Brevo, Amazon SES, SparkPost).
+* Fix: a domain with no TXT records is reported as "No SPF record" instead of "DNS lookup failed".
 
 = 1.1.1 =
 * New: DKIM check (tries common selectors; shows "Not checked" if your provider uses a custom one).

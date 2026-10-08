@@ -1,8 +1,10 @@
 <?php
 namespace CodeSir\EmailHealthCheck\Checks;
 
+use CodeSir\EmailHealthCheck\Support\Dns;
 use CodeSir\EmailHealthCheck\Support\Domain;
 use CodeSir\EmailHealthCheck\Support\MailProvider;
+use CodeSir\EmailHealthCheck\Support\ProviderGuidance;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -21,16 +23,22 @@ class SpfCheck implements CheckInterface {
 			return Result::unknown( __( 'Your server does not allow DNS lookups, so the SPF record could not be checked. Use an online SPF checker for your domain.', 'ecom-email-health-check' ) );
 		}
 
-		$records = @dns_get_record( Domain::site_domain(), DNS_TXT ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		$domain = Domain::mail_domain();
 
-		if ( false === $records ) {
+		if ( Domain::is_free_mailbox( $domain ) ) {
+			return Result::unknown( Domain::free_mailbox_notice( $domain ) );
+		}
+
+		$records = Dns::txt_records( $domain );
+
+		if ( null === $records ) {
 			return Result::unknown( __( 'The DNS lookup failed, so the SPF record could not be checked. Try again later or use an online SPF checker.', 'ecom-email-health-check' ) );
 		}
 
 		$spf_records = array();
 		foreach ( $records as $record ) {
-			if ( isset( $record['txt'] ) && preg_match( '/^v=spf1(\s|$)/i', trim( $record['txt'] ) ) ) {
-				$spf_records[] = trim( $record['txt'] );
+			if ( preg_match( '/^v=spf1(\s|$)/i', $record ) ) {
+				$spf_records[] = $record;
 			}
 		}
 
@@ -51,6 +59,17 @@ class SpfCheck implements CheckInterface {
 						/* translators: %s: mail service name */
 						return new Result( true, sprintf( __( 'A valid SPF record was found and it appears to include %s, the service your site sends email through.', 'ecom-email-health-check' ), $provider['name'] ) );
 					}
+				}
+
+				if ( ! ProviderGuidance::needs_root_spf( $provider ) ) {
+					return new Result(
+						true,
+						sprintf(
+							/* translators: %s: mail service name */
+							__( 'A valid SPF record was found. %s authenticates SPF through its own return-path records, so it does not need to appear in your root SPF record. Make sure you completed its domain setup.', 'ecom-email-health-check' ),
+							$provider['name']
+						)
+					);
 				}
 
 				return Result::warning(

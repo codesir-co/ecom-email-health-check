@@ -65,3 +65,30 @@
 .ecehc-status-warning {
 	color: #996800;
 }
+
+.ecehc-recheck-form {
+    margin-top: 15px;
+}
+.ecehc-recheck-form .description {
+    margin-left: 8px;
+}
+
+.ecehc-guidance {
+    margin-top: 8px;
+}
+.ecehc-guidance summary {
+    cursor: pointer;
+    color: #2271b1;
+}
+.ecehc-record {
+    margin: 8px 0;
+}
+.ecehc-record-meta {
+    display: block;
+    font-size: 12px;
+    color: #50575e;
+}
+.ecehc-record code {
+    word-break: break-all;
+    margin-right: 6px;
+}

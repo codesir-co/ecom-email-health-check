@@ -65,3 +65,10 @@
 .ecehc-status-warning {
 	color: #996800;
 }
+
+.ecehc-recheck-form {
+    margin-top: 15px;
+}
+.ecehc-recheck-form .description {
+    margin-left: 8px;
+}

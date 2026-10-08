@@ -47,6 +47,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 					<?php endforeach; ?>
                     </tbody>
                 </table>
+
+                <form method="post" class="ecehc-recheck-form">
+					<?php wp_nonce_field( 'ecehc_recheck', '_ecehc_recheck_nonce' ); ?>
+                    <input type="submit" name="ecehc_recheck" class="button button-secondary" value="<?php esc_attr_e( 'Re-check', 'ecom-email-health-check' ); ?>">
+                    <span class="description"><?php esc_html_e( 'The mail service detection is saved for up to 12 hours. Re-check to refresh it.', 'ecom-email-health-check' ); ?></span>
+                </form>
             </div>
         </div>
 

@@ -12,8 +12,26 @@ defined( 'ABSPATH' ) || exit;
 
 class SmtpDetector {
 
+	const TRANSIENT = 'ecehc_smtp_probe';
+
+	/** How long the probe result is reused. It is also cleared whenever a plugin is (de)activated. */
+	const CACHE_TTL = 12 * HOUR_IN_SECONDS;
+
 	/** @var array{configured: bool, plugins: string[]}|null */
 	private static $cache = null;
+
+	/**
+	 * Drop the cached probe whenever the active plugins change.
+	 */
+	public static function register(): void {
+		add_action( 'activated_plugin', array( __CLASS__, 'clear_cache' ) );
+		add_action( 'deactivated_plugin', array( __CLASS__, 'clear_cache' ) );
+	}
+
+	public static function clear_cache(): void {
+		self::$cache = null;
+		delete_transient( self::TRANSIENT );
+	}
 
 	/**
 	 * Whether a mail service appears to be configured.
@@ -47,7 +65,7 @@ class SmtpDetector {
 			$files[] = $wp_mail;
 		}
 
-		$probe = self::probe_phpmailer_init();
+		$probe = self::cached_probe();
 
 		// Without a mailer to probe, or when a callback could not be judged, any hook counts, to avoid false alarms.
 		$hooked = null === $probe || $probe['inconclusive']
@@ -76,6 +94,28 @@ class SmtpDetector {
 		);
 
 		return self::$cache;
+	}
+
+	/**
+	 * The probe result, reused from a transient so other plugins' callbacks are
+	 * not run on every page view.
+	 *
+	 * @return array{confirmed: bool, files: string[], inconclusive: bool}|null
+	 */
+	private static function cached_probe(): ?array {
+		$cached = get_transient( self::TRANSIENT );
+
+		if ( is_array( $cached ) && isset( $cached['confirmed'], $cached['files'], $cached['inconclusive'] ) ) {
+			return $cached;
+		}
+
+		$probe = self::probe_phpmailer_init();
+
+		if ( null !== $probe ) {
+			set_transient( self::TRANSIENT, $probe, self::CACHE_TTL );
+		}
+
+		return $probe;
 	}
 
 	/**

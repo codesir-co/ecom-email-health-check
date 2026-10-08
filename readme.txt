@@ -20,6 +20,7 @@ Stop worrying about lost eCommerce emails! This free, simple plugin helps you di
 * **Sender Address Check:** Verifies that your "From" address is configured correctly to avoid being flagged as spam.
 * **SPF Record Validation:** Checks that your domain has a single, valid SPF record, and warns if it doesn't include your SMTP service (WP Mail SMTP, Post SMTP and FluentSMTP are detected).
 * **DKIM and DMARC Checks:** Looks for a DKIM key and a DMARC policy, which Gmail and Yahoo expect for authenticated email.
+* **SMTP / Mail Service Check:** Warns when your site seems to send email through plain PHP mail, and names the plugin that handles your outgoing email when it finds one.
 * **Easy-to-Read Health Report:** Get a clear, actionable report with a summary of your email delivery status.
 
 == Installation ==
@@ -40,6 +41,9 @@ Many hosting providers have poor email delivery configurations that can silently
 
 = What does the plugin check? =
 It checks for common issues like email sending failures, sender address misconfigurations, and missing or incomplete SPF, DKIM and DMARC records.
+
+= How does the plugin detect my SMTP plugin? =
+It briefly runs the mail-configuration hooks (`phpmailer_init`) that other plugins register, on a temporary object that never sends anything, to see which ones switch WordPress to SMTP. This stays on your site: no data is sent to any external service. The result is saved for up to 12 hours, and the "Re-check" button refreshes it.
 
 == Upgrade Notice ==
 

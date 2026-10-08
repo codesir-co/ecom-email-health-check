@@ -22,6 +22,7 @@ Stop worrying about lost eCommerce emails! This free, simple plugin helps you di
 * **DKIM and DMARC Checks:** Looks for a DKIM key and a DMARC policy, which Gmail and Yahoo expect for authenticated email.
 * **SMTP / Mail Service Check:** Warns when your site seems to send email through plain PHP mail, and names the plugin that handles your outgoing email when it finds one.
 * **Fix Guidance:** Failing SPF, DKIM and DMARC checks show a "How to fix this" panel with a copy-paste record where one is documented, and a link to your mail provider's official setup guide.
+* **Unpaid Orders Check (WooCommerce):** Warns when many recent orders are stuck in "Pending payment". WooCommerce sends no order emails for those, so the real problem may be your payment gateway. Only order counts are read.
 * **Site Health Integration:** The same checks appear under Tools > Site Health, so problems show up without opening the plugin.
 * **Easy-to-Read Health Report:** Get a clear, actionable report with a summary of your email delivery status.
 

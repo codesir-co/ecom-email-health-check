@@ -28,6 +28,10 @@ class CheckRunner {
 			new DmarcCheck(),
 		);
 
+		if ( class_exists( 'WooCommerce' ) ) {
+			$checks[] = new PendingOrdersCheck();
+		}
+
 		/**
 		 * Filters the list of diagnostic checks.
 		 *

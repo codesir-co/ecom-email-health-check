@@ -37,12 +37,20 @@ class BasicEmailCheck implements CheckInterface {
 		/* translators: %s: date and time the test email was sent */
 		$suffix = $when ? ' ' . sprintf( __( '(Sent %s.)', 'ecom-email-health-check' ), $when ) : '';
 
-		return new Result(
-			$last['success'],
-			( $last['success']
-				? __( 'The last test email was accepted for sending by WordPress.', 'ecom-email-health-check' )
-				: __( 'The last test email failed to send. Your hosting provider may be blocking emails.', 'ecom-email-health-check' )
-			) . $suffix
-		);
+		if ( $last['success'] ) {
+			return new Result(
+				true,
+				__( 'The last test email was accepted for sending by WordPress. This does not guarantee delivery, so check your inbox to confirm it arrived.', 'ecom-email-health-check' ) . $suffix
+			);
+		}
+
+		if ( '' !== $last['error'] ) {
+			/* translators: %s: error message returned by the mail system */
+			$message = sprintf( __( 'The last test email failed to send. Error: %s', 'ecom-email-health-check' ), wp_html_excerpt( $last['error'], 300, '…' ) );
+		} else {
+			$message = __( 'The last test email failed to send. Your hosting provider may be blocking emails.', 'ecom-email-health-check' );
+		}
+
+		return new Result( false, $message . $suffix );
 	}
 }

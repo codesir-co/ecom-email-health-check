@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="Email Health Check">
+	<description>WordPress coding standards for the plugin.</description>
+	<file>.</file>
+	<exclude-pattern>/\.git/*</exclude-pattern>
+	<exclude-pattern>/\.wordpress-org/*</exclude-pattern>
+	<arg name="extensions" value="php"/>
+	<config name="testVersion" value="7.4-"/>
+	<rule ref="WordPress"/>
+	<rule ref="WordPress.Files.FileName">
+		<properties>
+			<property name="strict_class_file_names" value="false"/>
+		</properties>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="ecehc"/>
+				<element value="CodeSir\EmailHealthCheck"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

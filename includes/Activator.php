@@ -22,11 +22,24 @@ class Activator {
 	}
 
 	public function maybe_redirect(): void {
-		if ( get_transient( self::REDIRECT_TRANSIENT ) && current_user_can( 'manage_options' ) ) {
-			delete_transient( self::REDIRECT_TRANSIENT );
-
-			wp_redirect( admin_url( 'admin.php?page=' . Admin\AdminPage::MENU_SLUG ) );
-			exit;
+		if ( ! get_transient( self::REDIRECT_TRANSIENT ) || ! current_user_can( 'manage_options' ) ) {
+			return;
 		}
+
+		// Never interrupt AJAX requests or network admin screens.
+		if ( wp_doing_ajax() || is_network_admin() ) {
+			delete_transient( self::REDIRECT_TRANSIENT );
+			return;
+		}
+
+		delete_transient( self::REDIRECT_TRANSIENT );
+
+		// Don't hijack bulk activation (several plugins activated at once).
+		if ( isset( $_GET['activate-multi'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return;
+		}
+
+		wp_safe_redirect( admin_url( 'admin.php?page=' . Admin\AdminPage::MENU_SLUG ) );
+		exit;
 	}
 }

@@ -37,14 +37,15 @@ class PendingOrdersCheck implements CheckInterface {
 		$now = time();
 
 		try {
-			$pending = $this->count_orders( array( 'pending' ), ( $now - self::WINDOW ) . '...' . ( $now - self::GRACE ) );
-			$paid    = $this->count_orders( array( 'processing', 'completed', 'on-hold' ), '>' . ( $now - self::WINDOW ) );
+			$range   = ( $now - self::WINDOW ) . '...' . ( $now - self::GRACE );
+			$pending = $this->count_orders( array( 'pending', 'failed' ), $range );
+			$paid    = $this->count_orders( array( 'processing', 'completed', 'on-hold' ), $range );
 		} catch ( \Throwable $e ) {
 			return Result::unknown( __( 'WooCommerce orders could not be read.', 'ecom-email-health-check' ) );
 		}
 
 		/**
-		 * Filters how many old unpaid orders (and at least as many as paid ones) trigger the warning.
+		 * Filters how many old unpaid orders (and at least as many as orders that went through) trigger the warning.
 		 *
 		 * @param int $minimum Minimum number of unpaid orders. Default 5.
 		 */
@@ -53,8 +54,8 @@ class PendingOrdersCheck implements CheckInterface {
 		if ( $pending >= $minimum && $pending >= $paid ) {
 			return Result::warning(
 				sprintf(
-					/* translators: 1: number of unpaid orders, 2: number of paid orders */
-					__( 'In the last 7 days, %1$d orders are still "Pending payment" against %2$d paid. WooCommerce sends no order emails for unpaid orders, so customers may look like they are missing emails when the real cause is a payment problem. Check your payment gateway before changing your email setup.', 'ecom-email-health-check' ),
+					/* translators: 1: number of unpaid or failed orders, 2: number of orders that went through */
+					__( 'In the last 7 days, %1$d orders are still "Pending payment" or "Failed" against %2$d that went through (processing, completed or on hold). WooCommerce sends no order emails for unpaid orders, so customers may look like they are missing emails when the real cause is a payment problem. Check your payment gateway before changing your email setup.', 'ecom-email-health-check' ),
 					$pending,
 					$paid
 				)
@@ -64,8 +65,8 @@ class PendingOrdersCheck implements CheckInterface {
 		return new Result(
 			true,
 			sprintf(
-				/* translators: 1: number of unpaid orders, 2: number of paid orders */
-				__( 'In the last 7 days, %1$d orders are "Pending payment" and %2$d were paid. WooCommerce sends no order emails for unpaid orders, so a few are normal (abandoned checkouts).', 'ecom-email-health-check' ),
+				/* translators: 1: number of unpaid or failed orders, 2: number of orders that went through */
+				__( 'In the last 7 days, %1$d orders are "Pending payment" or "Failed" and %2$d went through (processing, completed or on hold). WooCommerce sends no order emails for unpaid orders, so a few are normal (abandoned checkouts).', 'ecom-email-health-check' ),
 				$pending,
 				$paid
 			)
@@ -76,7 +77,7 @@ class PendingOrdersCheck implements CheckInterface {
 	 * Counts orders in the given statuses, with HPOS and legacy storage alike.
 	 *
 	 * @param string[] $statuses     Statuses without the "wc-" prefix.
-	 * @param string   $date_created WooCommerce date query, e.g. ">123" or "123...456".
+	 * @param string   $date_created WooCommerce date query, e.g. "123...456".
 	 */
 	private function count_orders( array $statuses, string $date_created ): int {
 		$result = wc_get_orders(

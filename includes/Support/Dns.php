@@ -11,6 +11,9 @@ defined( 'ABSPATH' ) || exit;
 
 class Dns {
 
+	/** @var bool|null Cached result of the DNS sanity probe. */
+	private static $lookups_work = null;
+
 	/**
 	 * TXT record strings for a host name.
 	 *
@@ -25,7 +28,10 @@ class Dns {
 		$records = @dns_get_record( $host, DNS_TXT ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 
 		if ( false === $records ) {
-			return null;
+			// PHP also returns false for a name that doesn't exist (NXDOMAIN), which is a
+			// normal "no record" answer. Only treat it as unavailable if DNS fails for the
+			// site's own domain as well.
+			return ( Domain::site_domain() !== $host && self::lookups_work() ) ? array() : null;
 		}
 
 		$txt = array();
@@ -36,5 +42,16 @@ class Dns {
 		}
 
 		return $txt;
+	}
+
+	/**
+	 * Whether DNS lookups work at all, probed once per request against the site's own domain.
+	 */
+	private static function lookups_work(): bool {
+		if ( null === self::$lookups_work ) {
+			self::$lookups_work = false !== @dns_get_record( Domain::site_domain(), DNS_TXT ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		}
+
+		return self::$lookups_work;
 	}
 }

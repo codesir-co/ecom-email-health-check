@@ -28,6 +28,20 @@ class SmtpConfiguredCheck implements CheckInterface {
 		}
 
 		$provider = MailProvider::detect();
+		$plugins  = SmtpDetector::plugin_names();
+		$via      = implode( ', ', $plugins );
+
+		if ( $provider && $via ) {
+			return new Result(
+				true,
+				sprintf(
+					/* translators: 1: mail provider name, e.g. SendGrid, 2: plugin name(s) */
+					__( 'Email appears to be sent through %1$s, handled by %2$s.', 'ecom-email-health-check' ),
+					$provider['name'],
+					$via
+				)
+			);
+		}
 
 		if ( $provider ) {
 			return new Result(
@@ -36,6 +50,17 @@ class SmtpConfiguredCheck implements CheckInterface {
 					/* translators: %s: mail provider name, e.g. SendGrid */
 					__( 'Email appears to be sent through %s.', 'ecom-email-health-check' ),
 					$provider['name']
+				)
+			);
+		}
+
+		if ( $via ) {
+			return new Result(
+				true,
+				sprintf(
+					/* translators: %s: plugin name(s) */
+					__( 'Outgoing email is handled by: %s.', 'ecom-email-health-check' ),
+					$via
 				)
 			);
 		}

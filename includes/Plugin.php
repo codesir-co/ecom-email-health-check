@@ -9,6 +9,7 @@ namespace CodeSir\EmailHealthCheck;
 
 use CodeSir\EmailHealthCheck\Admin\AdminPage;
 use CodeSir\EmailHealthCheck\Admin\RecheckHandler;
+use CodeSir\EmailHealthCheck\Admin\SiteHealth;
 use CodeSir\EmailHealthCheck\Admin\TestEmailHandler;
 use CodeSir\EmailHealthCheck\Support\SmtpDetector;
 
@@ -39,6 +40,7 @@ class Plugin {
 		( new AdminPage() )->register();
 		( new TestEmailHandler() )->register();
 		( new RecheckHandler() )->register();
+		( new SiteHealth() )->register();
 		SmtpDetector::register();
 
 		add_filter( 'plugin_action_links_' . ECEHC_PLUGIN_BASE, array( $this, 'add_plugin_links' ) );

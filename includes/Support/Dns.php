@@ -45,6 +45,34 @@ class Dns {
 	}
 
 	/**
+	 * IPv4 addresses a host name resolves to (used for DNSBL answers).
+	 *
+	 * @param string $host Fully qualified host name.
+	 * @return string[]|null Addresses (empty when the name does not exist), or null if DNS lookups are unavailable or failed.
+	 */
+	public static function a_records( string $host ): ?array {
+		if ( ! function_exists( 'dns_get_record' ) ) {
+			return null;
+		}
+
+		$records = @dns_get_record( $host, DNS_A ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+
+		if ( false === $records ) {
+			// Same ambiguity as txt_records(): false also means the name does not exist.
+			return self::lookups_work() ? array() : null;
+		}
+
+		$ips = array();
+		foreach ( $records as $record ) {
+			if ( isset( $record['ip'] ) ) {
+				$ips[] = (string) $record['ip'];
+			}
+		}
+
+		return $ips;
+	}
+
+	/**
 	 * Whether DNS lookups work at all, probed once per request against the site's own domain.
 	 */
 	private static function lookups_work(): bool {

@@ -23,6 +23,7 @@ Stop worrying about lost eCommerce emails! This free, simple plugin helps you di
 * **SMTP / Mail Service Check:** Warns when your site seems to send email through plain PHP mail, and names the plugin that handles your outgoing email when it finds one.
 * **Fix Guidance:** Failing SPF, DKIM and DMARC checks show a "How to fix this" panel with a copy-paste record where one is documented, and a link to your mail provider's official setup guide.
 * **Unpaid Orders Check (WooCommerce):** Warns when many recent orders are stuck in "Pending payment". WooCommerce sends no order emails for those, so the real problem may be your payment gateway. Only order counts are read.
+* **Server IP Blacklist Check:** Looks up your web server's IP address on free public blacklists (DroneBL, PSBL) when your site sends mail directly instead of through an SMTP service.
 * **Site Health Integration:** The same checks appear under Tools > Site Health, so problems show up without opening the plugin.
 * **Easy-to-Read Health Report:** Get a clear, actionable report with a summary of your email delivery status.
 
@@ -47,6 +48,16 @@ It checks for common issues like email sending failures, mail sent through plain
 
 = How does the plugin detect my SMTP plugin? =
 It briefly runs the mail-configuration hooks (`phpmailer_init`) that other plugins register, on a temporary object that never sends anything, to see which ones switch WordPress to SMTP. This stays on your site: no data is sent to any external service. The result is saved for up to 12 hours, and the "Re-check" button refreshes it.
+
+== External services ==
+
+The "Server IP Blacklists" check sends DNS queries to the public blacklists DroneBL and PSBL. This happens only when your site does not send email through an SMTP plugin or mail service, when you open the plugin's report or Site Health, and at most once every 12 hours.
+
+* What is sent: a DNS query for your web server's public IPv4 address (written in reverse, for example `4.3.2.1.dnsbl.dronebl.org`). The lists' operators can see that address and the address of your DNS resolver. No other data is sent.
+* DroneBL: https://dronebl.org/ (terms: https://dronebl.org/docs/howtouse)
+* PSBL: https://psbl.org/ (usage: https://psbl.org/howto)
+
+Spamhaus is intentionally not queried, because its free service is limited to low-volume non-commercial use. Developers can change the lists with the `ecehc_dnsbl_zones` filter.
 
 == Upgrade Notice ==
 

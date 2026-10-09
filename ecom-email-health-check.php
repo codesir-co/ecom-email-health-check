@@ -41,6 +41,7 @@ spl_autoload_register(
 );
 
 register_activation_hook( __FILE__, array( \CodeSir\EmailHealthCheck\Activator::class, 'activate' ) );
+register_deactivation_hook( __FILE__, array( \CodeSir\EmailHealthCheck\Log\EmailLogger::class, 'unschedule' ) );
 
 add_action(
 	'plugins_loaded',

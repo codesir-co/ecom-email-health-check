@@ -22,7 +22,7 @@ class SourceDetector {
 	 */
 	public static function detect(): array {
 		$skip = array(
-			wp_normalize_path( ECEHC_PLUGIN_PATH ),
+			wp_normalize_path( ECEHC_PLUGIN_PATH . 'includes/Log/' ),
 			wp_normalize_path( ABSPATH . WPINC . '/pluggable.php' ),
 			wp_normalize_path( ABSPATH . WPINC . '/class-wp-hook.php' ),
 			wp_normalize_path( ABSPATH . WPINC . '/plugin.php' ),

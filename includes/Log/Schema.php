@@ -54,7 +54,11 @@ class Schema {
 			) {$charset};"
 		);
 
-		update_option( self::OPTION_DB_VERSION, self::DB_VERSION );
+		// Only remember the schema version if the table really exists, so a failed
+		// CREATE TABLE is retried instead of leaving a permanently empty log.
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table ) ) ) === $table ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			update_option( self::OPTION_DB_VERSION, self::DB_VERSION );
+		}
 	}
 
 	public static function drop(): void {

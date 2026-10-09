@@ -3,8 +3,8 @@
  * Reads and writes the email log table.
  *
  * Only the minimum is stored: time, status, source, WooCommerce email type, a
- * masked recipient and its domain, and an error message. Never the message
- * body, subject, headers or the full recipient address.
+ * masked recipient and its domain, and an error message with any email
+ * addresses masked. Never the message body, subject, headers or a full address.
  *
  * @package CodeSir\EmailHealthCheck
  */
@@ -43,6 +43,23 @@ class EmailLog {
 		 * @param array $row Row values.
 		 */
 		$row = array_merge( $defaults, array_intersect_key( (array) apply_filters( 'ecehc_log_row', array_merge( $defaults, $row ) ), $defaults ) );
+
+		// Fit every value to its column so strict SQL mode cannot drop the row.
+		$limits = array(
+			'status'           => 10,
+			'source_key'       => 100,
+			'source_label'     => 150,
+			'email_type'       => 100,
+			'email_type_label' => 150,
+			'recipient'        => 255,
+			'recipient_domain' => 190,
+			'error'            => 500,
+		);
+		foreach ( $limits as $column => $length ) {
+			$value         = is_scalar( $row[ $column ] ) ? (string) $row[ $column ] : '';
+			$row[ $column ] = function_exists( 'mb_substr' ) ? mb_substr( $value, 0, $length ) : substr( $value, 0, $length );
+		}
+		$row['created_at'] = is_scalar( $row['created_at'] ) ? (string) $row['created_at'] : gmdate( 'Y-m-d H:i:s' );
 
 		$suppress = $wpdb->suppress_errors( true );
 		$written  = false !== $wpdb->insert( Schema::table(), $row, array_fill( 0, count( $row ), '%s' ) );

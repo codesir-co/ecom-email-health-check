@@ -8,6 +8,8 @@
 
 namespace CodeSir\EmailHealthCheck\Support;
 
+use CodeSir\EmailHealthCheck\Log\EmailLogger;
+
 defined( 'ABSPATH' ) || exit;
 
 class SmtpDetector {
@@ -89,7 +91,7 @@ class SmtpDetector {
 				|| ! empty( $files )
 				|| ( $probe && $probe['confirmed'] )
 				|| $hooked
-				|| false !== has_filter( 'pre_wp_mail' ),
+				|| self::has_foreign_pre_wp_mail(),
 			'plugins'    => array_values( $names ),
 		);
 
@@ -195,6 +197,32 @@ class SmtpDetector {
 		}
 
 		return class_exists( '\PHPMailer', false ) ? new \PHPMailer( true ) : null;
+	}
+
+	/**
+	 * Whether another plugin short-circuits wp_mail() through pre_wp_mail.
+	 * This plugin's own email log registers a pre_wp_mail hook too, which must not count.
+	 */
+	private static function has_foreign_pre_wp_mail(): bool {
+		global $wp_filter;
+
+		if ( empty( $wp_filter['pre_wp_mail']->callbacks ) ) {
+			return false;
+		}
+
+		foreach ( $wp_filter['pre_wp_mail']->callbacks as $callbacks ) {
+			foreach ( $callbacks as $callback ) {
+				$function = $callback['function'];
+
+				if ( is_array( $function ) && isset( $function[0] ) && $function[0] instanceof EmailLogger ) {
+					continue;
+				}
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

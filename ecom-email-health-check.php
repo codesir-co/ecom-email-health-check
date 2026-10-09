@@ -3,7 +3,7 @@
  * Plugin Name: eCommerce Email Health Check
  * Plugin URI:  https://github.com/codesir-co/ecom-email-health-check
  * Description: A free tool to diagnose and test your email delivery, ensuring your order confirmations and notifications always reach your customers.
- * Version:     1.3.0
+ * Version:     1.4.0
  * Requires PHP: 7.4
  * WC requires at least: 8.0
  * WC tested up to: 10.7
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ECEHC_VERSION', '1.3.0' );
+define( 'ECEHC_VERSION', '1.4.0' );
 define( 'ECEHC_PLUGIN_FILE', __FILE__ );
 define( 'ECEHC_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ECEHC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

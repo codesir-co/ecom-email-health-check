@@ -94,6 +94,14 @@ Each email causes one small database insert. Entries are pruned daily and the lo
 = Where do I get support? =
 Please use the plugin's support forum on WordPress.org: https://wordpress.org/support/plugin/ecom-email-health-check/
 
+== Screenshots ==
+
+1. The Health Report: every check with a clear Pass, Warning or Fail status.
+2. A failing check shows a "How to fix this" panel with a copy-paste DNS record and a link to your mail provider's official guide.
+3. The Email Log tab: accepted and failed counts for the last 24 hours and 7 days, broken down by source and WooCommerce email type.
+4. The latest emails, filterable by source, status and WooCommerce email type.
+5. The Email Health dashboard widget warns you inside wp-admin when many emails fail.
+
 == External services ==
 
 The "Server IP Blacklists" check sends DNS queries to the public blacklists DroneBL and PSBL. This happens only when your site does not send email through an SMTP plugin or mail service, and only when you open the plugin's report or Tools > Site Health. The answer is saved for about 12 hours (about 1 hour after a failed lookup; the Re-check button and a changed IP address also trigger a new lookup). The queries go through your server's own DNS resolver.

@@ -14,7 +14,7 @@ Email log, delivery checks and failure alerts for WooCommerce. Find out why orde
 
 **Customers not getting your order emails? Find out why, and fix it.**
 
-eCommerce Email Health Check looks at how your WordPress or WooCommerce site sends email, tells you what is wrong in plain language, and keeps an eye on every email your site sends. It is free, needs no account, and its core features send nothing to a third-party service.
+eCommerce Email Health Check looks at how your WordPress or WooCommerce site sends email, tells you what is wrong in plain language, and keeps an eye on every email your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is an optional server IP blacklist check (see External services).
 
 = Diagnose =
 
@@ -37,7 +37,7 @@ eCommerce Email Health Check looks at how your WordPress or WooCommerce site sen
 
 = Works with =
 
-The plugin detects WP Mail SMTP, FluentSMTP and Post SMTP, and gives setup guidance for SendGrid, Mailgun, Brevo, Postmark, Amazon SES, SparkPost, Mailjet, Elastic Email, Google Workspace and Microsoft 365. It also works with any other SMTP plugin, or with none.
+The plugin identifies the provider from the settings of WP Mail SMTP, FluentSMTP and Post SMTP, and gives setup guidance for SendGrid, Mailgun, Brevo, Postmark, Amazon SES, SparkPost, Mailjet, Elastic Email, Google Workspace and Microsoft 365. It also works with any other SMTP plugin, or with none.
 
 == Installation ==
 

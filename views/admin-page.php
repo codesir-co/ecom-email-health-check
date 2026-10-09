@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 		<?php esc_html_e( 'Run a quick diagnostic to check the health of your store\'s email delivery system.', 'ecom-email-health-check' ); ?>
     </p>
 
-    <hr>
+    <?php $active_tab = 'report'; include ECEHC_PLUGIN_PATH . 'views/tabs.php'; ?>
 
     <div class="ecehc-grid">
         <div class="ecehc-main-col">

@@ -279,6 +279,19 @@ class EmailLog {
 	}
 
 	/**
+	 * Deletes every log entry.
+	 */
+	public static function clear(): void {
+		global $wpdb;
+
+		$table = Schema::table();
+
+		$wpdb->query( "DELETE FROM {$table}" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		self::clear_stats_cache();
+	}
+
+	/**
 	 * Deletes rows older than the retention period, then the oldest rows over the cap.
 	 */
 	public static function purge(): void {
@@ -289,9 +302,9 @@ class EmailLog {
 		/**
 		 * Filters how many days of log rows are kept.
 		 *
-		 * @param int $days Days, default 7.
+		 * @param int $days Days, from the log settings (1, 3 or 7). Pro can raise it.
 		 */
-		$days = max( 1, (int) apply_filters( 'ecehc_log_retention_days', 7 ) );
+		$days = max( 1, (int) apply_filters( 'ecehc_log_retention_days', LogSettings::retention_days() ) );
 
 		/**
 		 * Filters the maximum number of log rows kept.

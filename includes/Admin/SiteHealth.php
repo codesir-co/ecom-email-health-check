@@ -40,7 +40,7 @@ class SiteHealth {
 		);
 
 		// A cheap database read, so it runs directly. Only added when emails are being logged.
-		if ( EmailLogger::is_supported() ) {
+		if ( EmailLogger::is_enabled() ) {
 			$tests['direct'][ self::FAILURES_TEST ] = array(
 				'label' => __( 'Recent email failures', 'ecom-email-health-check' ),
 				'test'  => array( $this, 'test_failures' ),

@@ -20,7 +20,7 @@ class FailureAlert {
 	 * @return array{sent: int, failed: int, rate: int, needs_attention: bool, last_failure: array<string, string>|null}|null
 	 */
 	public static function evaluate(): ?array {
-		if ( ! EmailLogger::is_supported() ) {
+		if ( ! EmailLogger::is_enabled() ) {
 			return null;
 		}
 

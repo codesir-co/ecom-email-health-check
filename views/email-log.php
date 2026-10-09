@@ -2,7 +2,7 @@
 /**
  * Email Log tab.
  *
- * Expects: $active_tab, $supported, $sources, $types, $filters, $result, $paged, $stats24, $stats7.
+ * Expects: $active_tab, $supported, $settings, $notice, $sources, $types, $filters, $result, $paged, $stats24, $stats7.
  *
  * @package CodeSir\EmailHealthCheck
  */
@@ -25,6 +25,16 @@ $ecehc_base_url = add_query_arg(
 	<h1><?php esc_html_e( 'eCommerce Email Health Check', 'ecom-email-health-check' ); ?></h1>
 
 	<?php include ECEHC_PLUGIN_PATH . 'views/tabs.php'; ?>
+
+	<?php if ( 'saved' === $notice ) : ?>
+		<div class="notice notice-success inline"><p><?php esc_html_e( 'Settings saved.', 'ecom-email-health-check' ); ?></p></div>
+	<?php elseif ( 'cleared' === $notice ) : ?>
+		<div class="notice notice-success inline"><p><?php esc_html_e( 'The email log was cleared.', 'ecom-email-health-check' ); ?></p></div>
+	<?php endif; ?>
+
+	<?php if ( $supported && ! $settings['enabled'] ) : ?>
+		<div class="notice notice-warning inline"><p><?php esc_html_e( 'Email logging is turned off, so new emails are not recorded. Existing entries stay until they expire or you clear the log.', 'ecom-email-health-check' ); ?></p></div>
+	<?php endif; ?>
 
 	<?php if ( ! $supported ) : ?>
 		<div class="notice notice-warning inline"><p><?php esc_html_e( 'The email log needs WordPress 5.9 or newer, or has been turned off by a filter, so nothing is recorded.', 'ecom-email-health-check' ); ?></p></div>
@@ -225,5 +235,43 @@ $ecehc_base_url = add_query_arg(
 			);
 			?>
 		</p>
+
+		<div class="card ecehc-settings-card">
+			<h2><?php esc_html_e( 'Log settings', 'ecom-email-health-check' ); ?></h2>
+			<form method="post">
+				<?php wp_nonce_field( \CodeSir\EmailHealthCheck\Admin\LogSettingsHandler::NONCE_ACTION, \CodeSir\EmailHealthCheck\Admin\LogSettingsHandler::NONCE_FIELD ); ?>
+				<p>
+					<label>
+						<input type="checkbox" name="ecehc_log_enabled" value="1" <?php checked( $settings['enabled'] ); ?>>
+						<?php esc_html_e( 'Record the emails this site sends', 'ecom-email-health-check' ); ?>
+					</label>
+				</p>
+				<p>
+					<label for="ecehc-log-retention"><?php esc_html_e( 'Keep entries for', 'ecom-email-health-check' ); ?></label>
+					<select name="ecehc_log_retention" id="ecehc-log-retention">
+						<?php foreach ( \CodeSir\EmailHealthCheck\Log\LogSettings::RETENTION_CHOICES as $ecehc_days ) : ?>
+							<option value="<?php echo esc_attr( (string) $ecehc_days ); ?>" <?php selected( $settings['retention_days'], $ecehc_days ); ?>>
+								<?php
+								echo esc_html(
+									sprintf(
+										/* translators: %d: number of days */
+										_n( '%d day', '%d days', $ecehc_days, 'ecom-email-health-check' ),
+										$ecehc_days
+									)
+								);
+								?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+				</p>
+				<p><input type="submit" name="ecehc_save_log_settings" class="button button-primary" value="<?php esc_attr_e( 'Save settings', 'ecom-email-health-check' ); ?>"></p>
+			</form>
+
+			<form method="post" class="ecehc-clear-form">
+				<?php // A plain hidden field, so the page has no duplicate element IDs. ?>
+				<input type="hidden" name="<?php echo esc_attr( \CodeSir\EmailHealthCheck\Admin\LogSettingsHandler::NONCE_FIELD ); ?>" value="<?php echo esc_attr( wp_create_nonce( \CodeSir\EmailHealthCheck\Admin\LogSettingsHandler::NONCE_ACTION ) ); ?>">
+				<input type="submit" name="ecehc_clear_log" class="button" value="<?php esc_attr_e( 'Clear log now', 'ecom-email-health-check' ); ?>" data-ecehc-confirm="<?php esc_attr_e( 'Delete all logged emails? This cannot be undone.', 'ecom-email-health-check' ); ?>">
+			</form>
+		</div>
 	<?php endif; ?>
 </div>

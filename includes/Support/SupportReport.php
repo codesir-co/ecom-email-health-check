@@ -48,7 +48,7 @@ class SupportReport {
 				'- [%1$s] %2$s: %3$s',
 				strtoupper( $result['status'] ),
 				$result['label'],
-				EmailLogger::mask_addresses( preg_replace( '/\s+/', ' ', $result['message'] ) )
+				EmailLogger::mask_addresses( (string) preg_replace( '/\s+/', ' ', $result['message'] ) )
 			);
 		}
 

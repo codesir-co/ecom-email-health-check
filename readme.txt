@@ -20,6 +20,7 @@ eCommerce Email Health Check looks at how your WordPress or WooCommerce site sen
 
 * **Email Health Report:** one page with a Pass, Warning or Fail status for each check.
 * **Sending test:** one click to confirm your site can send email.
+* **Copy support report:** a plain-text summary of your setup (versions, check results, detected mail provider, recent email counts, and your server IP if it is blacklisted) to paste into a support ticket, with no passwords, message contents or full email addresses.
 * **SMTP / mail service:** warns when mail goes out through plain PHP mail, and names the plugin that handles your outgoing email when it finds one.
 * **Sender address, SPF, DKIM and DMARC:** checked for the domain you actually send from, since that is what receivers verify.
 * **Server IP blacklists:** when you send straight from your server (no SMTP service), your IP is looked up on the free DroneBL and PSBL lists.

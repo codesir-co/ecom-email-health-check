@@ -51,7 +51,7 @@ It briefly runs the mail-configuration hooks (`phpmailer_init`) that other plugi
 
 == External services ==
 
-The "Server IP Blacklists" check sends DNS queries to the public blacklists DroneBL and PSBL. This happens only when your site does not send email through an SMTP plugin or mail service, when you open the plugin's report or Site Health, and at most once every 12 hours.
+The "Server IP Blacklists" check sends DNS queries to the public blacklists DroneBL and PSBL. This happens only when your site does not send email through an SMTP plugin or mail service, and only when you open the plugin's report or Tools > Site Health. The answer is saved for about 12 hours (about 1 hour after a failed lookup; the Re-check button and a changed IP address also trigger a new lookup). The queries go through your server's own DNS resolver.
 
 * What is sent: a DNS query for your web server's public IPv4 address (written in reverse, for example `4.3.2.1.dnsbl.dronebl.org`). The lists' operators can see that address and the address of your DNS resolver. No other data is sent.
 * DroneBL: https://dronebl.org/ (terms: https://dronebl.org/docs/howtouse)

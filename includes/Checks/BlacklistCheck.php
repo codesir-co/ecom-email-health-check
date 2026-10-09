@@ -48,16 +48,22 @@ class BlacklistCheck implements CheckInterface {
 		 *
 		 * @param array<string, string> $zones Zones.
 		 */
-		return array_filter(
-			(array) apply_filters(
-				'ecehc_dnsbl_zones',
-				array(
-					'dnsbl.dronebl.org' => 'DroneBL',
-					'psbl.surriel.com'  => 'PSBL',
-				)
-			),
-			'is_string'
+		$zones = (array) apply_filters(
+			'ecehc_dnsbl_zones',
+			array(
+				'dnsbl.dronebl.org' => 'DroneBL',
+				'psbl.surriel.com'  => 'PSBL',
+			)
 		);
+
+		$valid = array();
+		foreach ( $zones as $zone => $name ) {
+			if ( is_string( $zone ) && is_string( $name ) && preg_match( '/^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$/i', $zone ) ) {
+				$valid[ $zone ] = $name;
+			}
+		}
+
+		return $valid;
 	}
 
 	/**
@@ -93,7 +99,7 @@ class BlacklistCheck implements CheckInterface {
 		}
 
 		$cached = get_transient( self::TRANSIENT );
-		if ( is_array( $cached ) && isset( $cached['ip'], $cached['listed'], $cached['failed'], $cached['checked'] ) && $cached['ip'] === $ip ) {
+		if ( is_array( $cached ) && isset( $cached['ip'], $cached['zones'] ) && is_array( $cached['listed'] ?? null ) && is_array( $cached['failed'] ?? null ) && is_array( $cached['checked'] ?? null ) && $cached['ip'] === $ip && $cached['zones'] === md5( implode( ',', array_keys( $this->zones() ) ) ) ) {
 			return $this->build_result( $ip, $cached['listed'], $cached['failed'], $cached['checked'] );
 		}
 
@@ -102,27 +108,46 @@ class BlacklistCheck implements CheckInterface {
 		$failed   = array();
 		$checked  = array();
 
-		foreach ( $this->zones() as $zone => $name ) {
-			$answers = Dns::a_records( $reversed . '.' . $zone );
+		$resolver_down = false;
 
-			if ( null === $answers ) {
+		foreach ( $this->zones() as $zone => $name ) {
+			// If the resolver itself is failing, don't wait on more lookups.
+			if ( $resolver_down ) {
 				$failed[] = $name;
 				continue;
 			}
 
-			$checked[] = $name;
+			$answers = Dns::a_records( $reversed . '.' . $zone );
 
+			if ( null === $answers ) {
+				$failed[]      = $name;
+				$resolver_down = true;
+				continue;
+			}
+
+			// 127.0.0.x means listed; any other answer (e.g. 127.255.255.x) means the query was refused, not that the IP is clean.
+			$is_listed = false;
 			foreach ( $answers as $answer ) {
-				// 127.0.0.x means listed; other 127.x answers (e.g. 127.255.255.x) mean the query was refused.
 				if ( 0 === strpos( $answer, '127.0.0.' ) ) {
-					$listed[] = $name;
+					$is_listed = true;
 					break;
 				}
+			}
+
+			if ( $is_listed ) {
+				$listed[]  = $name;
+				$checked[] = $name;
+			} elseif ( $answers ) {
+				$failed[] = $name;
+			} else {
+				$checked[] = $name;
 			}
 		}
 
 		// A lookup problem is retried sooner than a real answer.
-		set_transient( self::TRANSIENT, compact( 'ip', 'listed', 'failed', 'checked' ), $failed ? HOUR_IN_SECONDS : 12 * HOUR_IN_SECONDS );
+		$zones = md5( implode( ',', array_keys( $this->zones() ) ) );
+
+		set_transient( self::TRANSIENT, compact( 'ip', 'zones', 'listed', 'failed', 'checked' ), $failed ? HOUR_IN_SECONDS : 12 * HOUR_IN_SECONDS );
 
 		return $this->build_result( $ip, $listed, $failed, $checked );
 	}

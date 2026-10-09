@@ -49,6 +49,10 @@ class Plugin {
 		SmtpDetector::register();
 		( new EmailLogger() )->register();
 
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			\WP_CLI::add_command( 'ehc', Cli\Command::class );
+		}
+
 		add_filter( 'plugin_action_links_' . ECEHC_PLUGIN_BASE, array( $this, 'add_plugin_links' ) );
 	}
 

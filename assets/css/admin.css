@@ -132,3 +132,13 @@
     padding-top: 10px;
     border-top: 1px solid #dcdcde;
 }
+
+.ecehc-support-report {
+    margin-top: 15px;
+}
+.ecehc-support-report .description {
+    margin-left: 8px;
+}
+.ecehc-support-report details {
+    margin-top: 10px;
+}

@@ -8,6 +8,8 @@
 
 namespace CodeSir\EmailHealthCheck\Support;
 
+use CodeSir\EmailHealthCheck\Log\EmailLogger;
+
 defined( 'ABSPATH' ) || exit;
 
 class SmtpDetector {
@@ -89,7 +91,7 @@ class SmtpDetector {
 				|| ! empty( $files )
 				|| ( $probe && $probe['confirmed'] )
 				|| $hooked
-				|| false !== has_filter( 'pre_wp_mail' ),
+				|| self::has_foreign_pre_wp_mail(),
 			'plugins'    => array_values( $names ),
 		);
 
@@ -198,6 +200,32 @@ class SmtpDetector {
 	}
 
 	/**
+	 * Whether another plugin short-circuits wp_mail() through pre_wp_mail.
+	 * This plugin's own email log registers a pre_wp_mail hook too, which must not count.
+	 */
+	private static function has_foreign_pre_wp_mail(): bool {
+		global $wp_filter;
+
+		if ( empty( $wp_filter['pre_wp_mail']->callbacks ) ) {
+			return false;
+		}
+
+		foreach ( $wp_filter['pre_wp_mail']->callbacks as $callbacks ) {
+			foreach ( $callbacks as $callback ) {
+				$function = $callback['function'];
+
+				if ( is_array( $function ) && isset( $function[0] ) && $function[0] instanceof EmailLogger ) {
+					continue;
+				}
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * File defining wp_mail() when a plugin replaces the pluggable function
 	 * (SES, Mailgun API, etc.), or null when core's own version is in use.
 	 */
@@ -212,7 +240,10 @@ class SmtpDetector {
 			return null;
 		}
 
-		if ( ! $file || wp_normalize_path( $file ) === wp_normalize_path( ABSPATH . WPINC . '/pluggable.php' ) ) {
+		// Compare real paths: WP-CLI run with a relative --path gives an ABSPATH like "/site/./".
+		$core = realpath( ABSPATH . WPINC . '/pluggable.php' );
+
+		if ( ! $file || wp_normalize_path( (string) ( realpath( $file ) ?: $file ) ) === wp_normalize_path( (string) ( $core ?: ABSPATH . WPINC . '/pluggable.php' ) ) ) {
 			return null;
 		}
 

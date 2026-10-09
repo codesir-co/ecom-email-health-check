@@ -31,6 +31,7 @@ class CheckRunner {
 
 		if ( class_exists( 'WooCommerce' ) ) {
 			$checks[] = new PendingOrdersCheck();
+			$checks[] = new WooCommerceEmailCheck();
 		}
 
 		/**

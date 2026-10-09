@@ -5,6 +5,8 @@
  * Description: A free tool to diagnose and test your email delivery, ensuring your order confirmations and notifications always reach your customers.
  * Version:     1.3.0
  * Requires PHP: 7.4
+ * WC requires at least: 8.0
+ * WC tested up to: 10.7
  * Author:      CodeSir
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -36,6 +38,21 @@ spl_autoload_register(
 		$file = ECEHC_PLUGIN_PATH . 'includes/' . str_replace( '\\', '/', substr( $class, strlen( $prefix ) ) ) . '.php';
 		if ( is_readable( $file ) ) {
 			require_once $file;
+		}
+	}
+);
+
+/**
+ * Tell WooCommerce this plugin works with High-Performance Order Storage (the
+ * unpaid orders check reads orders through wc_get_orders()) and with the Cart
+ * and Checkout blocks (the plugin does not touch the cart or checkout).
+ */
+add_action(
+	'before_woocommerce_init',
+	static function () {
+		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', __FILE__, true );
 		}
 	}
 );

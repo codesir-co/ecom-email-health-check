@@ -69,6 +69,17 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                     <input type="submit" name="ecehc_recheck" class="button button-secondary" value="<?php esc_attr_e( 'Re-check', 'ecom-email-health-check' ); ?>">
                     <span class="description"><?php esc_html_e( 'The mail service detection and blacklist lookups are saved for up to 12 hours. Re-check to refresh them.', 'ecom-email-health-check' ); ?></span>
                 </form>
+
+                <?php $ecehc_report = \CodeSir\EmailHealthCheck\Support\SupportReport::build( $results ); ?>
+                <div class="ecehc-support-report">
+                    <button type="button" class="button ecehc-copy" data-ecehc-copy="<?php echo esc_attr( $ecehc_report ); ?>" data-copied="<?php esc_attr_e( 'Copied', 'ecom-email-health-check' ); ?>"><?php esc_html_e( 'Copy support report', 'ecom-email-health-check' ); ?></button>
+                    <span class="description"><?php esc_html_e( 'A plain-text summary to paste into a support ticket. It has your site and mail domains, versions, check results, the plugin that handles your email and your server IP if it is blacklisted, but no passwords, message contents or full email addresses.', 'ecom-email-health-check' ); ?></span>
+                    <details>
+                        <summary><?php esc_html_e( 'Preview the report', 'ecom-email-health-check' ); ?></summary>
+                        <label class="screen-reader-text" for="ecehc-support-report-text"><?php esc_html_e( 'Support report', 'ecom-email-health-check' ); ?></label>
+                        <textarea id="ecehc-support-report-text" class="large-text code" rows="14" readonly><?php echo esc_textarea( $ecehc_report ); ?></textarea>
+                    </details>
+                </div>
             </div>
         </div>
 

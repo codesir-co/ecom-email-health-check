@@ -8,6 +8,7 @@
 namespace CodeSir\EmailHealthCheck;
 
 use CodeSir\EmailHealthCheck\Admin\AdminPage;
+use CodeSir\EmailHealthCheck\Admin\ChecklistHandler;
 use CodeSir\EmailHealthCheck\Admin\DashboardWidget;
 use CodeSir\EmailHealthCheck\Admin\LogSettingsHandler;
 use CodeSir\EmailHealthCheck\Admin\RecheckHandler;
@@ -46,6 +47,7 @@ class Plugin {
 		( new SiteHealth() )->register();
 		( new DashboardWidget() )->register();
 		( new LogSettingsHandler() )->register();
+		( new ChecklistHandler() )->register();
 		SmtpDetector::register();
 		( new EmailLogger() )->register();
 

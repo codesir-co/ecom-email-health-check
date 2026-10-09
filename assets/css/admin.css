@@ -132,3 +132,37 @@
     padding-top: 10px;
     border-top: 1px solid #dcdcde;
 }
+
+.ecehc-checklist {
+    max-width: none;
+    margin: 15px 0;
+    padding: 5px 20px 15px;
+}
+.ecehc-checklist ul {
+    list-style: none;
+    margin: 0 0 10px;
+    padding: 0;
+}
+.ecehc-checklist li {
+    margin: 6px 0;
+}
+.ecehc-checklist li.ecehc-done {
+    color: #50575e;
+}
+.ecehc-checklist li > span[aria-hidden] {
+    display: inline-block;
+    width: 22px;
+.ecehc-support-report {
+    margin-top: 15px;
+}
+.ecehc-support-report .description {
+    margin-left: 8px;
+}
+.ecehc-support-report details {
+    margin-top: 10px;
+}
+
+.ecehc-review-notice .button-link {
+    margin-left: 6px;
+    vertical-align: middle;
+}

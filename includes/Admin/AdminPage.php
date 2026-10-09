@@ -43,7 +43,8 @@ class AdminPage {
 			return;
 		}
 
-		$results = ( new CheckRunner() )->run_all();
+		$results   = ( new CheckRunner() )->run_all();
+		$checklist = Checklist::items( $results );
 		include ECEHC_PLUGIN_PATH . 'views/admin-page.php';
 	}
 
@@ -60,6 +61,8 @@ class AdminPage {
 	 * Email Log tab: statistics, filters and the list of recent emails.
 	 */
 	private function render_log( string $active_tab ): void {
+		Checklist::mark_log_seen();
+
 		$supported = EmailLogger::is_supported();
 		$settings  = LogSettings::get();
 		$sources   = $supported ? EmailLog::sources() : array();

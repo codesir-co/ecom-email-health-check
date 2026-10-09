@@ -1,6 +1,6 @@
 === eCommerce Email Health Check ===
 Contributors: engahmeds3ed
-Tags: e-commerce, email, woocommerce, smtp, deliverability
+Tags: woocommerce, email, email log, smtp, deliverability
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
@@ -8,26 +8,44 @@ Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A free, simple tool to diagnose and test your eCommerce email delivery, ensuring orders and notifications reach customers.
+Email log, delivery checks and failure alerts for WooCommerce. Find out why order emails land in spam or never arrive.
 
 == Description ==
 
-Stop worrying about lost eCommerce emails! This free, simple plugin helps you diagnose your store's email delivery health in minutes. It runs a series of checks to identify common issues that cause emails to end up in spam or fail to send altogether.
+**Customers not getting your order emails? Find out why, and fix it.**
 
-**Key Features:**
+eCommerce Email Health Check looks at how your WordPress or WooCommerce site sends email, tells you what is wrong in plain language, and keeps an eye on every email your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is an optional server IP blacklist check (see External services).
 
-* **Email Sending Test:** A one-click test to confirm if your site can send emails.
-* **Sender Address Check:** Verifies that your "From" address is configured correctly to avoid being flagged as spam, and runs the SPF, DKIM and DMARC checks for the domain you actually send from.
-* **SPF Record Validation:** Checks that your domain has a single, valid SPF record, and warns if it doesn't include your SMTP service (WP Mail SMTP, Post SMTP and FluentSMTP are detected).
-* **DKIM and DMARC Checks:** Looks for a DKIM key and a DMARC policy, which Gmail and Yahoo expect for authenticated email.
-* **SMTP / Mail Service Check:** Warns when your site seems to send email through plain PHP mail, and names the plugin that handles your outgoing email when it finds one.
-* **Fix Guidance:** Failing SPF, DKIM and DMARC checks show a "How to fix this" panel with a copy-paste record where one is documented, and a link to your mail provider's official setup guide.
-* **Unpaid Orders Check (WooCommerce):** Warns when many recent orders are stuck in "Pending payment". WooCommerce sends no order emails for those, so the real problem may be your payment gateway. Only order counts are read.
-* **Server IP Blacklist Check:** Looks up your web server's IP address on free public blacklists (DroneBL, PSBL) when your site sends mail directly instead of through an SMTP service.
-* **Email Log and Statistics:** A new Email Log tab lists the latest emails your site sends (WooCommerce, other plugins and WordPress), filterable by source, status and WooCommerce email type, with accepted/failed counts for the last 24 hours and 7 days. Only a partly hidden recipient address is stored, never the message, and entries are deleted after 7 days. You can shorten the retention, turn logging off or clear the log from the same tab.
-* **Failure Alerts in wp-admin:** A dashboard widget and a Site Health test warn you when many of your recent emails fail, without needing email to work.
-* **Site Health Integration:** The same checks appear under Tools > Site Health, so problems show up without opening the plugin.
-* **Easy-to-Read Health Report:** Get a clear, actionable report with a summary of your email delivery status.
+= Diagnose =
+
+* **Email Health Report:** one page with a Pass, Warning or Fail status for each check.
+* **Getting-started checklist:** a short checklist for new installs (send a test email, fix the top failing check, look at the Email Log) that ticks itself off and can be hidden.
+* **Sending test:** one click to confirm your site can send email.
+* **Copy support report:** a plain-text summary of your setup (versions, check results, detected mail provider, recent email counts, and your server IP if it is blacklisted) to paste into a support ticket, with no passwords, message contents or full email addresses.
+* **SMTP / mail service:** warns when mail goes out through plain PHP mail, and names the plugin that handles your outgoing email when it finds one.
+* **Sender address, SPF, DKIM and DMARC:** checked for the domain you actually send from, since that is what receivers verify.
+* **Server IP blacklists:** when you send straight from your server (no SMTP service), your IP is looked up on the free DroneBL and PSBL lists.
+* **WooCommerce email setup:** flags turned-off key emails, a missing new-order recipient, an invalid From address and outdated theme overrides of WooCommerce email templates. It only reads your settings.
+* **Unpaid orders (WooCommerce):** warns when many orders are stuck in "Pending payment" or "Failed". WooCommerce sends no order emails for those, so the real problem may be your payment gateway. Only order counts are read.
+
+= Monitor =
+
+* **Email Log and statistics:** every email your site sends (WooCommerce, other plugins and WordPress itself) with its source, WooCommerce email type, status and error. Filter by source, status and WooCommerce email type, and see accepted and failed counts for the last 24 hours and 7 days. Only a partly hidden recipient address is stored, never the message. You can shorten the retention, turn logging off or clear the log.
+* **Failure alerts in wp-admin:** an "Email Health" dashboard widget and a Site Health test warn you when many emails fail, without needing email to work.
+* **Site Health integration:** the same checks appear under Tools > Site Health.
+
+= Fix =
+
+* **"How to fix this" panels:** failing SPF, DKIM and DMARC checks show a copy-paste DNS record where your provider documents one, and a link to the provider's official setup guide.
+
+= WP-CLI =
+
+* `wp ehc check` runs all checks (add `--format=json` for scripts). It exits with status 1 when any check fails. The server IP blacklist check needs a web request, so from the command line it is skipped unless you set the IP with the `ecehc_server_ip` filter.
+* `wp ehc log` lists recent logged emails (`--source`, `--status`, `--type`, `--limit`), and `wp ehc log --stats` shows accepted and failed counts for the last 24 hours and 7 days.
+
+= Works with =
+
+The plugin identifies the provider from the settings of WP Mail SMTP, FluentSMTP and Post SMTP, and gives setup guidance for SendGrid, Mailgun, Brevo, Postmark, Amazon SES, SparkPost, Mailjet, Elastic Email, Google Workspace and Microsoft 365. It also works with any other SMTP plugin, or with none.
 
 == Installation ==
 
@@ -42,14 +60,47 @@ Stop worrying about lost eCommerce emails! This free, simple plugin helps you di
 3. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Frequently Asked Questions ==
+
 = What problem does this plugin solve? =
 Many hosting providers have poor email delivery configurations that can silently fail, leaving you and your customers in the dark. This plugin diagnoses those issues so you can address them.
 
 = What does the plugin check? =
 It checks for common issues like email sending failures, mail sent through plain PHP mail instead of SMTP, sender address misconfigurations, missing or incomplete SPF, DKIM and DMARC records, and (for WooCommerce stores) many orders stuck in "Pending payment".
 
+= Do I need an SMTP plugin? =
+Not to use this plugin. But if the report warns that your site sends through plain PHP mail, an SMTP plugin or a transactional email service is the usual fix, because authenticated email is far less likely to land in spam.
+
+= What does "Not checked" mean? =
+The plugin could not reach a conclusion, so it does not call it a failure. The most common case is DKIM: the key can only be found under a few common selector names, and many providers use their own. Check your provider's DNS instructions, or an online DKIM checker, to be sure.
+
+= Why does the log say "Accepted" and not "Delivered"? =
+WordPress can only tell that your mail system took the email without an error. Whether it reached the inbox depends on the receiving server, which this plugin cannot see.
+
+= Does it work without WooCommerce? =
+Yes. The report, the email log and the alerts work on any WordPress site. The WooCommerce-specific parts (email types and the unpaid orders check) appear only when WooCommerce is active.
+
+= How do I send a test WooCommerce email? =
+Recent versions of WooCommerce have this built in: go to WooCommerce > Settings > Emails, pick an email and use its preview to send yourself a test copy. It uses your real From address and mail setup, and the Health Report has a button that opens that screen. While the email log is on, the test appears in the Email Log tab as a WooCommerce email.
+
 = How does the plugin detect my SMTP plugin? =
 It briefly runs the mail-configuration hooks (`phpmailer_init`) that other plugins register, on a temporary object that never sends anything, to see which ones switch WordPress to SMTP. This stays on your site: no data is sent to any external service. The result is saved for up to 12 hours, and the "Re-check" button refreshes it.
+
+= Does the plugin store personal data? =
+The Email Log keeps, for a few days (7 by default), the time of each email, which plugin sent it, its WooCommerce email type, whether it was accepted or failed, the recipient's email domain and a partly hidden address such as j***@example.com, and an error message with any addresses hidden. It never stores the message, its subject or a full email address. You can turn logging off, shorten the retention or clear the log in the Email Log tab. A suggestion for your privacy policy is added under Settings > Privacy.
+
+= Does the email log slow down my site? =
+Each email causes one small database insert. Entries are pruned daily and the log is capped, so it stays small.
+
+= Where do I get support? =
+Please use the plugin's support forum on WordPress.org: https://wordpress.org/support/plugin/ecom-email-health-check/
+
+== Screenshots ==
+
+1. The Health Report: every check with a clear Pass, Warning or Fail status.
+2. A failing check shows a "How to fix this" panel with a copy-paste DNS record and a link to your mail provider's official guide.
+3. The Email Log tab: accepted and failed counts for the last 24 hours and 7 days, broken down by source and WooCommerce email type.
+4. The latest emails, filterable by source, status and WooCommerce email type.
+5. The Email Health dashboard widget warns you inside wp-admin when many emails fail.
 
 == External services ==
 
@@ -61,19 +112,13 @@ The "Server IP Blacklists" check sends DNS queries to the public blacklists Dron
 
 Spamhaus is intentionally not queried, because its free service is limited to low-volume non-commercial use. Developers can change the lists with the `ecehc_dnsbl_zones` filter.
 
-= Does the plugin store personal data? =
-The Email Log keeps, for a few days (7 by default), the time of each email, which plugin sent it, its WooCommerce email type, whether it was accepted or failed, the recipient's email domain and a partly hidden address such as j***@example.com, and an error message with any addresses hidden. It never stores the message, its subject or a full email address. You can turn logging off, shorten the retention or clear the log in the Email Log tab. A suggestion for your privacy policy is added under Settings > Privacy.
-
-= Does the email log slow down my site? =
-Each email causes one small database insert. Entries are pruned daily and the log is capped, so it stays small.
-
 == Upgrade Notice ==
 
 = 1.3.0 =
-Adds an Email Log tab with statistics and failure alerts, plus a server IP blacklist check. The log needs WordPress 5.9 or newer and creates one small database table; it stores only a partly hidden recipient address, never the message, and you can turn it off, shorten it or clear it in the Email Log tab.
+Adds an Email Log tab with statistics and failure alerts, plus a server IP blacklist check. The log needs WordPress 5.9+, adds one small database table and stores only a partly hidden recipient, never the message. Turn it off or clear it any time.
 
 = 1.2.0 =
-Adds an SMTP / mail service check, a Site Health test, fix guidance for SPF, DKIM and DMARC, and an unpaid orders check for WooCommerce. Fixes a misleading SPF warning for Postmark, SendGrid, Brevo, Amazon SES and SparkPost, and the DNS checks now use the domain of your From address. A different From domain is now a warning, not a failure.
+Adds an SMTP / mail service check, a Site Health test, fix guidance for SPF, DKIM and DMARC, and an unpaid orders check. These checks now use your From address domain, and a different From domain is a warning, not a failure.
 
 = 1.1.1 =
 Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discontinued website.

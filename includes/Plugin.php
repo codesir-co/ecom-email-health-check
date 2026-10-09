@@ -8,9 +8,11 @@
 namespace CodeSir\EmailHealthCheck;
 
 use CodeSir\EmailHealthCheck\Admin\AdminPage;
+use CodeSir\EmailHealthCheck\Admin\ChecklistHandler;
 use CodeSir\EmailHealthCheck\Admin\DashboardWidget;
 use CodeSir\EmailHealthCheck\Admin\LogSettingsHandler;
 use CodeSir\EmailHealthCheck\Admin\RecheckHandler;
+use CodeSir\EmailHealthCheck\Admin\ReviewPromptHandler;
 use CodeSir\EmailHealthCheck\Admin\SiteHealth;
 use CodeSir\EmailHealthCheck\Admin\TestEmailHandler;
 use CodeSir\EmailHealthCheck\Log\EmailLogger;
@@ -46,8 +48,14 @@ class Plugin {
 		( new SiteHealth() )->register();
 		( new DashboardWidget() )->register();
 		( new LogSettingsHandler() )->register();
+		( new ReviewPromptHandler() )->register();
+		( new ChecklistHandler() )->register();
 		SmtpDetector::register();
 		( new EmailLogger() )->register();
+
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			\WP_CLI::add_command( 'ehc', Cli\Command::class );
+		}
 
 		add_filter( 'plugin_action_links_' . ECEHC_PLUGIN_BASE, array( $this, 'add_plugin_links' ) );
 	}

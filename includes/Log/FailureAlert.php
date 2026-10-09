@@ -41,13 +41,23 @@ class FailureAlert {
 		 */
 		$min_rate = max( 1, (int) apply_filters( 'ecehc_alert_min_rate', 10 ) );
 
+		$total = $stats['sent'] + $stats['failed'];
+
 		return array(
 			'sent'            => $stats['sent'],
 			'failed'          => $stats['failed'],
 			'rate'            => $rate,
-			'needs_attention' => $stats['failed'] >= $min_failures && $rate >= $min_rate,
+			// Compare the exact share, not the rounded percentage that is displayed.
+			'needs_attention' => $total > 0 && $stats['failed'] >= $min_failures && $stats['failed'] * 100 >= $min_rate * $total,
 			'last_failure'    => $stats['last_failure'],
 		);
+	}
+
+	/**
+	 * Reminder shown next to the numbers: accepted is not delivered.
+	 */
+	public static function note(): string {
+		return __( '"Accepted" means WordPress handed the email off without an error, not that it was delivered.', 'ecom-email-health-check' );
 	}
 
 	/**

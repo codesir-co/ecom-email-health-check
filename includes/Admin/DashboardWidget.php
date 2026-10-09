@@ -51,7 +51,9 @@ class DashboardWidget {
 			echo '<p><span class="ecehc-status ecehc-status-pass">&#10004; ' . esc_html__( 'Looks fine', 'ecom-email-health-check' ) . '</span></p>';
 		}
 
-		echo '<p>' . esc_html( FailureAlert::summary( $alert ) ) . '</p>';
+		if ( $alert['sent'] + $alert['failed'] > 0 ) {
+			echo '<p>' . esc_html( FailureAlert::summary( $alert ) ) . '</p>';
+		}
 
 		if ( $alert['last_failure'] ) {
 			echo '<p>' . esc_html(
@@ -59,13 +61,13 @@ class DashboardWidget {
 					/* translators: 1: date and time, 2: source name, 3: error message */
 					__( 'Last failure: %1$s, %2$s: %3$s', 'ecom-email-health-check' ),
 					get_date_from_gmt( $alert['last_failure']['created_at'], 'Y-m-d H:i' ),
-					$alert['last_failure']['source_label'],
+					'' !== $alert['last_failure']['source_label'] ? $alert['last_failure']['source_label'] : __( 'unknown source', 'ecom-email-health-check' ),
 					'' !== $alert['last_failure']['error'] ? $alert['last_failure']['error'] : __( 'no error message', 'ecom-email-health-check' )
 				)
 			) . '</p>';
 		}
 
 		echo '<p><a href="' . esc_url( $log_url ) . '">' . esc_html__( 'View the email log', 'ecom-email-health-check' ) . '</a></p>';
-		echo '<p class="description">' . esc_html__( '"Accepted" means WordPress handed the email off without an error, not that it was delivered.', 'ecom-email-health-check' ) . '</p>';
+		echo '<p class="description">' . esc_html( FailureAlert::note() ) . '</p>';
 	}
 }

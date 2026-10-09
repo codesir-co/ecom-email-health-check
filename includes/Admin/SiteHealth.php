@@ -10,6 +10,7 @@
 namespace CodeSir\EmailHealthCheck\Admin;
 
 use CodeSir\EmailHealthCheck\Checks\CheckRunner;
+use CodeSir\EmailHealthCheck\Log\EmailLogger;
 use CodeSir\EmailHealthCheck\Log\FailureAlert;
 
 defined( 'ABSPATH' ) || exit;
@@ -39,7 +40,7 @@ class SiteHealth {
 		);
 
 		// A cheap database read, so it runs directly. Only added when emails are being logged.
-		if ( null !== FailureAlert::evaluate() ) {
+		if ( EmailLogger::is_supported() ) {
 			$tests['direct'][ self::FAILURES_TEST ] = array(
 				'label' => __( 'Recent email failures', 'ecom-email-health-check' ),
 				'test'  => array( $this, 'test_failures' ),
@@ -56,22 +57,36 @@ class SiteHealth {
 	 */
 	public function test_failures(): array {
 		$alert    = FailureAlert::evaluate();
+		$empty    = null === $alert || 0 === $alert['sent'] + $alert['failed'];
 		$problems = null !== $alert && $alert['needs_attention'];
-		$summary  = null !== $alert ? FailureAlert::summary( $alert ) : '';
+
+		if ( $problems ) {
+			$label = __( 'Many of your recent emails are failing', 'ecom-email-health-check' );
+		} elseif ( $empty ) {
+			$label = __( 'No emails were logged in the last 24 hours', 'ecom-email-health-check' );
+		} else {
+			$label = __( 'Your recent emails are going out without errors', 'ecom-email-health-check' );
+		}
 
 		return array(
-			'label'       => $problems
-				? __( 'Many of your recent emails are failing', 'ecom-email-health-check' )
-				: __( 'Your recent emails are going out without errors', 'ecom-email-health-check' ),
+			'label'       => $label,
 			'status'      => $problems ? 'recommended' : 'good',
 			'badge'       => array(
 				'label' => __( 'Email', 'ecom-email-health-check' ),
 				'color' => $problems ? 'orange' : 'blue',
 			),
-			'description' => '<p>' . esc_html( $summary ) . '</p><p>' . esc_html__( '"Accepted" means WordPress handed the email off without an error, not that it was delivered.', 'ecom-email-health-check' ) . '</p>',
+			'description' => ( $empty ? '' : '<p>' . esc_html( FailureAlert::summary( $alert ) ) . '</p>' ) . '<p>' . esc_html( FailureAlert::note() ) . '</p>',
 			'actions'     => sprintf(
 				'<p><a href="%1$s">%2$s</a></p>',
-				esc_url( add_query_arg( array( 'page' => AdminPage::MENU_SLUG, 'tab' => 'log' ), admin_url( 'admin.php' ) ) ),
+				esc_url(
+					add_query_arg(
+						array(
+							'page' => AdminPage::MENU_SLUG,
+							'tab'  => 'log',
+						),
+						admin_url( 'admin.php' )
+					)
+				),
 				esc_html__( 'Open the email log', 'ecom-email-health-check' )
 			),
 			'test'        => self::FAILURES_TEST,

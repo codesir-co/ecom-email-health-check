@@ -99,7 +99,8 @@ class AdminPage {
 	}
 
 	public function enqueue_admin_styles( $hook ): void {
-		$is_dashboard = 'index.php' === $hook && current_user_can( 'manage_options' ) && EmailLogger::is_supported();
+		// The widget exists on the site dashboard only, not the network or user dashboards.
+		$is_dashboard = 'index.php' === $hook && ! is_network_admin() && ! is_user_admin() && current_user_can( 'manage_options' ) && EmailLogger::is_supported();
 
 		if ( 'toplevel_page_' . self::MENU_SLUG !== $hook && ! $is_dashboard ) {
 			return;

@@ -4,7 +4,7 @@ Tags: e-commerce, email, woocommerce, smtp, deliverability
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,7 +61,16 @@ The "Server IP Blacklists" check sends DNS queries to the public blacklists Dron
 
 Spamhaus is intentionally not queried, because its free service is limited to low-volume non-commercial use. Developers can change the lists with the `ecehc_dnsbl_zones` filter.
 
+= Does the plugin store personal data? =
+The Email Log keeps, for a few days (7 by default), the time of each email, which plugin sent it, its WooCommerce email type, whether it was accepted or failed, the recipient's email domain and a partly hidden address such as j***@example.com, and an error message with any addresses hidden. It never stores the message, its subject or a full email address. You can turn logging off, shorten the retention or clear the log in the Email Log tab. A suggestion for your privacy policy is added under Settings > Privacy.
+
+= Does the email log slow down my site? =
+Each email causes one small database insert. Entries are pruned daily and the log is capped, so it stays small.
+
 == Upgrade Notice ==
+
+= 1.3.0 =
+Adds an Email Log tab with statistics and failure alerts, plus a server IP blacklist check. The log needs WordPress 5.9 or newer and creates one small database table; it stores only a partly hidden recipient address, never the message, and you can turn it off, shorten it or clear it in the Email Log tab.
 
 = 1.2.0 =
 Adds an SMTP / mail service check, a Site Health test, fix guidance for SPF, DKIM and DMARC, and an unpaid orders check for WooCommerce. Fixes a misleading SPF warning for Postmark, SendGrid, Brevo, Amazon SES and SparkPost, and the DNS checks now use the domain of your From address. A different From domain is now a warning, not a failure.
@@ -73,6 +82,14 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.3.0 =
+* New: "Email Log" tab. Records every email your site sends (WooCommerce, other plugins and WordPress itself) with its source, WooCommerce email type, status (accepted or failed) and error, and lets you filter by source, status and WooCommerce email type. Needs WordPress 5.9+. It stores a partly hidden recipient address and never the message, subject or full address, in a new table `{prefix}ecehc_email_log`.
+* New: email statistics for the last 24 hours and 7 days: accepted and failed counts, failure rate, a breakdown by source and by WooCommerce email type, and the last failure.
+* New: log settings in the Email Log tab: turn logging off, keep entries for 1, 3 or 7 days (7 by default), or clear the log.
+* New: failure alerts inside wp-admin: an "Email Health" dashboard widget and a "Recent email failures" Site Health test, with no email needed. Thresholds can be changed with the `ecehc_alert_min_failures` and `ecehc_alert_min_rate` filters.
+* New: "Server IP Blacklists" check. When your site sends mail directly (no SMTP plugin or mail service), it looks your server's IP up on the free DroneBL and PSBL blacklists. See "External services" for exactly what is sent.
+* Dev: new hooks `ecehc_enable_email_log`, `ecehc_log_row`, `ecehc_email_logged`, `ecehc_log_retention_days`, `ecehc_log_max_rows`, `ecehc_dnsbl_zones` and `ecehc_server_ip`.
 
 = 1.2.0 =
 * New: "SMTP / Mail Service" check. Warns when your site seems to send email through plain PHP mail, and names the plugin that handles your outgoing email. The detection result is saved for up to 12 hours; use the new "Re-check" button to refresh it.

@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     </p>
 
     <?php $active_tab = 'report'; include ECEHC_PLUGIN_PATH . 'views/tabs.php'; ?>
+    <?php include ECEHC_PLUGIN_PATH . 'views/checklist.php'; ?>
 
     <div class="ecehc-grid">
         <div class="ecehc-main-col">
@@ -26,8 +27,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                     </tr>
                     </thead>
                     <tbody>
-					<?php foreach ( $results as $result ) : ?>
-                        <tr>
+					<?php foreach ( $results as $ecehc_check_id => $result ) : ?>
+                        <tr id="ecehc-check-<?php echo esc_attr( (string) $ecehc_check_id ); ?>">
                             <td class="column-columnname"><strong><?php echo esc_html( $result['label'] ); ?></strong></td>
                             <td class="column-columnname">
 								<?php if ( 'pass' === $result['status'] ) : ?>
@@ -73,7 +74,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         </div>
 
         <div class="ecehc-sidebar-col">
-            <div class="card ecehc-card-padded">
+            <div class="card ecehc-card-padded" id="ecehc-test-email">
                 <h2 class="ecehc-card-title"><?php esc_html_e( 'Test Your Email Sending', 'ecom-email-health-check' ); ?></h2>
                 <p>
 					<?php esc_html_e( 'Click the button below to send a test email to your admin email address (', 'ecom-email-health-check' ); ?>

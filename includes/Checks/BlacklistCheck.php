@@ -94,6 +94,10 @@ class BlacklistCheck implements CheckInterface {
 
 		$ip = $this->server_ip();
 
+		if ( '' === $ip && 'cli' === PHP_SAPI ) {
+			return Result::unknown( __( 'Skipped on the command line, where the web server\'s IP address is not available. Set it with the ecehc_server_ip filter to check it here.', 'ecom-email-health-check' ) );
+		}
+
 		if ( '' === $ip ) {
 			return Result::unknown( __( 'Your server\'s public IPv4 address could not be determined (it may be IPv6, private, or behind a proxy), so blacklists were not checked.', 'ecom-email-health-check' ) );
 		}

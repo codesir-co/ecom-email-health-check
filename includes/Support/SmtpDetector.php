@@ -240,7 +240,10 @@ class SmtpDetector {
 			return null;
 		}
 
-		if ( ! $file || wp_normalize_path( $file ) === wp_normalize_path( ABSPATH . WPINC . '/pluggable.php' ) ) {
+		// Compare real paths: WP-CLI run with a relative --path gives an ABSPATH like "/site/./".
+		$core = realpath( ABSPATH . WPINC . '/pluggable.php' );
+
+		if ( ! $file || wp_normalize_path( (string) ( realpath( $file ) ?: $file ) ) === wp_normalize_path( (string) ( $core ?: ABSPATH . WPINC . '/pluggable.php' ) ) ) {
 			return null;
 		}
 

@@ -174,6 +174,11 @@ class Command {
 			);
 		}
 
+		if ( ! $items && 'table' === $format ) {
+			\WP_CLI::log( 'No emails found.' );
+			return;
+		}
+
 		\WP_CLI\Utils\format_items( $format, $items, array( 'time_utc', 'status', 'source', 'wc_email', 'recipient', 'error' ) );
 	}
 }

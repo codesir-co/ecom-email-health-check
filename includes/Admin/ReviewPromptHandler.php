@@ -31,7 +31,18 @@ class ReviewPromptHandler {
 
 		ReviewPrompt::dismiss( get_current_user_id(), $action );
 
-		wp_safe_redirect( add_query_arg( 'page', AdminPage::MENU_SLUG, admin_url( 'admin.php' ) ) );
+		// Come back to the tab the request was on.
+		$tab = isset( $_POST['ecehc_review_tab'] ) && 'log' === sanitize_key( wp_unslash( $_POST['ecehc_review_tab'] ) ) ? 'log' : 'report';
+
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page' => AdminPage::MENU_SLUG,
+					'tab'  => $tab,
+				),
+				admin_url( 'admin.php' )
+			)
+		);
 		exit;
 	}
 }

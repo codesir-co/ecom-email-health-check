@@ -33,7 +33,8 @@ class ReviewPrompt {
 
 		if ( $installed <= 0 ) {
 			$installed = time();
-			add_option( self::OPTION_INSTALLED, $installed, '', false );
+			// update_option also repairs an existing empty or corrupt value.
+			update_option( self::OPTION_INSTALLED, $installed, false );
 		}
 
 		return $installed;

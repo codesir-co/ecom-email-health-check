@@ -25,6 +25,7 @@ foreach ( $ecehc_blog_ids as $ecehc_blog_id ) {
 	delete_option( 'ecehc_db_version' );
 	delete_option( 'ecehc_log_settings' );
 	delete_option( 'ecehc_installed_at' );
+	delete_option( 'ecehc_show_checklist' );
 	delete_transient( 'ecehc_plugin_names' );
 	delete_transient( 'ecehc_log_stats_86400' );
 	delete_transient( 'ecehc_log_stats_604800' );
@@ -37,3 +38,6 @@ foreach ( $ecehc_blog_ids as $ecehc_blog_id ) {
 
 // Review request state (user meta, all users).
 delete_metadata( 'user', 0, 'ecehc_review_prompt', '', true );
+// First-run checklist state (user meta, all users).
+delete_metadata( 'user', 0, 'ecehc_checklist_hidden', '', true );
+delete_metadata( 'user', 0, 'ecehc_checklist_saw_log', '', true );

@@ -4,7 +4,7 @@ Tags: woocommerce, email, email log, smtp, deliverability
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -114,6 +114,9 @@ Spamhaus is intentionally not queried, because its free service is limited to lo
 
 == Upgrade Notice ==
 
+= 1.4.0 =
+Fixes the SMTP / Mail Service check, which always passed since 1.3.0, so the server IP blacklist check runs again. Adds a WooCommerce email setup check, WP-CLI commands, a copy support report button, a getting-started checklist and WooCommerce HPOS compatibility.
+
 = 1.3.0 =
 Adds an Email Log tab with statistics and failure alerts, plus a server IP blacklist check. The log needs WordPress 5.9+, adds one small database table and stores only a partly hidden recipient, never the message. Turn it off or clear it any time.
 
@@ -127,6 +130,17 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.4.0 =
+* Fix: the "SMTP / Mail Service" check always passed since 1.3.0, because it counted the email log's own mail hook as a mail service. It now warns again when your site uses plain PHP mail, and the server IP blacklist check is no longer skipped by mistake.
+* New: "WooCommerce Email Setup" check. Flags turned-off key emails (new order, processing, completed), a missing new-order recipient, an invalid From address and outdated theme overrides of WooCommerce email templates. It only reads your settings.
+* New: "Copy support report" button with a preview: a plain-text summary of your setup to paste into a support ticket, with no passwords, message contents or full email addresses.
+* New: getting-started checklist for newly activated sites (send a test email, fix the top failing check, look at the Email Log). It ticks itself off and can be hidden.
+* New: WP-CLI commands `wp ehc check` (exits with status 1 when a check fails) and `wp ehc log` (with `--stats`).
+* New: a link from the Health Report to WooCommerce's own email preview and "send a test email".
+* New: a single, dismissible request for a WordPress.org review, shown only on this plugin's screens ("Maybe later" works at most twice).
+* New: declares compatibility with WooCommerce High-Performance Order Storage and the Cart and Checkout blocks, and adds the WooCommerce version headers.
+* Improved: readme with a clearer description, FAQ and screenshots.
 
 = 1.3.0 =
 * New: "Email Log" tab. Records every email your site sends (WooCommerce, other plugins and WordPress itself) with its source, WooCommerce email type, status (accepted or failed) and error, and lets you filter by source, status and WooCommerce email type. Needs WordPress 5.9+. It stores a partly hidden recipient address and never the message, subject or full address, in a new table `{prefix}ecehc_email_log`.

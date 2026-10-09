@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 class WooCommerceEmailCheck implements CheckInterface {
 
 	/** WooCommerce email ids that customers and the shop owner expect to receive. */
-	const KEY_EMAILS = array( 'new_order', 'customer_processing_order', 'customer_completed_order', 'customer_note' );
+	const KEY_EMAILS = array( 'new_order', 'customer_processing_order', 'customer_completed_order' );
 
 	public function get_id(): string {
 		return 'wc_email_setup';
@@ -41,20 +41,25 @@ class WooCommerceEmailCheck implements CheckInterface {
 		$disabled         = array();
 		$recipient_broken = false;
 
-		foreach ( (array) $emails as $email ) {
-			if ( ! is_object( $email ) || ! isset( $email->id ) || ! in_array( $email->id, self::KEY_EMAILS, true ) ) {
-				continue;
-			}
+		try {
+			foreach ( (array) $emails as $email ) {
+				if ( ! is_object( $email ) || ! isset( $email->id ) || ! in_array( $email->id, self::KEY_EMAILS, true ) ) {
+					continue;
+				}
 
-			if ( ! $email->is_enabled() ) {
-				$disabled[] = wp_strip_all_tags( (string) $email->title );
-				continue;
-			}
+				if ( ! $email->is_enabled() ) {
+					$disabled[] = wp_strip_all_tags( (string) $email->title );
+					continue;
+				}
 
-			// Only the new-order email goes to the shop owner, so only it has an editable recipient.
-			if ( 'new_order' === $email->id && '' === trim( (string) $email->get_recipient() ) ) {
-				$recipient_broken = true;
+				// Only the new-order email goes to the shop owner, so only it has an editable recipient.
+				// Third-party filters on the recipient may expect an order, so a throwing one makes the result unknown.
+				if ( 'new_order' === $email->id && '' === trim( (string) $email->get_recipient() ) ) {
+					$recipient_broken = true;
+				}
 			}
+		} catch ( \Throwable $e ) {
+			return Result::unknown( __( 'WooCommerce\'s email settings could not be read.', 'ecom-email-health-check' ) );
 		}
 
 		$problems = array();
@@ -71,7 +76,12 @@ class WooCommerceEmailCheck implements CheckInterface {
 			);
 		}
 
-		$from = (string) get_option( 'woocommerce_email_from_address' );
+		// The address WooCommerce actually uses, after its own filter and sanitising (an SMTP plugin may force it).
+		try {
+			$from = (string) WC()->mailer()->get_from_address();
+		} catch ( \Throwable $e ) {
+			$from = (string) get_option( 'woocommerce_email_from_address' );
+		}
 		if ( '' === $from || ! is_email( $from ) ) {
 			$problems[] = __( 'WooCommerce\'s "From" address is empty or not a valid email address. Set it in WooCommerce > Settings > Emails.', 'ecom-email-health-check' );
 		}
@@ -86,7 +96,7 @@ class WooCommerceEmailCheck implements CheckInterface {
 		}
 
 		if ( ! $problems ) {
-			return new Result( true, __( 'The key WooCommerce emails (new order, processing, completed and customer note) are on, the new order recipient and the From address are set, and no outdated email template overrides were found.', 'ecom-email-health-check' ) );
+			return new Result( true, __( 'The key WooCommerce emails (new order, processing and completed) are on, the new order recipient and the From address are set, and no outdated email template overrides were found.', 'ecom-email-health-check' ) );
 		}
 
 		$message = implode( ' ', $problems );

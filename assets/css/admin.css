@@ -161,3 +161,8 @@
 .ecehc-support-report details {
     margin-top: 10px;
 }
+
+.ecehc-review-notice .button-link {
+    margin-left: 6px;
+    vertical-align: middle;
+}

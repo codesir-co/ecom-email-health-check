@@ -19,3 +19,4 @@ $ecehc_tabs = array(
 		<a href="<?php echo esc_url( add_query_arg( array( 'page' => \CodeSir\EmailHealthCheck\Admin\AdminPage::MENU_SLUG, 'tab' => $ecehc_tab_id ), admin_url( 'admin.php' ) ) ); ?>" class="nav-tab<?php echo $ecehc_tab_id === $active_tab ? ' nav-tab-active' : ''; ?>"<?php echo $ecehc_tab_id === $active_tab ? ' aria-current="page"' : ''; ?>><?php echo esc_html( $ecehc_tab_label ); ?></a>
 	<?php endforeach; ?>
 </nav>
+<?php include ECEHC_PLUGIN_PATH . 'views/review-notice.php'; ?>

@@ -37,10 +37,11 @@ $ecehc_base_url = add_query_arg(
 		<div class="ecehc-stats">
 			<?php
 			foreach ( array(
-				__( 'Last 24 hours', 'ecom-email-health-check' ) => $stats24,
-				__( 'Last 7 days', 'ecom-email-health-check' )   => $stats7,
-			) as $ecehc_period => $ecehc_stats ) :
-				$ecehc_rate = EmailLog::failure_rate( $ecehc_stats );
+				array( __( 'Last 24 hours', 'ecom-email-health-check' ), $stats24 ),
+				array( __( 'Last 7 days', 'ecom-email-health-check' ), $stats7 ),
+			) as $ecehc_card ) :
+				list( $ecehc_period, $ecehc_stats ) = $ecehc_card;
+				$ecehc_rate                         = EmailLog::failure_rate( $ecehc_stats );
 				?>
 				<div class="card ecehc-stat-card">
 					<h2><?php echo esc_html( $ecehc_period ); ?></h2>

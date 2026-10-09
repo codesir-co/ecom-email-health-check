@@ -66,8 +66,6 @@ class EmailLog {
 		$wpdb->suppress_errors( $suppress );
 
 		if ( $written ) {
-			self::clear_stats_cache();
-
 			/**
 			 * Fires after an email was logged.
 			 *
@@ -186,7 +184,8 @@ class EmailLog {
 
 	/**
 	 * Counts for the last $seconds seconds: totals, per source, per WooCommerce
-	 * email type and the most recent failure. Cached for a minute.
+	 * email type and the most recent failure. Cached for a minute (not cleared on
+	 * every logged email, to keep sending cheap); a purge clears it.
 	 *
 	 * @return array{sent: int, failed: int, sources: array<string, array{label: string, sent: int, failed: int}>, types: array<string, array{label: string, sent: int, failed: int}>, last_failure: array<string, string>|null}
 	 */
@@ -302,6 +301,8 @@ class EmailLog {
 		$max_rows = max( 100, (int) apply_filters( 'ecehc_log_max_rows', 5000 ) );
 
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE created_at < %s", gmdate( 'Y-m-d H:i:s', time() - $days * DAY_IN_SECONDS ) ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		self::clear_stats_cache();
 
 		$cutoff = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table} ORDER BY id DESC LIMIT 1 OFFSET %d", $max_rows ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( $cutoff ) {

@@ -10,6 +10,8 @@
 namespace CodeSir\EmailHealthCheck\Admin;
 
 use CodeSir\EmailHealthCheck\Checks\CheckRunner;
+use CodeSir\EmailHealthCheck\Log\EmailLogger;
+use CodeSir\EmailHealthCheck\Log\FailureAlert;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -17,6 +19,8 @@ class SiteHealth {
 
 	/** Dashes, not underscores: Site Health only rewrites the first underscore when building the AJAX action. */
 	const TEST = 'ecehc-email';
+
+	const FAILURES_TEST = 'ecehc_email_failures';
 
 	public function register(): void {
 		add_filter( 'site_status_tests', array( $this, 'add_test' ) );
@@ -35,7 +39,58 @@ class SiteHealth {
 			'test'  => self::TEST,
 		);
 
+		// A cheap database read, so it runs directly. Only added when emails are being logged.
+		if ( EmailLogger::is_enabled() ) {
+			$tests['direct'][ self::FAILURES_TEST ] = array(
+				'label' => __( 'Recent email failures', 'ecom-email-health-check' ),
+				'test'  => array( $this, 'test_failures' ),
+			);
+		}
+
 		return $tests;
+	}
+
+	/**
+	 * Site Health test: are many recent emails failing?
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function test_failures(): array {
+		$alert    = FailureAlert::evaluate();
+		$empty    = null === $alert || 0 === $alert['sent'] + $alert['failed'];
+		$problems = null !== $alert && $alert['needs_attention'];
+
+		if ( $problems ) {
+			$label = __( 'Many of your recent emails are failing', 'ecom-email-health-check' );
+		} elseif ( $empty ) {
+			$label = __( 'No emails were logged in the last 24 hours', 'ecom-email-health-check' );
+		} else {
+			$label = __( 'Your recent emails are going out without errors', 'ecom-email-health-check' );
+		}
+
+		return array(
+			'label'       => $label,
+			'status'      => $problems ? 'recommended' : 'good',
+			'badge'       => array(
+				'label' => __( 'Email', 'ecom-email-health-check' ),
+				'color' => $problems ? 'orange' : 'blue',
+			),
+			'description' => ( $empty ? '' : '<p>' . esc_html( FailureAlert::summary( $alert ) ) . '</p>' ) . '<p>' . esc_html( FailureAlert::note() ) . '</p>',
+			'actions'     => sprintf(
+				'<p><a href="%1$s">%2$s</a></p>',
+				esc_url(
+					add_query_arg(
+						array(
+							'page' => AdminPage::MENU_SLUG,
+							'tab'  => 'log',
+						),
+						admin_url( 'admin.php' )
+					)
+				),
+				esc_html__( 'Open the email log', 'ecom-email-health-check' )
+			),
+			'test'        => self::FAILURES_TEST,
+		);
 	}
 
 	public function ajax_run(): void {

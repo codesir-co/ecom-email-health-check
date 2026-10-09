@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 		<?php esc_html_e( 'Run a quick diagnostic to check the health of your store\'s email delivery system.', 'ecom-email-health-check' ); ?>
     </p>
 
-    <hr>
+    <?php $active_tab = 'report'; include ECEHC_PLUGIN_PATH . 'views/tabs.php'; ?>
 
     <div class="ecehc-grid">
         <div class="ecehc-main-col">
@@ -67,7 +67,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 <form method="post" class="ecehc-recheck-form">
 					<?php wp_nonce_field( 'ecehc_recheck', '_ecehc_recheck_nonce' ); ?>
                     <input type="submit" name="ecehc_recheck" class="button button-secondary" value="<?php esc_attr_e( 'Re-check', 'ecom-email-health-check' ); ?>">
-                    <span class="description"><?php esc_html_e( 'The mail service detection is saved for up to 12 hours. Re-check to refresh it.', 'ecom-email-health-check' ); ?></span>
+                    <span class="description"><?php esc_html_e( 'The mail service detection and blacklist lookups are saved for up to 12 hours. Re-check to refresh them.', 'ecom-email-health-check' ); ?></span>
                 </form>
             </div>
         </div>

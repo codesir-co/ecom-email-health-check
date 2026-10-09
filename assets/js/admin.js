@@ -29,6 +29,15 @@
 		return copied;
 	}
 
+	// Ask before a destructive action (data-ecehc-confirm).
+	document.addEventListener( 'click', function ( event ) {
+		var guarded = event.target.closest( '[data-ecehc-confirm]' );
+
+		if ( guarded && ! window.confirm( guarded.getAttribute( 'data-ecehc-confirm' ) ) ) {
+			event.preventDefault();
+		}
+	} );
+
 	document.addEventListener( 'click', function ( event ) {
 		var button = event.target.closest( '.ecehc-copy' );
 		if ( ! button ) {

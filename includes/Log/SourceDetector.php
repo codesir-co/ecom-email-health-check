@@ -21,11 +21,16 @@ class SourceDetector {
 	 * @return array{key: string, label: string}
 	 */
 	public static function detect(): array {
+		$core = static function ( string $file ): string {
+			// Real paths, because WP-CLI run with a relative --path gives an ABSPATH like "/site/./".
+			return wp_normalize_path( (string) ( realpath( ABSPATH . WPINC . '/' . $file ) ?: ABSPATH . WPINC . '/' . $file ) );
+		};
+
 		$skip = array(
 			wp_normalize_path( ECEHC_PLUGIN_PATH . 'includes/Log/' ),
-			wp_normalize_path( ABSPATH . WPINC . '/pluggable.php' ),
-			wp_normalize_path( ABSPATH . WPINC . '/class-wp-hook.php' ),
-			wp_normalize_path( ABSPATH . WPINC . '/plugin.php' ),
+			$core( 'pluggable.php' ),
+			$core( 'class-wp-hook.php' ),
+			$core( 'plugin.php' ),
 		);
 
 		$frames = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 40 ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace

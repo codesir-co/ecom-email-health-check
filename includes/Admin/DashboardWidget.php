@@ -21,7 +21,7 @@ class DashboardWidget {
 	}
 
 	public function add_widget(): void {
-		if ( ! current_user_can( 'manage_options' ) || ! EmailLogger::is_supported() ) {
+		if ( ! current_user_can( 'manage_options' ) || ! EmailLogger::is_enabled() ) {
 			return;
 		}
 

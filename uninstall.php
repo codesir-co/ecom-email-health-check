@@ -23,6 +23,7 @@ foreach ( $ecehc_blog_ids as $ecehc_blog_id ) {
 
 	$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'ecehc_email_log' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	delete_option( 'ecehc_db_version' );
+	delete_option( 'ecehc_log_settings' );
 	delete_transient( 'ecehc_plugin_names' );
 	delete_transient( 'ecehc_log_stats_86400' );
 	delete_transient( 'ecehc_log_stats_604800' );

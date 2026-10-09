@@ -121,3 +121,14 @@
 .ecehc-log-filters .button {
     margin-right: 6px;
 }
+
+.ecehc-settings-card {
+    max-width: none;
+    padding: 5px 20px 15px;
+    margin-top: 20px;
+}
+.ecehc-clear-form {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #dcdcde;
+}

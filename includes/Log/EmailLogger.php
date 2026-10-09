@@ -36,6 +36,13 @@ class EmailLogger {
 		return (bool) apply_filters( 'ecehc_enable_email_log', version_compare( get_bloginfo( 'version' ), '5.9', '>=' ) );
 	}
 
+	/**
+	 * Whether the logger is supported and switched on in the settings.
+	 */
+	public static function is_enabled(): bool {
+		return self::is_supported() && LogSettings::is_enabled();
+	}
+
 	public function register(): void {
 		add_action( 'init', array( Schema::class, 'maybe_install' ), 1 );
 		add_action( self::PURGE_HOOK, array( EmailLog::class, 'purge' ) );
@@ -46,7 +53,13 @@ class EmailLogger {
 			return;
 		}
 
+		// The purge keeps running while logging is off, so old entries still expire.
 		add_action( 'init', array( $this, 'schedule_purge' ) );
+
+		if ( ! LogSettings::is_enabled() ) {
+			return;
+		}
+
 		add_filter( 'pre_wp_mail', array( $this, 'forget_context' ), PHP_INT_MAX );
 
 		add_filter( 'woocommerce_mail_callback', array( $this, 'track_wc_email' ), 10, 2 );
@@ -296,7 +309,7 @@ class EmailLogger {
 			'eCommerce Email Health Check',
 			wp_kses_post(
 				wpautop(
-					__( 'This plugin keeps a short log of the emails your site sends (time, which plugin sent it, WooCommerce email type, whether it was accepted or failed, the recipient\'s email domain and a partly hidden address such as j***@example.com). It does not store message contents or subjects, and email addresses, including those in error messages, are partly hidden. Log entries are deleted automatically after a short time (7 days by default).', 'ecom-email-health-check' )
+					__( 'This plugin keeps a short log of the emails your site sends (time, which plugin sent it, WooCommerce email type, whether it was accepted or failed, the recipient\'s email domain and a partly hidden address such as j***@example.com). It does not store message contents or subjects, and email addresses, including those in error messages, are partly hidden. Log entries are deleted automatically after a few days (7 by default, and you can shorten this or clear or turn off the log at any time in the Email Log tab).', 'ecom-email-health-check' )
 				)
 			)
 		);

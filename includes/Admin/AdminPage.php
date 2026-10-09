@@ -10,6 +10,7 @@ namespace CodeSir\EmailHealthCheck\Admin;
 use CodeSir\EmailHealthCheck\Checks\CheckRunner;
 use CodeSir\EmailHealthCheck\Log\EmailLog;
 use CodeSir\EmailHealthCheck\Log\EmailLogger;
+use CodeSir\EmailHealthCheck\Log\LogSettings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -60,8 +61,11 @@ class AdminPage {
 	 */
 	private function render_log( string $active_tab ): void {
 		$supported = EmailLogger::is_supported();
+		$settings  = LogSettings::get();
 		$sources   = $supported ? EmailLog::sources() : array();
 		$types     = $supported ? EmailLog::wc_types() : array();
+		$notice    = isset( $_GET['notice'] ) ? sanitize_key( wp_unslash( $_GET['notice'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$notice    = in_array( $notice, array( 'saved', 'cleared' ), true ) ? $notice : '';
 
 		// Read-only filters from the URL, accepted only if they are a known value.
 		$filters = array(
@@ -100,7 +104,7 @@ class AdminPage {
 
 	public function enqueue_admin_styles( $hook ): void {
 		// The widget exists on the site dashboard only, not the network or user dashboards.
-		$is_dashboard = 'index.php' === $hook && ! is_network_admin() && ! is_user_admin() && current_user_can( 'manage_options' ) && EmailLogger::is_supported();
+		$is_dashboard = 'index.php' === $hook && ! is_network_admin() && ! is_user_admin() && current_user_can( 'manage_options' ) && EmailLogger::is_enabled();
 
 		if ( 'toplevel_page_' . self::MENU_SLUG !== $hook && ! $is_dashboard ) {
 			return;

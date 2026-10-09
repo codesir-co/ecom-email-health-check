@@ -251,69 +251,12 @@ class SmtpDetector {
 	 * Files outside them (themes, core) and this plugin itself are ignored.
 	 */
 	private static function plugin_name_for_file( string $file ): ?string {
-		$file = wp_normalize_path( $file );
-
-		if ( 0 === strpos( $file, wp_normalize_path( ECEHC_PLUGIN_PATH ) ) ) {
+		if ( 0 === strpos( wp_normalize_path( $file ), wp_normalize_path( ECEHC_PLUGIN_PATH ) ) ) {
 			return null;
 		}
 
-		$plugins_dir = self::dir_prefix( $file, WP_PLUGIN_DIR );
-		$mu_dir      = self::dir_prefix( $file, WPMU_PLUGIN_DIR );
+		$plugin = PluginLocator::locate( $file );
 
-		if ( null !== $plugins_dir ) {
-			$segment = explode( '/', substr( $file, strlen( $plugins_dir ) ) )[0];
-
-			if ( ! function_exists( 'get_plugins' ) ) {
-				require_once ABSPATH . 'wp-admin/includes/plugin.php';
-			}
-
-			foreach ( get_plugins() as $plugin_file => $data ) {
-				$matches = false !== strpos( $plugin_file, '/' )
-					? strtok( $plugin_file, '/' ) === $segment
-					: $plugin_file === $segment;
-
-				if ( $matches && ! empty( $data['Name'] ) ) {
-					return $data['Name'];
-				}
-			}
-
-			return $segment;
-		}
-
-		if ( null !== $mu_dir ) {
-			$segment = explode( '/', substr( $file, strlen( $mu_dir ) ) )[0];
-
-			if ( ! function_exists( 'get_mu_plugins' ) ) {
-				require_once ABSPATH . 'wp-admin/includes/plugin.php';
-			}
-
-			$mu_plugins = get_mu_plugins();
-
-			return ! empty( $mu_plugins[ $segment ]['Name'] ) ? $mu_plugins[ $segment ]['Name'] : $segment;
-		}
-
-		return null;
-	}
-
-	/**
-	 * The directory prefix (with trailing slash) of $dir that $file sits under,
-	 * trying the symlink-resolved path too, or null if the file is elsewhere.
-	 */
-	private static function dir_prefix( string $file, string $dir ): ?string {
-		$candidates = array( wp_normalize_path( $dir ) );
-		$real       = realpath( $dir );
-
-		if ( $real ) {
-			$candidates[] = wp_normalize_path( $real );
-		}
-
-		foreach ( $candidates as $candidate ) {
-			$prefix = trailingslashit( $candidate );
-			if ( 0 === strpos( $file, $prefix ) ) {
-				return $prefix;
-			}
-		}
-
-		return null;
+		return $plugin ? $plugin['name'] : null;
 	}
 }

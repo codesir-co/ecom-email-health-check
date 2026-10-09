@@ -15,6 +15,7 @@ class Activator {
 
 	public static function activate(): void {
 		set_transient( self::REDIRECT_TRANSIENT, true, 60 );
+		Log\Schema::maybe_install();
 	}
 
 	public function register(): void {

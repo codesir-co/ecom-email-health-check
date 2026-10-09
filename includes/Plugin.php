@@ -11,6 +11,7 @@ use CodeSir\EmailHealthCheck\Admin\AdminPage;
 use CodeSir\EmailHealthCheck\Admin\RecheckHandler;
 use CodeSir\EmailHealthCheck\Admin\SiteHealth;
 use CodeSir\EmailHealthCheck\Admin\TestEmailHandler;
+use CodeSir\EmailHealthCheck\Log\EmailLogger;
 use CodeSir\EmailHealthCheck\Support\SmtpDetector;
 
 defined( 'ABSPATH' ) || exit;
@@ -42,6 +43,7 @@ class Plugin {
 		( new RecheckHandler() )->register();
 		( new SiteHealth() )->register();
 		SmtpDetector::register();
+		( new EmailLogger() )->register();
 
 		add_filter( 'plugin_action_links_' . ECEHC_PLUGIN_BASE, array( $this, 'add_plugin_links' ) );
 	}

@@ -37,6 +37,11 @@ eCommerce Email Health Check looks at how your WordPress or WooCommerce site sen
 
 * **"How to fix this" panels:** failing SPF, DKIM and DMARC checks show a copy-paste DNS record where your provider documents one, and a link to the provider's official setup guide.
 
+= WP-CLI =
+
+* `wp ehc check` runs all checks (add `--format=json` for scripts). It exits with status 1 when any check fails. The server IP blacklist check needs a web request, so from the command line it is skipped unless you set the IP with the `ecehc_server_ip` filter.
+* `wp ehc log` lists recent logged emails (`--source`, `--status`, `--type`, `--limit`), and `wp ehc log --stats` shows accepted and failed counts for the last 24 hours and 7 days.
+
 = Works with =
 
 The plugin identifies the provider from the settings of WP Mail SMTP, FluentSMTP and Post SMTP, and gives setup guidance for SendGrid, Mailgun, Brevo, Postmark, Amazon SES, SparkPost, Mailjet, Elastic Email, Google Workspace and Microsoft 365. It also works with any other SMTP plugin, or with none.

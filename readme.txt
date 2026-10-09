@@ -25,6 +25,7 @@ Stop worrying about lost eCommerce emails! This free, simple plugin helps you di
 * **Unpaid Orders Check (WooCommerce):** Warns when many recent orders are stuck in "Pending payment". WooCommerce sends no order emails for those, so the real problem may be your payment gateway. Only order counts are read.
 * **Server IP Blacklist Check:** Looks up your web server's IP address on free public blacklists (DroneBL, PSBL) when your site sends mail directly instead of through an SMTP service.
 * **Email Log and Statistics:** A new Email Log tab lists the latest emails your site sends (WooCommerce, other plugins and WordPress), filterable by source, status and WooCommerce email type, with accepted/failed counts for the last 24 hours and 7 days. Only a partly hidden recipient address is stored, never the message, and entries are deleted after 7 days.
+* **Failure Alerts in wp-admin:** A dashboard widget and a Site Health test warn you when many of your recent emails fail, without needing email to work.
 * **Site Health Integration:** The same checks appear under Tools > Site Health, so problems show up without opening the plugin.
 * **Easy-to-Read Health Report:** Get a clear, actionable report with a summary of your email delivery status.
 

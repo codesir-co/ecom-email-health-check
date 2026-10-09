@@ -17,11 +17,15 @@ defined( 'ABSPATH' ) || exit;
 
 class Checklist {
 
-	const OPTION_FLAG   = 'ecehc_show_checklist';
-	const META_HIDDEN   = 'ecehc_checklist_hidden';
-	const META_SAW_LOG  = 'ecehc_checklist_saw_log';
+	const OPTION_FLAG  = 'ecehc_show_checklist';
+	const META_HIDDEN  = 'ecehc_checklist_hidden';
+	const META_SAW_LOG = 'ecehc_checklist_saw_log';
 
-	/** Called on activation; sites that merely update the plugin never get the checklist. */
+	/**
+	 * Called on activation: only a site where the plugin is activated gets the
+	 * checklist, not one that merely updates it. On multisite a network
+	 * activation runs this once, on the main site only.
+	 */
 	public static function flag_fresh_install(): void {
 		add_option( self::OPTION_FLAG, 1, '', false );
 	}
@@ -30,7 +34,7 @@ class Checklist {
 	public static function mark_log_seen(): void {
 		$user_id = get_current_user_id();
 
-		if ( $user_id && ! get_user_meta( $user_id, self::META_SAW_LOG, true ) ) {
+		if ( $user_id && get_option( self::OPTION_FLAG ) && ! get_user_meta( $user_id, self::META_SAW_LOG, true ) ) {
 			update_user_meta( $user_id, self::META_SAW_LOG, 1 );
 		}
 	}
@@ -103,6 +107,9 @@ class Checklist {
 				return $items;
 			}
 		}
+
+		// Everything is done: hide it for good, so a check that fails weeks later does not bring it back.
+		self::hide( $user_id );
 
 		return array();
 	}

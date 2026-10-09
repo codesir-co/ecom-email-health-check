@@ -19,16 +19,16 @@ if ( empty( $checklist ) ) {
 	<h2><?php esc_html_e( 'Getting started', 'ecom-email-health-check' ); ?></h2>
 	<ul>
 		<?php foreach ( $checklist as $ecehc_item ) : ?>
-			<li class="<?php echo $ecehc_item['done'] ? 'ecehc-done' : ''; ?>">
+			<li<?php echo $ecehc_item['done'] ? ' class="ecehc-done"' : ''; ?>>
 				<span aria-hidden="true"><?php echo $ecehc_item['done'] ? '&#10004;' : '&#9744;'; ?></span>
 				<?php if ( ! $ecehc_item['done'] && '' !== $ecehc_item['url'] ) : ?>
 					<a href="<?php echo esc_url( $ecehc_item['url'] ); ?>"><?php echo esc_html( $ecehc_item['label'] ); ?></a>
 				<?php else : ?>
 					<?php echo esc_html( $ecehc_item['label'] ); ?>
 				<?php endif; ?>
-				<?php if ( $ecehc_item['done'] ) : ?>
-					<span class="screen-reader-text"><?php esc_html_e( '(done)', 'ecom-email-health-check' ); ?></span>
-				<?php endif; ?>
+				<span class="screen-reader-text">
+					<?php echo $ecehc_item['done'] ? esc_html__( '(done)', 'ecom-email-health-check' ) : esc_html__( '(to do)', 'ecom-email-health-check' ); ?>
+				</span>
 			</li>
 		<?php endforeach; ?>
 	</ul>

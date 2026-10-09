@@ -152,4 +152,12 @@
 .ecehc-checklist li > span[aria-hidden] {
     display: inline-block;
     width: 22px;
+.ecehc-support-report {
+    margin-top: 15px;
+}
+.ecehc-support-report .description {
+    margin-left: 8px;
+}
+.ecehc-support-report details {
+    margin-top: 10px;
 }

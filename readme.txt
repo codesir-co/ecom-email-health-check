@@ -51,6 +51,14 @@ It checks for common issues like email sending failures, mail sent through plain
 = How does the plugin detect my SMTP plugin? =
 It briefly runs the mail-configuration hooks (`phpmailer_init`) that other plugins register, on a temporary object that never sends anything, to see which ones switch WordPress to SMTP. This stays on your site: no data is sent to any external service. The result is saved for up to 12 hours, and the "Re-check" button refreshes it.
 
+== Screenshots ==
+
+1. The Health Report: every check with a clear Pass, Warning or Fail status.
+2. A failing check shows a "How to fix this" panel with a copy-paste DNS record and a link to your mail provider's official guide.
+3. The Email Log tab: accepted and failed counts for the last 24 hours and 7 days, broken down by source and WooCommerce email type.
+4. The latest emails, filterable by source, status and WooCommerce email type.
+5. The Email Health dashboard widget warns you inside wp-admin when many emails fail.
+
 == External services ==
 
 The "Server IP Blacklists" check sends DNS queries to the public blacklists DroneBL and PSBL. This happens only when your site does not send email through an SMTP plugin or mail service, and only when you open the plugin's report or Tools > Site Health. The answer is saved for about 12 hours (about 1 hour after a failed lookup; the Re-check button and a changed IP address also trigger a new lookup). The queries go through your server's own DNS resolver.

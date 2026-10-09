@@ -24,6 +24,7 @@ foreach ( $ecehc_blog_ids as $ecehc_blog_id ) {
 	$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'ecehc_email_log' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	delete_option( 'ecehc_db_version' );
 	delete_option( 'ecehc_log_settings' );
+	delete_option( 'ecehc_installed_at' );
 	delete_transient( 'ecehc_plugin_names' );
 	delete_transient( 'ecehc_log_stats_86400' );
 	delete_transient( 'ecehc_log_stats_604800' );
@@ -33,3 +34,6 @@ foreach ( $ecehc_blog_ids as $ecehc_blog_id ) {
 		restore_current_blog();
 	}
 }
+
+// Review request state (user meta, all users).
+delete_metadata( 'user', 0, 'ecehc_review_prompt', '', true );

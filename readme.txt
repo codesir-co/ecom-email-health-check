@@ -78,6 +78,9 @@ WordPress can only tell that your mail system took the email without an error. W
 = Does it work without WooCommerce? =
 Yes. The report, the email log and the alerts work on any WordPress site. The WooCommerce-specific parts (email types and the unpaid orders check) appear only when WooCommerce is active.
 
+= How do I send a test WooCommerce email? =
+Recent versions of WooCommerce have this built in: go to WooCommerce > Settings > Emails, pick an email and use its preview to send yourself a test copy. It uses your real From address and mail setup, and the Health Report has a button that opens that screen. While the email log is on, the test appears in the Email Log tab as a WooCommerce email.
+
 = How does the plugin detect my SMTP plugin? =
 It briefly runs the mail-configuration hooks (`phpmailer_init`) that other plugins register, on a temporary object that never sends anything, to see which ones switch WordPress to SMTP. This stays on your site: no data is sent to any external service. The result is saved for up to 12 hours, and the "Re-check" button refreshes it.
 

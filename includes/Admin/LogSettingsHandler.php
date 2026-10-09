@@ -22,8 +22,9 @@ class LogSettingsHandler {
 	}
 
 	public function handle(): void {
-		$saving   = isset( $_POST['ecehc_save_log_settings'] );
-		$clearing = isset( $_POST['ecehc_clear_log'] );
+		// The nonce is verified below, before anything is read or changed.
+		$saving   = isset( $_POST['ecehc_save_log_settings'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$clearing = isset( $_POST['ecehc_clear_log'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 		if ( ! ( $saving || $clearing ) || ! current_user_can( 'manage_options' ) ) {
 			return;
@@ -41,6 +42,10 @@ class LogSettingsHandler {
 				isset( $_POST['ecehc_log_enabled'] ),
 				isset( $_POST['ecehc_log_retention'] ) ? absint( $_POST['ecehc_log_retention'] ) : LogSettings::DEFAULT_RETENTION
 			);
+
+			// A shorter retention applies right away, not at the next daily purge.
+			EmailLog::purge();
+
 			$notice = 'saved';
 		}
 

@@ -268,7 +268,8 @@ $ecehc_base_url = add_query_arg(
 			</form>
 
 			<form method="post" class="ecehc-clear-form">
-				<?php wp_nonce_field( \CodeSir\EmailHealthCheck\Admin\LogSettingsHandler::NONCE_ACTION, \CodeSir\EmailHealthCheck\Admin\LogSettingsHandler::NONCE_FIELD ); ?>
+				<?php // A plain hidden field, so the page has no duplicate element IDs. ?>
+				<input type="hidden" name="<?php echo esc_attr( \CodeSir\EmailHealthCheck\Admin\LogSettingsHandler::NONCE_FIELD ); ?>" value="<?php echo esc_attr( wp_create_nonce( \CodeSir\EmailHealthCheck\Admin\LogSettingsHandler::NONCE_ACTION ) ); ?>">
 				<input type="submit" name="ecehc_clear_log" class="button" value="<?php esc_attr_e( 'Clear log now', 'ecom-email-health-check' ); ?>" data-ecehc-confirm="<?php esc_attr_e( 'Delete all logged emails? This cannot be undone.', 'ecom-email-health-check' ); ?>">
 			</form>
 		</div>

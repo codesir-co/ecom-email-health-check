@@ -48,6 +48,9 @@ Many hosting providers have poor email delivery configurations that can silently
 = What does the plugin check? =
 It checks for common issues like email sending failures, mail sent through plain PHP mail instead of SMTP, sender address misconfigurations, missing or incomplete SPF, DKIM and DMARC records, and (for WooCommerce stores) many orders stuck in "Pending payment".
 
+= How do I send a test WooCommerce email? =
+WooCommerce has this built in: go to WooCommerce > Settings > Emails, pick an email and use its preview to send yourself a test copy. It uses your real From address and mail setup, and the Health Report has a button that opens that screen. The test then appears in the Email Log tab.
+
 = How does the plugin detect my SMTP plugin? =
 It briefly runs the mail-configuration hooks (`phpmailer_init`) that other plugins register, on a temporary object that never sends anything, to see which ones switch WordPress to SMTP. This stays on your site: no data is sent to any external service. The result is saved for up to 12 hours, and the "Re-check" button refreshes it.
 

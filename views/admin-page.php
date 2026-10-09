@@ -85,6 +85,17 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                     <input type="submit" name="ecehc_send_test_email" class="button button-secondary" value="<?php esc_attr_e( 'Send Test Email', 'ecom-email-health-check' ); ?>">
                 </form>
             </div>
+
+            <?php if ( class_exists( 'WooCommerce' ) && current_user_can( 'manage_woocommerce' ) ) : ?>
+                <div class="card ecehc-card-padded">
+                    <h2 class="ecehc-card-title"><?php esc_html_e( 'Test Your WooCommerce Emails', 'ecom-email-health-check' ); ?></h2>
+                    <p>
+						<?php esc_html_e( 'WooCommerce can preview each of its emails and send you a test copy, using your real From address and mail setup. Open it, pick an email and use its preview to send yourself a test.', 'ecom-email-health-check' ); ?>
+                    </p>
+                    <p><a class="button button-secondary" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=email' ) ); ?>"><?php esc_html_e( 'Open WooCommerce email settings', 'ecom-email-health-check' ); ?></a></p>
+                    <p class="description"><?php esc_html_e( 'The test email then shows up in the Email Log tab.', 'ecom-email-health-check' ); ?></p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

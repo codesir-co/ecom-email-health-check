@@ -10,6 +10,7 @@
 namespace CodeSir\EmailHealthCheck\Admin;
 
 use CodeSir\EmailHealthCheck\Checks\CheckRunner;
+use CodeSir\EmailHealthCheck\Log\FailureAlert;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -17,6 +18,8 @@ class SiteHealth {
 
 	/** Dashes, not underscores: Site Health only rewrites the first underscore when building the AJAX action. */
 	const TEST = 'ecehc-email';
+
+	const FAILURES_TEST = 'ecehc_email_failures';
 
 	public function register(): void {
 		add_filter( 'site_status_tests', array( $this, 'add_test' ) );
@@ -35,7 +38,44 @@ class SiteHealth {
 			'test'  => self::TEST,
 		);
 
+		// A cheap database read, so it runs directly. Only added when emails are being logged.
+		if ( null !== FailureAlert::evaluate() ) {
+			$tests['direct'][ self::FAILURES_TEST ] = array(
+				'label' => __( 'Recent email failures', 'ecom-email-health-check' ),
+				'test'  => array( $this, 'test_failures' ),
+			);
+		}
+
 		return $tests;
+	}
+
+	/**
+	 * Site Health test: are many recent emails failing?
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function test_failures(): array {
+		$alert    = FailureAlert::evaluate();
+		$problems = null !== $alert && $alert['needs_attention'];
+		$summary  = null !== $alert ? FailureAlert::summary( $alert ) : '';
+
+		return array(
+			'label'       => $problems
+				? __( 'Many of your recent emails are failing', 'ecom-email-health-check' )
+				: __( 'Your recent emails are going out without errors', 'ecom-email-health-check' ),
+			'status'      => $problems ? 'recommended' : 'good',
+			'badge'       => array(
+				'label' => __( 'Email', 'ecom-email-health-check' ),
+				'color' => $problems ? 'orange' : 'blue',
+			),
+			'description' => '<p>' . esc_html( $summary ) . '</p><p>' . esc_html__( '"Accepted" means WordPress handed the email off without an error, not that it was delivered.', 'ecom-email-health-check' ) . '</p>',
+			'actions'     => sprintf(
+				'<p><a href="%1$s">%2$s</a></p>',
+				esc_url( add_query_arg( array( 'page' => AdminPage::MENU_SLUG, 'tab' => 'log' ), admin_url( 'admin.php' ) ) ),
+				esc_html__( 'Open the email log', 'ecom-email-health-check' )
+			),
+			'test'        => self::FAILURES_TEST,
+		);
 	}
 
 	public function ajax_run(): void {

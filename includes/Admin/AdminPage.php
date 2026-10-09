@@ -99,7 +99,9 @@ class AdminPage {
 	}
 
 	public function enqueue_admin_styles( $hook ): void {
-		if ( 'toplevel_page_' . self::MENU_SLUG !== $hook ) {
+		$is_dashboard = 'index.php' === $hook && current_user_can( 'manage_options' ) && EmailLogger::is_supported();
+
+		if ( 'toplevel_page_' . self::MENU_SLUG !== $hook && ! $is_dashboard ) {
 			return;
 		}
 
@@ -109,6 +111,11 @@ class AdminPage {
 			array(),
 			ECEHC_VERSION
 		);
+
+		// The dashboard widget only needs the styles.
+		if ( $is_dashboard ) {
+			return;
+		}
 
 		wp_enqueue_script(
 			'ecom-email-health-check-admin',

@@ -13,6 +13,7 @@ disable-model-invocation: true
    - the `ECEHC_VERSION` constant in the main file
 2. `grep -rn "<old version>"` to confirm no stale references.
 3. Check `.distignore` excludes dev files; `php -l` every PHP file. Run the official Plugin Check on a copy built per `.distignore` (the `Checks` CI workflow does this; locally, with the Plugin Check plugin installed: `mkdir -p /tmp/x/ecom-email-health-check && rsync -a --exclude .git --exclude-from=.distignore ./ /tmp/x/ecom-email-health-check/` then `wp plugin check /tmp/x/ecom-email-health-check --slug=ecom-email-health-check`). It must report no errors.
+3b. Compatibility: follow `docs/compatibility.md` (scratch site with the latest WordPress and WooCommerce); bump `Tested up to` and `WC tested up to` only to versions that were actually run, and update the table there.
 4. Do the bump/changelog on a `release/<version>` branch from `develop` and PR it into `develop`. STOP and wait for the user to merge.
 5. Open a PR `develop` → `trunk` titled `Release <version>`. After the user approves/merges it, confirm with the user before tagging.
 6. On updated `trunk`: `git tag <version>` (tag equals Stable tag; earlier tags used a `v` prefix, newer ones don't, both deploy) and `git push origin <version>`. The GitHub Action `deploy-with-tag.yml` deploys to SVN; banners/icons come from `.wordpress-org/`.

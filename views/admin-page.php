@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
 <div class="wrap">
-    <h1><?php esc_html_e( 'eCommerce Email Health Check', 'ecom-email-health-check' ); ?></h1>
+    <h1><?php esc_html_e( 'Email Health Check', 'ecom-email-health-check' ); ?></h1>
     <p class="description">
 		<?php esc_html_e( 'Run a quick diagnostic to check the health of your store\'s email delivery system.', 'ecom-email-health-check' ); ?>
     </p>

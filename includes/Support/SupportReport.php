@@ -23,7 +23,7 @@ class SupportReport {
 	 */
 	public static function build( array $results ): string {
 		$lines   = array();
-		$lines[] = 'eCommerce Email Health Check report';
+		$lines[] = 'Email Health Check report';
 		$lines[] = 'Generated: ' . gmdate( 'Y-m-d H:i' ) . ' UTC';
 		$lines[] = '';
 		$lines[] = sprintf(

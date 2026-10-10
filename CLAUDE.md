@@ -1,4 +1,4 @@
-# eCommerce Email Health Check
+# Email Health Check & Log for WooCommerce (display name; slug and prefix unchanged)
 
 Tiny WordPress plugin (WP.org slug `ecom-email-health-check`, prefix `ecehc`, text domain `ecom-email-health-check`). Adds an admin page that runs email-deliverability checks and a "send test email" form. (The former MailSir SaaS and its codesir.co domain no longer exist — do not link to them.)
 

@@ -2,6 +2,8 @@
 
 Used by the `competitor-analyst` agent. Public information only. Update it when the market changes.
 
+Last checked: never (the first `plan-features` run sets this; changes are reported relative to this date).
+
 | Plugin (WordPress.org slug) | Why we watch it |
 |---|---|
 | `wp-mail-smtp` | SMTP setup market leader; email log and alerts are paid features there |

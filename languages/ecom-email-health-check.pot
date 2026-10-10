@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-10T06:19:59+00:00\n"
+"POT-Creation-Date: 2026-10-10T06:31:01+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ecom-email-health-check\n"
@@ -153,27 +153,27 @@ msgid "Your email deliverability checks look healthy"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:168
-#: views/admin-page.php:35
+#: views/report-card.php:34
 msgid "Pass"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:170
-#: views/admin-page.php:37
+#: views/report-card.php:36
 msgid "Warning"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:172
-#: views/admin-page.php:41
+#: views/report-card.php:40
 msgid "Fail"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:174
-#: views/admin-page.php:39
+#: views/report-card.php:38
 msgid "Not checked"
 msgstr ""
 
 #: includes/Admin/TestEmailHandler.php:70
-#: views/admin-page.php:101
+#: views/admin-page.php:61
 msgid "Email Health Check: Test Email"
 msgstr ""
 
@@ -512,7 +512,7 @@ msgstr ""
 msgid "WordPress"
 msgstr ""
 
-#: includes/Plugin.php:70
+#: includes/Plugin.php:72
 msgid "Health Check"
 msgstr ""
 
@@ -576,102 +576,64 @@ msgstr ""
 msgid "Run a quick diagnostic to check the health of your store's email delivery system."
 msgstr ""
 
-#: views/admin-page.php:16
+#: views/admin-page.php:29
+msgid "The checks could not be loaded."
+msgstr ""
+
+#: views/admin-page.php:30
+msgid "Run them again on the server"
+msgstr ""
+
+#: views/admin-page.php:31
+msgid "The email checks have finished."
+msgstr ""
+
+#: views/admin-page.php:33
+#: views/report-card.php:15
 msgid "Email Health Report"
 msgstr ""
 
-#: views/admin-page.php:18
-msgid "The following checks will help you identify common issues that prevent emails from being delivered successfully."
+#: views/admin-page.php:36
+msgid "Running the checks. DNS lookups can take a few seconds."
 msgstr ""
 
-#: views/admin-page.php:24
-msgid "Check"
+#: views/admin-page.php:39
+msgid "Run the checks without JavaScript"
 msgstr ""
 
-#: views/admin-page.php:25
-#: views/email-log.php:139
-#: views/email-log.php:169
-msgid "Status"
-msgstr ""
-
-#: views/admin-page.php:26
-msgid "Message"
-msgstr ""
-
-#: views/admin-page.php:48
-msgid "How to fix this"
-msgstr ""
-
-#: views/admin-page.php:54
-#: views/admin-page.php:76
-msgid "Copied"
-msgstr ""
-
-#: views/admin-page.php:54
-msgid "Copy"
-msgstr ""
-
-#: views/admin-page.php:58
-msgid "Official setup guide"
-msgstr ""
-
-#: views/admin-page.php:70
-msgid "Re-check"
-msgstr ""
-
-#: views/admin-page.php:71
-msgid "The mail service detection and blacklist lookups are saved for up to 12 hours. Re-check to refresh them."
-msgstr ""
-
-#: views/admin-page.php:76
-msgid "Copy support report"
-msgstr ""
-
-#: views/admin-page.php:77
-msgid "A plain-text summary to paste into a support ticket. It has your site and mail domains, versions, check results, the plugin that handles your email and your server IP if it is blacklisted, but no passwords, message contents or full email addresses."
-msgstr ""
-
-#: views/admin-page.php:79
-msgid "Preview the report"
-msgstr ""
-
-#: views/admin-page.php:80
-msgid "Support report"
-msgstr ""
-
-#: views/admin-page.php:89
+#: views/admin-page.php:49
 msgid "Test Your Email Sending"
 msgstr ""
 
-#: views/admin-page.php:91
+#: views/admin-page.php:51
 msgid "Send a test email through your real mail setup to confirm that it works. Use your own address, or any inbox you want to test (for example a Gmail or Outlook address)."
 msgstr ""
 
-#: views/admin-page.php:96
+#: views/admin-page.php:56
 msgid "Send to"
 msgstr ""
 
-#: views/admin-page.php:100
+#: views/admin-page.php:60
 msgid "Subject (optional)"
 msgstr ""
 
-#: views/admin-page.php:103
+#: views/admin-page.php:63
 msgid "Send Test Email"
 msgstr ""
 
-#: views/admin-page.php:109
+#: views/admin-page.php:69
 msgid "Test Your WooCommerce Emails"
 msgstr ""
 
-#: views/admin-page.php:111
+#: views/admin-page.php:71
 msgid "Recent WooCommerce versions can preview each email and send you a test copy, using your real From address and mail setup. Open it, pick an email and use its preview to send yourself a test."
 msgstr ""
 
-#: views/admin-page.php:113
+#: views/admin-page.php:73
 msgid "Open WooCommerce email settings"
 msgstr ""
 
-#: views/admin-page.php:115
+#: views/admin-page.php:75
 msgid "The test email then shows up in the Email Log tab as a WooCommerce email."
 msgstr ""
 
@@ -775,6 +737,12 @@ msgstr ""
 msgid "All sources"
 msgstr ""
 
+#: views/email-log.php:139
+#: views/email-log.php:169
+#: views/report-card.php:24
+msgid "Status"
+msgstr ""
+
 #: views/email-log.php:141
 msgid "Any status"
 msgstr ""
@@ -855,6 +823,59 @@ msgstr ""
 
 #: views/email-log.php:273
 msgid "Delete all logged emails? This cannot be undone."
+msgstr ""
+
+#: views/report-card.php:17
+msgid "The following checks will help you identify common issues that prevent emails from being delivered successfully."
+msgstr ""
+
+#: views/report-card.php:23
+msgid "Check"
+msgstr ""
+
+#: views/report-card.php:25
+msgid "Message"
+msgstr ""
+
+#: views/report-card.php:47
+msgid "How to fix this"
+msgstr ""
+
+#: views/report-card.php:53
+#: views/report-card.php:75
+msgid "Copied"
+msgstr ""
+
+#: views/report-card.php:53
+msgid "Copy"
+msgstr ""
+
+#: views/report-card.php:57
+msgid "Official setup guide"
+msgstr ""
+
+#: views/report-card.php:69
+msgid "Re-check"
+msgstr ""
+
+#: views/report-card.php:70
+msgid "The mail service detection and blacklist lookups are saved for up to 12 hours. Re-check to refresh them."
+msgstr ""
+
+#: views/report-card.php:75
+msgid "Copy support report"
+msgstr ""
+
+#: views/report-card.php:76
+msgid "A plain-text summary to paste into a support ticket. It has your site and mail domains, versions, check results, the plugin that handles your email and, if the blacklist check ran, your server IP address, but no passwords, message contents or full email addresses. Remove anything you would rather not share publicly."
+msgstr ""
+
+#: views/report-card.php:78
+msgid "Preview the report"
+msgstr ""
+
+#: views/report-card.php:79
+msgid "Support report"
 msgstr ""
 
 #: views/review-notice.php:20

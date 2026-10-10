@@ -288,7 +288,7 @@ class EmailLogger {
 	 */
 	public static function mask_addresses( string $text ): string {
 		return (string) preg_replace_callback(
-			'/[^\s<>"\',;:()\[\]]+@[^\s<>"\',;:()\[\]]+/',
+			'/[^\s<>"\',;:()\[\]][^\s<>",;:()\[\]]*@[^\s<>"\',;:()\[\]]+/',
 			static function ( $match ) {
 				return self::mask_address( $match[0] );
 			},
@@ -306,7 +306,7 @@ class EmailLogger {
 		}
 
 		wp_add_privacy_policy_content(
-			'eCommerce Email Health Check',
+			'Email Health Check',
 			wp_kses_post(
 				wpautop(
 					__( 'This plugin keeps a short log of the emails your site sends (time, which plugin sent it, WooCommerce email type, whether it was accepted or failed, the recipient\'s email domain and a partly hidden address such as j***@example.com). It does not store message contents or subjects, and email addresses, including those in error messages, are partly hidden. Log entries are deleted automatically after a few days (7 by default, and you can shorten this or clear or turn off the log at any time in the Email Log tab).', 'ecom-email-health-check' )

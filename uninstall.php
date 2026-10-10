@@ -21,7 +21,8 @@ foreach ( $ecehc_blog_ids as $ecehc_blog_id ) {
 		switch_to_blog( $ecehc_blog_id );
 	}
 
-	$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'ecehc_email_log' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$ecehc_table = esc_sql( $wpdb->prefix . 'ecehc_email_log' );
+	$wpdb->query( "DROP TABLE IF EXISTS `{$ecehc_table}`" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared
 	delete_option( 'ecehc_db_version' );
 	delete_option( 'ecehc_log_settings' );
 	delete_option( 'ecehc_installed_at' );

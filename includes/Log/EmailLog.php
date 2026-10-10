@@ -62,7 +62,7 @@ class EmailLog {
 		$row['created_at'] = is_scalar( $row['created_at'] ) ? (string) $row['created_at'] : gmdate( 'Y-m-d H:i:s' );
 
 		$suppress = $wpdb->suppress_errors( true );
-		$written  = false !== $wpdb->insert( Schema::table(), $row, array_fill( 0, count( $row ), '%s' ) );
+		$written  = false !== $wpdb->insert( Schema::table(), $row, array_fill( 0, count( $row ), '%s' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->suppress_errors( $suppress );
 
 		if ( $written ) {
@@ -85,10 +85,10 @@ class EmailLog {
 	public static function recent( int $limit = 100 ): array {
 		global $wpdb;
 
-		$table = Schema::table();
+		$table = esc_sql( Schema::table() );
 
-		return (array) $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
-			$wpdb->prepare( "SELECT * FROM {$table} ORDER BY id DESC LIMIT %d", $limit ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		return (array) $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+			$wpdb->prepare( "SELECT * FROM {$table} ORDER BY id DESC LIMIT %d", $limit ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 			ARRAY_A
 		);
 	}
@@ -110,7 +110,7 @@ class EmailLog {
 	public static function query( array $filters, int $per_page = 20, int $page = 1 ): array {
 		global $wpdb;
 
-		$table = Schema::table();
+		$table = esc_sql( Schema::table() );
 		$where = array( '1=1' );
 		$args  = array();
 
@@ -129,13 +129,13 @@ class EmailLog {
 
 		$where_sql = implode( ' AND ', $where );
 		$count_sql = "SELECT COUNT(*) FROM {$table} WHERE {$where_sql}";
-		$total     = (int) $wpdb->get_var( $args ? $wpdb->prepare( $count_sql, $args ) : $count_sql ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$total     = (int) $wpdb->get_var( $args ? $wpdb->prepare( $count_sql, $args ) : $count_sql ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 		$total     = min( $total, self::VIEW_LIMIT );
 		$pages     = max( 1, (int) ceil( $total / max( 1, $per_page ) ) );
 		$page      = min( max( 1, $page ), $pages );
 
 		$rows_sql = "SELECT * FROM {$table} WHERE {$where_sql} ORDER BY id DESC LIMIT %d OFFSET %d";
-		$rows     = $wpdb->get_results( $wpdb->prepare( $rows_sql, array_merge( $args, array( min( $per_page, $total - ( $page - 1 ) * $per_page ), ( $page - 1 ) * $per_page ) ) ), ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$rows     = $wpdb->get_results( $wpdb->prepare( $rows_sql, array_merge( $args, array( min( $per_page, $total - ( $page - 1 ) * $per_page ), ( $page - 1 ) * $per_page ) ) ), ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 		return array(
 			'rows'  => $total > 0 ? (array) $rows : array(),
@@ -152,8 +152,8 @@ class EmailLog {
 	public static function sources(): array {
 		global $wpdb;
 
-		$table = Schema::table();
-		$rows  = (array) $wpdb->get_results( "SELECT source_key, MAX(source_label) AS label, COUNT(*) AS n FROM {$table} GROUP BY source_key ORDER BY n DESC", ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$table = esc_sql( Schema::table() );
+		$rows  = (array) $wpdb->get_results( "SELECT source_key, MAX(source_label) AS label, COUNT(*) AS n FROM {$table} GROUP BY source_key ORDER BY n DESC", ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 		$sources = array();
 		foreach ( $rows as $row ) {
@@ -171,8 +171,8 @@ class EmailLog {
 	public static function wc_types(): array {
 		global $wpdb;
 
-		$table = Schema::table();
-		$rows  = (array) $wpdb->get_results( "SELECT email_type, MAX(email_type_label) AS label FROM {$table} WHERE email_type <> '' GROUP BY email_type ORDER BY label ASC", ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$table = esc_sql( Schema::table() );
+		$rows  = (array) $wpdb->get_results( "SELECT email_type, MAX(email_type_label) AS label FROM {$table} WHERE email_type <> '' GROUP BY email_type ORDER BY label ASC", ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 		$types = array();
 		foreach ( $rows as $row ) {
@@ -198,7 +198,7 @@ class EmailLog {
 			return $cached;
 		}
 
-		$table = Schema::table();
+		$table = esc_sql( Schema::table() );
 		$since = gmdate( 'Y-m-d H:i:s', time() - $seconds );
 		$stats = array(
 			'sent'         => 0,
@@ -208,7 +208,7 @@ class EmailLog {
 			'last_failure' => null,
 		);
 
-		$rows = (array) $wpdb->get_results( $wpdb->prepare( "SELECT source_key, MAX(source_label) AS label, email_type, MAX(email_type_label) AS type_label, status, COUNT(*) AS n FROM {$table} WHERE created_at >= %s GROUP BY source_key, email_type, status", $since ), ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$rows = (array) $wpdb->get_results( $wpdb->prepare( "SELECT source_key, MAX(source_label) AS label, email_type, MAX(email_type_label) AS type_label, status, COUNT(*) AS n FROM {$table} WHERE created_at >= %s GROUP BY source_key, email_type, status", $since ), ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 		foreach ( $rows as $row ) {
 			$status = self::STATUS_FAILED === $row['status'] ? 'failed' : 'sent';
@@ -252,7 +252,7 @@ class EmailLog {
 			}
 		);
 
-		$last = $wpdb->get_row( $wpdb->prepare( "SELECT created_at, source_label, error FROM {$table} WHERE status = %s AND created_at >= %s ORDER BY id DESC LIMIT 1", self::STATUS_FAILED, $since ), ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$last = $wpdb->get_row( $wpdb->prepare( "SELECT created_at, source_label, error FROM {$table} WHERE status = %s AND created_at >= %s ORDER BY id DESC LIMIT 1", self::STATUS_FAILED, $since ), ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 		if ( is_array( $last ) ) {
 			$stats['last_failure'] = $last;
 		}
@@ -284,9 +284,9 @@ class EmailLog {
 	public static function clear(): void {
 		global $wpdb;
 
-		$table = Schema::table();
+		$table = esc_sql( Schema::table() );
 
-		$wpdb->query( "DELETE FROM {$table}" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$wpdb->query( "DELETE FROM {$table}" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 		self::clear_stats_cache();
 	}
@@ -297,7 +297,7 @@ class EmailLog {
 	public static function purge(): void {
 		global $wpdb;
 
-		$table = Schema::table();
+		$table = esc_sql( Schema::table() );
 
 		/**
 		 * Filters how many days of log rows are kept.
@@ -313,13 +313,13 @@ class EmailLog {
 		 */
 		$max_rows = max( 100, (int) apply_filters( 'ecehc_log_max_rows', 5000 ) );
 
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE created_at < %s", gmdate( 'Y-m-d H:i:s', time() - $days * DAY_IN_SECONDS ) ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE created_at < %s", gmdate( 'Y-m-d H:i:s', time() - $days * DAY_IN_SECONDS ) ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 		self::clear_stats_cache();
 
-		$cutoff = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table} ORDER BY id DESC LIMIT 1 OFFSET %d", $max_rows ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$cutoff = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table} ORDER BY id DESC LIMIT 1 OFFSET %d", $max_rows ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 		if ( $cutoff ) {
-			$wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE id <= %d", (int) $cutoff ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE id <= %d", (int) $cutoff ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 		}
 	}
 }

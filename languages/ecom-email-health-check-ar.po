@@ -1,0 +1,920 @@
+# Arabic translation (DRAFT) of Email Health Check & Log for WooCommerce.
+# Machine-assisted draft written by Claude; needs a review by a native speaker before it is used on translate.wordpress.org.
+# Copyright (C) 2026 CodeSir
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Email Health Check & Log for WooCommerce 1.5.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ecom-email-health-check\n"
+"Last-Translator: Claude (draft, needs native review)\n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5);\n"
+"X-Domain: ecom-email-health-check\n"
+
+#. Plugin Name of the plugin
+#: ecom-email-health-check.php
+msgid "Email Health Check & Log for WooCommerce – SPF, DKIM, DMARC & Alerts"
+msgstr "فحص صحة البريد الإلكتروني وسجله لـ WooCommerce – SPF وDKIM وDMARC والتنبيهات"
+
+#. Plugin URI of the plugin
+#: ecom-email-health-check.php
+msgid "https://github.com/codesir-co/ecom-email-health-check"
+msgstr "https://github.com/codesir-co/ecom-email-health-check"
+
+#. Description of the plugin
+#: ecom-email-health-check.php
+msgid "Email log, SPF/DKIM/DMARC checks and failure alerts. Find out why WooCommerce order emails go to spam or never arrive."
+msgstr "سجل البريد الإلكتروني وفحوص SPF/DKIM/DMARC وتنبيهات الفشل. اكتشف لماذا تذهب رسائل طلبات WooCommerce إلى البريد المزعج أو لا تصل أبدًا."
+
+#. Author of the plugin
+#: ecom-email-health-check.php
+msgid "CodeSir"
+msgstr "CodeSir"
+
+#: includes/Admin/AdminPage.php:28
+#: includes/Admin/AdminPage.php:29
+#: views/admin-page.php:5
+#: views/email-log.php:25
+msgid "Email Health Check"
+msgstr "فحص صحة البريد الإلكتروني"
+
+#: includes/Admin/Checklist.php:63
+msgid "Send a test email with the button on this page"
+msgstr "أرسل رسالة اختبار بالزر الموجود في هذه الصفحة"
+
+#: includes/Admin/Checklist.php:81
+msgid "Fix the failing checks in the report"
+msgstr "أصلح الفحوص الفاشلة في التقرير"
+
+#. translators: %s: name of a check, e.g. SPF Record Validation
+#: includes/Admin/Checklist.php:84
+#, php-format
+msgid "Fix the top failing check: %s"
+msgstr "أصلح أول فحص فاشل: %s"
+
+#: includes/Admin/Checklist.php:93
+msgid "Take a look at the Email Log"
+msgstr "ألقِ نظرة على سجل البريد الإلكتروني"
+
+#: includes/Admin/ChecklistHandler.php:27
+#: includes/Admin/LogSettingsHandler.php:34
+#: includes/Admin/RecheckHandler.php:30
+#: includes/Admin/ReviewPromptHandler.php:27
+#: includes/Admin/TestEmailHandler.php:41
+msgid "Security check failed."
+msgstr "فشل التحقق الأمني."
+
+#: includes/Admin/DashboardWidget.php:28
+msgid "Email Health"
+msgstr "صحة البريد"
+
+#: includes/Admin/DashboardWidget.php:47
+msgid "No emails have been logged in the last 24 hours."
+msgstr "لم تُسجَّل أي رسائل في آخر 24 ساعة."
+
+#: includes/Admin/DashboardWidget.php:49
+msgid "Needs attention"
+msgstr "يحتاج إلى اهتمام"
+
+#: includes/Admin/DashboardWidget.php:51
+msgid "Looks fine"
+msgstr "الوضع جيد"
+
+#. translators: 1: date and time, 2: source name, 3: error message
+#: includes/Admin/DashboardWidget.php:62
+#, php-format
+msgid "Last failure: %1$s, %2$s: %3$s"
+msgstr "آخر فشل: %1$s، %2$s: %3$s"
+
+#: includes/Admin/DashboardWidget.php:64
+msgid "unknown source"
+msgstr "مصدر غير معروف"
+
+#: includes/Admin/DashboardWidget.php:65
+#: views/email-log.php:120
+msgid "no error message"
+msgstr "لا توجد رسالة خطأ"
+
+#: includes/Admin/DashboardWidget.php:70
+msgid "View the email log"
+msgstr "عرض سجل البريد الإلكتروني"
+
+#: includes/Admin/RecheckHandler.php:40
+msgid "Checks refreshed."
+msgstr "تم تحديث الفحوص."
+
+#: includes/Admin/SiteHealth.php:38
+msgid "Email deliverability"
+msgstr "إمكانية وصول البريد"
+
+#: includes/Admin/SiteHealth.php:45
+msgid "Recent email failures"
+msgstr "إخفاقات البريد الأخيرة"
+
+#: includes/Admin/SiteHealth.php:64
+msgid "Many of your recent emails are failing"
+msgstr "كثير من رسائلك الأخيرة تفشل"
+
+#: includes/Admin/SiteHealth.php:66
+msgid "No emails were logged in the last 24 hours"
+msgstr "لم تُسجَّل أي رسائل في آخر 24 ساعة"
+
+#: includes/Admin/SiteHealth.php:68
+msgid "Your recent emails are going out without errors"
+msgstr "رسائلك الأخيرة تُرسَل دون أخطاء"
+
+#: includes/Admin/SiteHealth.php:75
+#: includes/Admin/SiteHealth.php:156
+#: views/email-log.php:94
+msgid "Email"
+msgstr "البريد"
+
+#: includes/Admin/SiteHealth.php:90
+msgid "Open the email log"
+msgstr "افتح سجل البريد الإلكتروني"
+
+#: includes/Admin/SiteHealth.php:141
+msgid "Open the Email Health Check report"
+msgstr "افتح تقرير فحص صحة البريد الإلكتروني"
+
+#: includes/Admin/SiteHealth.php:145
+msgid "Your store's email deliverability could be improved"
+msgstr "يمكن تحسين وصول رسائل متجرك"
+
+#: includes/Admin/SiteHealth.php:147
+msgid "Some email checks could not be completed"
+msgstr "تعذّر إكمال بعض فحوص البريد"
+
+#: includes/Admin/SiteHealth.php:149
+msgid "Your email deliverability checks look healthy"
+msgstr "فحوص وصول بريدك الإلكتروني تبدو سليمة"
+
+#: includes/Admin/SiteHealth.php:168
+#: views/report-card.php:34
+msgid "Pass"
+msgstr "ناجح"
+
+#: includes/Admin/SiteHealth.php:170
+#: views/report-card.php:36
+msgid "Warning"
+msgstr "تحذير"
+
+#: includes/Admin/SiteHealth.php:172
+#: views/report-card.php:40
+msgid "Fail"
+msgstr "فاشل"
+
+#: includes/Admin/SiteHealth.php:174
+#: views/report-card.php:38
+msgid "Not checked"
+msgstr "لم يتم الفحص"
+
+#: includes/Admin/TestEmailHandler.php:70
+#: views/admin-page.php:61
+msgid "Email Health Check: Test Email"
+msgstr "فحص صحة البريد الإلكتروني: رسالة اختبار"
+
+#: includes/Admin/TestEmailHandler.php:79
+msgid "This is a test email sent from the Email Health Check plugin. If you received this, your site can send basic emails."
+msgstr "هذه رسالة اختبار أُرسلت من إضافة فحص صحة البريد الإلكتروني. إذا وصلتك هذه الرسالة فإن موقعك قادر على إرسال الرسائل الأساسية."
+
+#: includes/Admin/TestEmailHandler.php:168
+msgid "That does not look like a valid email address. No test email was sent."
+msgstr "هذا لا يبدو عنوان بريد إلكتروني صالحًا. لم تُرسَل رسالة اختبار."
+
+#: includes/Admin/TestEmailHandler.php:173
+msgid "You have sent several test emails in the last few minutes. Please wait a little before sending another."
+msgstr "أرسلتَ عدة رسائل اختبار خلال الدقائق الماضية. يُرجى الانتظار قليلًا قبل إرسال رسالة أخرى."
+
+#: includes/Admin/TestEmailHandler.php:178
+msgid "Test email handed off for sending."
+msgstr "تم تسليم رسالة الاختبار للإرسال."
+
+#. translators: %s: partly hidden email address the test was sent to
+#: includes/Admin/TestEmailHandler.php:182
+#, php-format
+msgid "It was sent to %s. Please check that inbox to confirm it actually arrived."
+msgstr "أُرسلت إلى %s. يُرجى التحقق من صندوق الوارد للتأكد من وصولها فعلًا."
+
+#: includes/Admin/TestEmailHandler.php:195
+msgid "View it in the Email Log"
+msgstr "اعرضها في سجل البريد الإلكتروني"
+
+#: includes/Admin/TestEmailHandler.php:203
+msgid "Test email failed to send."
+msgstr "فشل إرسال رسالة الاختبار."
+
+#: includes/Admin/TestEmailHandler.php:203
+msgid "This is a common issue with standard hosting providers."
+msgstr "هذه مشكلة شائعة مع مزوّدي الاستضافة العاديين."
+
+#. translators: %s: error message from the mail system
+#: includes/Admin/TestEmailHandler.php:209
+#, php-format
+msgid "The mail system said: %s"
+msgstr "قال نظام البريد: %s"
+
+#: includes/Admin/TestEmailHandler.php:215
+msgid "Review the checks below, and consider sending your email through an SMTP service or asking your hosting provider whether outgoing email is blocked."
+msgstr "راجع الفحوص أدناه، وفكّر في إرسال بريدك عبر خدمة SMTP أو اسأل مزوّد الاستضافة إن كان إرسال البريد محظورًا."
+
+#: includes/Checks/BasicEmailCheck.php:24
+msgid "Basic Email Functionality"
+msgstr "وظيفة البريد الأساسية"
+
+#: includes/Checks/BasicEmailCheck.php:31
+msgid "No test email has been sent yet. Use \"Send Test Email\" to check that your site can send mail."
+msgstr "لم تُرسَل أي رسالة اختبار بعد. استخدم «إرسال رسالة اختبار» للتحقق من قدرة موقعك على إرسال البريد."
+
+#. translators: %s: date and time the test email was sent
+#: includes/Checks/BasicEmailCheck.php:39
+#, php-format
+msgid "(Sent %s.)"
+msgstr "(أُرسلت %s.)"
+
+#: includes/Checks/BasicEmailCheck.php:44
+msgid "The last test email was accepted for sending by WordPress. This does not guarantee delivery, so check your inbox to confirm it arrived."
+msgstr "قبلت ووردبريس آخر رسالة اختبار للإرسال. هذا لا يضمن وصولها، لذا تحقق من صندوق بريدك للتأكد من وصولها."
+
+#. translators: %s: error message returned by the mail system
+#: includes/Checks/BasicEmailCheck.php:50
+#, php-format
+msgid "The last test email failed to send. Error: %s"
+msgstr "فشل إرسال آخر رسالة اختبار. الخطأ: %s"
+
+#: includes/Checks/BasicEmailCheck.php:52
+msgid "The last test email failed to send. Your hosting provider may be blocking emails."
+msgstr "فشل إرسال آخر رسالة اختبار. قد يكون مزوّد الاستضافة يحظر الرسائل."
+
+#: includes/Checks/BlacklistCheck.php:32
+msgid "Server IP Blacklists"
+msgstr "القوائم السوداء لعنوان IP للخادم"
+
+#: includes/Checks/BlacklistCheck.php:92
+msgid "Skipped: your email is sent through an SMTP plugin or mail service, so your web server's own IP address is not what receivers see."
+msgstr "تم التخطي: يُرسَل بريدك عبر إضافة SMTP أو خدمة بريد، لذا فإن عنوان IP الخاص بخادم الويب ليس ما يراه المستلمون."
+
+#: includes/Checks/BlacklistCheck.php:98
+msgid "Skipped on the command line, where the web server's IP address is not available. Set it with the ecehc_server_ip filter to check it here."
+msgstr "تم التخطي في سطر الأوامر، حيث لا يتوفر عنوان IP لخادم الويب. عيّنه عبر الفلتر ecehc_server_ip لفحصه هنا."
+
+#: includes/Checks/BlacklistCheck.php:102
+msgid "Your server's public IPv4 address could not be determined (it may be IPv6, private, or behind a proxy), so blacklists were not checked."
+msgstr "تعذّر تحديد عنوان IPv4 العام لخادمك (قد يكون IPv6 أو خاصًا أو خلف وكيل)، لذلك لم تُفحص القوائم السوداء."
+
+#. translators: 1: server IP address, 2: list names
+#: includes/Checks/BlacklistCheck.php:170
+#, php-format
+msgid "Your server IP address %1$s is listed on: %2$s. Mail sent straight from this server is likely to be rejected or sent to spam. Ask your host to resolve it, or send through an SMTP service instead."
+msgstr "عنوان IP لخادمك %1$s مدرج في: %2$s. من المرجّح أن تُرفض الرسائل المرسلة مباشرة من هذا الخادم أو تذهب إلى البريد المزعج. اطلب من مزوّد الاستضافة حل المشكلة، أو أرسل عبر خدمة SMTP بدلًا من ذلك."
+
+#: includes/Checks/BlacklistCheck.php:178
+msgid "The DNS lookups to the blacklists failed, so your server IP address could not be checked. Try again later."
+msgstr "فشلت استعلامات DNS إلى القوائم السوداء، لذلك تعذّر فحص عنوان IP لخادمك. حاول مرة أخرى لاحقًا."
+
+#. translators: 1: server IP address, 2: list names
+#: includes/Checks/BlacklistCheck.php:185
+#, php-format
+msgid "Your server IP address %1$s is not listed on %2$s. Only these free lists are checked: major lists such as Spamhaus cannot be queried by a plugin under their terms, so a clean result here does not guarantee a clean reputation."
+msgstr "عنوان IP لخادمك %1$s غير مدرج في %2$s. تُفحص هذه القوائم المجانية فقط: القوائم الكبرى مثل Spamhaus لا يمكن للإضافات الاستعلام عنها وفق شروطها، لذا فالنتيجة النظيفة هنا لا تضمن سمعة نظيفة."
+
+#. translators: %s: check id
+#: includes/Checks/CheckRunner.php:64
+#, php-format
+msgid "Duplicate diagnostic check id \"%s\" was skipped."
+msgstr "تم تخطي معرّف فحص تشخيصي مكرر «%s»."
+
+#. translators: %s: domain of the From address
+#: includes/Checks/CheckRunner.php:79
+#, php-format
+msgid "(Checked for %s, the domain of your From address.)"
+msgstr "(تم الفحص لـ %s، نطاق عنوان المرسل.)"
+
+#: includes/Checks/DkimCheck.php:25
+msgid "DKIM Record"
+msgstr "سجل DKIM"
+
+#. translators: %s: DKIM selector name
+#: includes/Checks/DkimCheck.php:63
+#, php-format
+msgid "A DKIM key was found for selector \"%s\". This lets receivers verify that your emails were not altered."
+msgstr "تم العثور على مفتاح DKIM للمحدد «%s». هذا يتيح للمستلمين التحقق من أن رسائلك لم تُعدَّل."
+
+#: includes/Checks/DkimCheck.php:70
+msgid "The DNS lookup was not possible on this server, so DKIM could not be checked. Use an online DKIM checker with your mail provider's selector."
+msgstr "تعذّر إجراء استعلام DNS على هذا الخادم، لذلك لم يمكن فحص DKIM. استخدم أداة فحص DKIM عبر الإنترنت مع محدد مزوّد بريدك."
+
+#: includes/Checks/DkimCheck.php:73
+msgid "No DKIM key was found under common selectors. Your mail provider may use a custom selector that cannot be detected automatically. Check your provider's DNS instructions or use an online DKIM checker."
+msgstr "لم يُعثر على مفتاح DKIM ضمن المحددات الشائعة. قد يستخدم مزوّد بريدك محددًا مخصصًا لا يمكن اكتشافه تلقائيًا. راجع تعليمات DNS لدى مزوّدك أو استخدم أداة فحص DKIM عبر الإنترنت."
+
+#: includes/Checks/DmarcCheck.php:22
+msgid "DMARC Record"
+msgstr "سجل DMARC"
+
+#: includes/Checks/DmarcCheck.php:35
+msgid "The DNS lookup was not possible on this server, so the DMARC record could not be checked. Use an online DMARC checker for your domain."
+msgstr "تعذّر إجراء استعلام DNS على هذا الخادم، لذلك لم يمكن فحص سجل DMARC. استخدم أداة فحص DMARC عبر الإنترنت لنطاقك."
+
+#: includes/Checks/DmarcCheck.php:44
+msgid "A DMARC record was found, but its policy is \"none\" (monitoring only). Once your email is authenticated correctly, consider moving to \"quarantine\" or \"reject\"."
+msgstr "تم العثور على سجل DMARC، لكن سياسته «none» (مراقبة فقط). بعد أن تتم مصادقة بريدك بشكل صحيح، فكّر في الانتقال إلى «quarantine» أو «reject»."
+
+#: includes/Checks/DmarcCheck.php:47
+msgid "A DMARC record was found. This tells receiving servers how to treat email that fails authentication."
+msgstr "تم العثور على سجل DMARC. يخبر هذا الخوادم المستقبِلة كيف تتعامل مع الرسائل التي تفشل في المصادقة."
+
+#: includes/Checks/DmarcCheck.php:50
+msgid "No DMARC record was found. Without one, mailbox providers have no policy for spoofed or unauthenticated email from your domain, which can hurt deliverability."
+msgstr "لم يُعثر على سجل DMARC. بدونه لا تملك مزوّدات البريد سياسة للرسائل المنتحلة أو غير المصادَق عليها من نطاقك، ما قد يضر بوصول رسائلك."
+
+#: includes/Checks/PendingOrdersCheck.php:29
+msgid "Unpaid Orders"
+msgstr "الطلبات غير المدفوعة"
+
+#: includes/Checks/PendingOrdersCheck.php:34
+#: includes/Checks/PendingOrdersCheck.php:44
+msgid "WooCommerce orders could not be read."
+msgstr "تعذّرت قراءة طلبات WooCommerce."
+
+#. translators: 1: number of unpaid or failed orders, 2: number of orders that went through
+#: includes/Checks/PendingOrdersCheck.php:58
+#, php-format
+msgid "In the last 7 days, %1$d orders are still \"Pending payment\" or \"Failed\" against %2$d that went through (processing, completed or on hold). WooCommerce sends no order emails for unpaid orders, so customers may look like they are missing emails when the real cause is a payment problem. Check your payment gateway before changing your email setup."
+msgstr "في آخر 7 أيام، عدد الطلبات التي لا تزال في حالة «بانتظار الدفع» أو «فشل» هو %1$d مقابل %2$d نجحت (قيد المعالجة أو مكتملة أو معلّقة). لا ترسل WooCommerce رسائل للطلبات غير المدفوعة، فقد يبدو أن عملاءك لا يتلقون رسائل بينما السبب مشكلة في الدفع. تحقّق من بوابة الدفع قبل تغيير إعدادات بريدك."
+
+#. translators: 1: number of unpaid or failed orders, 2: number of orders that went through
+#: includes/Checks/PendingOrdersCheck.php:69
+#, php-format
+msgid "In the last 7 days, %1$d orders are \"Pending payment\" or \"Failed\" and %2$d went through (processing, completed or on hold). WooCommerce sends no order emails for unpaid orders, so a few are normal (abandoned checkouts)."
+msgstr "في آخر 7 أيام، عدد الطلبات «بانتظار الدفع» أو «فشل» هو %1$d، وعدد الطلبات التي نجحت هو %2$d (قيد المعالجة أو مكتملة أو معلّقة). لا ترسل WooCommerce رسائل للطلبات غير المدفوعة، لذا فوجود بعضها أمر طبيعي (سلات متروكة)."
+
+#: includes/Checks/SenderAddressCheck.php:16
+msgid "Sender Address Check"
+msgstr "فحص عنوان المرسل"
+
+#. translators: 1: email address, 2: domain such as gmail.com
+#: includes/Checks/SenderAddressCheck.php:28
+#, php-format
+msgid "Your emails are sent from %1$s. Receivers expect mail from %2$s to come from its own servers, so mail sent from your site is likely to be rejected or sent to spam. Use an address at your own domain instead."
+msgstr "تُرسَل رسائلك من %1$s. يتوقع المستلمون أن تأتي الرسائل من %2$s عبر خوادمه الخاصة، لذا من المرجّح أن تُرفض الرسائل المرسلة من موقعك أو تذهب إلى البريد المزعج. استخدم عنوانًا في نطاقك الخاص بدلًا من ذلك."
+
+#. translators: %s: email address
+#: includes/Checks/SenderAddressCheck.php:40
+#, php-format
+msgid "Your emails are sent from %s, whose domain matches your site domain. This is good practice."
+msgstr "تُرسَل رسائلك من %s، ونطاقه يطابق نطاق موقعك. هذه ممارسة جيدة."
+
+#. translators: 1: email address, 2: domain of the From address
+#: includes/Checks/SenderAddressCheck.php:49
+#, php-format
+msgid "Your emails are sent from %1$s, whose domain differs from your site domain. That is fine if %2$s is a domain you control and your mail service is set up for it. The SPF, DKIM and DMARC checks below are run for %2$s."
+msgstr "تُرسَل رسائلك من %1$s، ونطاقه يختلف عن نطاق موقعك. لا بأس بذلك إن كان %2$s نطاقًا تملكه وخدمة بريدك مهيأة له. تُجرى فحوص SPF وDKIM وDMARC أدناه للنطاق %2$s."
+
+#: includes/Checks/SmtpConfiguredCheck.php:22
+msgid "SMTP / Mail Service"
+msgstr "SMTP / خدمة البريد"
+
+#: includes/Checks/SmtpConfiguredCheck.php:27
+msgid "No SMTP plugin or mail service was detected, so WordPress is probably sending email through your web host's default PHP mail. That mail is unauthenticated and is often filtered as spam or blocked. Use an SMTP plugin or a transactional email service to send authenticated email."
+msgstr "لم تُكتشف إضافة SMTP أو خدمة بريد، لذا من المرجّح أن ووردبريس يرسل البريد عبر بريد PHP الافتراضي لدى مزوّد الاستضافة. هذا البريد غير مصادَق عليه وغالبًا ما يُصنَّف كمزعج أو يُحظر. استخدم إضافة SMTP أو خدمة بريد المعاملات لإرسال بريد مصادَق عليه."
+
+#. translators: 1: mail provider name, e.g. SendGrid, 2: plugin name(s)
+#: includes/Checks/SmtpConfiguredCheck.php:39
+#, php-format
+msgid "Email appears to be sent through %1$s, handled by %2$s."
+msgstr "يبدو أن البريد يُرسَل عبر %1$s، وتتولاه %2$s."
+
+#. translators: %s: mail provider name, e.g. SendGrid
+#: includes/Checks/SmtpConfiguredCheck.php:51
+#, php-format
+msgid "Email appears to be sent through %s."
+msgstr "يبدو أن البريد يُرسَل عبر %s."
+
+#. translators: %s: plugin name(s)
+#: includes/Checks/SmtpConfiguredCheck.php:62
+#, php-format
+msgid "Outgoing email is handled by: %s."
+msgstr "يتولى الإرسال: %s."
+
+#: includes/Checks/SmtpConfiguredCheck.php:68
+msgid "A plugin or mail service that handles outgoing email was detected."
+msgstr "تم اكتشاف إضافة أو خدمة بريد تتولى إرسال البريد الصادر."
+
+#: includes/Checks/SpfCheck.php:24
+msgid "SPF Record Validation"
+msgstr "التحقق من سجل SPF"
+
+#: includes/Checks/SpfCheck.php:29
+msgid "Your server does not allow DNS lookups, so the SPF record could not be checked. Use an online SPF checker for your domain."
+msgstr "خادمك لا يسمح باستعلامات DNS، لذلك لم يمكن فحص سجل SPF. استخدم أداة فحص SPF عبر الإنترنت لنطاقك."
+
+#: includes/Checks/SpfCheck.php:41
+msgid "The DNS lookup failed, so the SPF record could not be checked. Try again later or use an online SPF checker."
+msgstr "فشل استعلام DNS، لذلك لم يمكن فحص سجل SPF. حاول مرة أخرى لاحقًا أو استخدم أداة فحص SPF عبر الإنترنت."
+
+#: includes/Checks/SpfCheck.php:52
+msgid "Multiple SPF records were found. Only one is allowed (RFC 7208), and receivers will treat your SPF as invalid. Merge them into a single record."
+msgstr "عُثر على عدة سجلات SPF. يُسمح بسجل واحد فقط (RFC 7208)، وسيعتبر المستلمون SPF لديك غير صالح. ادمجها في سجل واحد."
+
+#: includes/Checks/SpfCheck.php:57
+msgid "An SPF record exists but does not authorize any sending service (no include:, ip4:, ip6:, a, mx or redirect). Add the service that sends your email, such as your SMTP provider or host."
+msgstr "يوجد سجل SPF لكنه لا يصرّح بأي خدمة إرسال (لا include:‎ ولا ip4:‎ ولا ip6:‎ ولا a ولا mx ولا redirect). أضف الخدمة التي ترسل بريدك، مثل مزوّد SMTP أو الاستضافة."
+
+#. translators: %s: mail service name
+#: includes/Checks/SpfCheck.php:66
+#, php-format
+msgid "A valid SPF record was found and it appears to include %s, the service your site sends email through."
+msgstr "عُثر على سجل SPF صالح ويبدو أنه يتضمن %s، الخدمة التي يرسل موقعك البريد عبرها."
+
+#. translators: %s: mail service name
+#: includes/Checks/SpfCheck.php:75
+#, php-format
+msgid "A valid SPF record was found. %s authenticates SPF through its own return-path records, so it does not need to appear in your root SPF record. Make sure you completed its domain setup."
+msgstr "عُثر على سجل SPF صالح. يصادق %s على SPF عبر سجلات Return-Path الخاصة به، لذا لا يلزم ظهوره في سجل SPF الجذري. تأكد من إكمال إعداد نطاقه."
+
+#. translators: %1$s: mail service name
+#: includes/Checks/SpfCheck.php:84
+#, php-format
+msgid "Your site sends email through %1$s, but your SPF record does not appear to include it. Add the include value from your provider's DNS instructions to your SPF record, or emails may fail SPF. (If %1$s is listed inside another include, you can ignore this.)"
+msgstr "يرسل موقعك البريد عبر %1$s، لكن يبدو أن سجل SPF لديك لا يتضمنه. أضف قيمة include من تعليمات DNS لدى مزوّدك إلى سجل SPF، وإلا قد تفشل رسائلك في SPF. (إن كان %1$s مدرجًا ضمن include آخر فيمكنك تجاهل هذا.)"
+
+#: includes/Checks/SpfCheck.php:90
+msgid "A valid SPF record was found. This helps authenticate your emails. Make sure it includes the service that actually sends your mail."
+msgstr "عُثر على سجل SPF صالح. هذا يساعد في مصادقة رسائلك. تأكد من أنه يتضمن الخدمة التي ترسل بريدك فعلًا."
+
+#: includes/Checks/SpfCheck.php:93
+msgid "No SPF record was found. This is a critical issue that makes your emails look suspicious to spam filters."
+msgstr "لم يُعثر على سجل SPF. هذه مشكلة خطيرة تجعل رسائلك تبدو مشبوهة لمرشحات البريد المزعج."
+
+#: includes/Checks/WooCommerceEmailCheck.php:27
+msgid "WooCommerce Email Setup"
+msgstr "إعداد بريد WooCommerce"
+
+#: includes/Checks/WooCommerceEmailCheck.php:32
+#: includes/Checks/WooCommerceEmailCheck.php:38
+#: includes/Checks/WooCommerceEmailCheck.php:62
+msgid "WooCommerce's email settings could not be read."
+msgstr "تعذّرت قراءة إعدادات بريد WooCommerce."
+
+#: includes/Checks/WooCommerceEmailCheck.php:68
+msgid "The \"New order\" email is on but has no valid recipient, so nobody receives new order emails. Set one in WooCommerce > Settings > Emails > New order."
+msgstr "بريد «طلب جديد» مفعّل لكن بلا مستلم صالح، لذا لا يتلقى أحد رسائل الطلبات الجديدة. عيّن مستلمًا في WooCommerce ‏>‏ الإعدادات ‏>‏ رسائل البريد ‏>‏ طلب جديد."
+
+#. translators: %s: comma-separated list of WooCommerce email names
+#: includes/Checks/WooCommerceEmailCheck.php:74
+#, php-format
+msgid "These WooCommerce emails are turned off: %s. That is fine if you did it on purpose; if not, turn them on in WooCommerce > Settings > Emails."
+msgstr "رسائل WooCommerce التالية متوقفة: %s. لا بأس بذلك إن فعلته عمدًا؛ وإلا فعّلها من WooCommerce ‏>‏ الإعدادات ‏>‏ رسائل البريد."
+
+#: includes/Checks/WooCommerceEmailCheck.php:86
+msgid "WooCommerce's \"From\" address is empty or not a valid email address. Set it in WooCommerce > Settings > Emails."
+msgstr "عنوان «المرسل» في WooCommerce فارغ أو ليس بريدًا إلكترونيًا صالحًا. عيّنه في WooCommerce ‏>‏ الإعدادات ‏>‏ رسائل البريد."
+
+#. translators: %s: comma-separated list of template file names
+#: includes/Checks/WooCommerceEmailCheck.php:93
+#, php-format
+msgid "Your theme overrides WooCommerce email templates that are older than WooCommerce's own versions: %s. Outdated overrides can break emails or miss changes. Update them or remove the overrides."
+msgstr "يستبدل قالب موقعك (theme) ملفات قوالب بريد WooCommerce بنسخ أقدم من نسخ WooCommerce نفسها: %s. قد تعطّل القوالب القديمة الرسائل أو تفوّتها تغييرات. حدّثها أو أزل الاستبدالات."
+
+#: includes/Checks/WooCommerceEmailCheck.php:99
+msgid "The key WooCommerce emails (new order, processing and completed) are on, the new order recipient and the From address are set, and no outdated email template overrides were found."
+msgstr "رسائل WooCommerce الأساسية (طلب جديد، قيد المعالجة، مكتمل) مفعّلة، ومستلم الطلب الجديد وعنوان المرسل مضبوطان، ولم يُعثر على قوالب بريد قديمة مستبدلة."
+
+#: includes/Log/EmailLogger.php:211
+#: includes/Log/SourceDetector.php:56
+#: includes/Log/SourceDetector.php:91
+msgid "Unknown"
+msgstr "غير معروف"
+
+#: includes/Log/EmailLogger.php:312
+msgid "This plugin keeps a short log of the emails your site sends (time, which plugin sent it, WooCommerce email type, whether it was accepted or failed, the recipient's email domain and a partly hidden address such as j***@example.com). It does not store message contents or subjects, and email addresses, including those in error messages, are partly hidden. Log entries are deleted automatically after a few days (7 by default, and you can shorten this or clear or turn off the log at any time in the Email Log tab)."
+msgstr "تحتفظ هذه الإضافة بسجل قصير للرسائل التي يرسلها موقعك (الوقت، والإضافة التي أرسلتها، ونوع بريد WooCommerce، وهل قُبلت أم فشلت، ونطاق بريد المستلم، وعنوان مخفي جزئيًا مثل j***@example.com). لا تخزّن محتوى الرسائل ولا موضوعاتها، وتُخفى عناوين البريد جزئيًا، بما فيها تلك الواردة في رسائل الخطأ. تُحذف مدخلات السجل تلقائيًا بعد أيام قليلة (7 افتراضيًا، ويمكنك تقصيرها أو مسح السجل أو إيقافه في أي وقت من تبويب سجل البريد الإلكتروني)."
+
+#: includes/Log/FailureAlert.php:60
+msgid "\"Accepted\" means WordPress handed the email off without an error, not that it was delivered."
+msgstr "تعني «مقبولة» أن ووردبريس سلّم الرسالة دون خطأ، لا أنها وصلت فعلًا."
+
+#. translators: 1: accepted emails, 2: failed emails, 3: failure rate percent
+#: includes/Log/FailureAlert.php:71
+#, php-format
+msgid "Last 24 hours: %1$d accepted, %2$d failed (%3$d%% failure rate)."
+msgstr "آخر 24 ساعة: %1$d مقبولة، %2$d فاشلة (نسبة فشل %3$d%%)."
+
+#: includes/Log/SourceDetector.php:77
+msgid "Theme"
+msgstr "القالب"
+
+#: includes/Log/SourceDetector.php:85
+msgid "WordPress"
+msgstr "ووردبريس"
+
+#: includes/Plugin.php:72
+msgid "Health Check"
+msgstr "فحص الصحة"
+
+#. translators: %s: domain such as gmail.com
+#: includes/Support/Domain.php:89
+#, php-format
+msgid "Your emails are sent from an address at %s, a domain you cannot publish DNS records for, so there is nothing to check here. Use an address at your own domain instead."
+msgstr "تُرسَل رسائلك من عنوان في %s، وهو نطاق لا يمكنك نشر سجلات DNS له، لذا لا شيء للفحص هنا. استخدم عنوانًا في نطاقك الخاص بدلًا من ذلك."
+
+#. translators: 1: mail provider name
+#: includes/Support/ProviderGuidance.php:106
+#, php-format
+msgid "%1$s authenticates SPF through its own return-path records, shown in your %1$s dashboard, so no include is needed in your root domain's SPF record. Complete its domain setup there. Your domain still needs a valid SPF record for your other senders, such as your web host or mailbox provider."
+msgstr "يصادق %1$s على SPF عبر سجلات Return-Path الخاصة به، والتي تظهر في لوحة %1$s لديك، لذا لا حاجة إلى include في سجل SPF لنطاقك الجذري. أكمل إعداد النطاق هناك. لا يزال نطاقك بحاجة إلى سجل SPF صالح لمرسلين آخرين، مثل استضافتك أو مزوّد صندوق بريدك."
+
+#. translators: 1: SPF include, e.g. include:mailgun.org
+#: includes/Support/ProviderGuidance.php:115
+#, php-format
+msgid "If you have no SPF record, publish this one. If you already have one, add %1$s to it instead: a domain may only have a single SPF record, and a second one breaks both."
+msgstr "إن لم يكن لديك سجل SPF فانشر هذا السجل. وإن كان لديك واحد فأضف إليه %1$s بدلًا من ذلك: لا يجوز أن يكون للنطاق سوى سجل SPF واحد، والثاني يُفسد الاثنين."
+
+#: includes/Support/ProviderGuidance.php:141
+msgid "DMARC works only once SPF or DKIM passes for your sending service. Start in monitoring mode, then tighten the policy once your reports look clean. If you already have a DMARC record, edit it instead of adding a second one."
+msgstr "لا يعمل DMARC إلا بعد نجاح SPF أو DKIM لخدمة الإرسال لديك. ابدأ بوضع المراقبة، ثم شدّد السياسة عندما تبدو تقاريرك سليمة. إن كان لديك سجل DMARC فعدّله بدلًا من إضافة سجل ثانٍ."
+
+#: includes/Support/ProviderGuidance.php:162
+msgid "In the Google Admin console go to Apps, Google Workspace, Gmail, Authenticate email, generate the record (the default host is google._domainkey), publish it as a TXT record and then turn DKIM on."
+msgstr "في لوحة Google Admin انتقل إلى Apps ثم Google Workspace ثم Gmail ثم Authenticate email، وأنشئ السجل (المضيف الافتراضي google._domainkey)، وانشره كسجل TXT ثم فعّل DKIM."
+
+#: includes/Support/ProviderGuidance.php:164
+msgid "Microsoft 365 uses two CNAME records, selector1._domainkey and selector2._domainkey, whose targets are specific to your tenant. Publish them, then enable DKIM signing for your domain."
+msgstr "يستخدم Microsoft 365 سجلَّي CNAME هما selector1._domainkey وselector2._domainkey، وهدفاهما خاصان بمستأجرك (tenant). انشرهما ثم فعّل توقيع DKIM لنطاقك."
+
+#: includes/Support/ProviderGuidance.php:166
+msgid "Amazon SES gives you three CNAME records (token._domainkey) for Easy DKIM. Copy them from your SES identity, because the values are specific to it."
+msgstr "يمنحك Amazon SES ثلاثة سجلات CNAME (token._domainkey) لـ Easy DKIM. انسخها من هوية SES لديك لأن القيم خاصة بها."
+
+#: includes/Support/ProviderGuidance.php:168
+msgid "Copy the DKIM TXT record from the \"Domain Verification & DNS\" section of your Mailgun domain."
+msgstr "انسخ سجل DKIM من نوع TXT من قسم «Domain Verification & DNS» في نطاق Mailgun لديك."
+
+#: includes/Support/ProviderGuidance.php:170
+msgid "Brevo shows either one DKIM TXT record or two CNAME records for your domain. Copy them from Brevo, because the values are generated for your account."
+msgstr "يعرض Brevo إما سجل DKIM واحدًا من نوع TXT أو سجلَّي CNAME لنطاقك. انسخها من Brevo لأن القيم تُنشأ لحسابك."
+
+#: includes/Support/ProviderGuidance.php:172
+msgid "SendGrid gives you CNAME records (or TXT records if Automated Security is off) when you authenticate your domain. Copy them from SendGrid, because the values are specific to your account."
+msgstr "يمنحك SendGrid سجلات CNAME (أو TXT إن كان Automated Security متوقفًا) عند مصادقة نطاقك. انسخها من SendGrid لأن القيم خاصة بحسابك."
+
+#: includes/Support/ProviderGuidance.php:174
+msgid "Postmark issues a unique DKIM TXT record for each domain you add. Copy it from your Postmark domain settings."
+msgstr "يصدر Postmark سجل DKIM فريدًا من نوع TXT لكل نطاق تضيفه. انسخه من إعدادات نطاقك في Postmark."
+
+#. translators: %s: mail provider name
+#: includes/Support/ProviderGuidance.php:177
+#, php-format
+msgid "Copy the DKIM records from your %s dashboard (its domain authentication or verification section), because the values are generated for your account."
+msgstr "انسخ سجلات DKIM من لوحة %s لديك (قسم مصادقة النطاق أو التحقق)، لأن القيم تُنشأ لحسابك."
+
+#: views/admin-page.php:7
+msgid "Run a quick diagnostic to check the health of your store's email delivery system."
+msgstr "أجرِ فحصًا سريعًا للتحقق من صحة نظام إرسال البريد في متجرك."
+
+#: views/admin-page.php:29
+msgid "The checks could not be loaded."
+msgstr "تعذّر تحميل الفحوص."
+
+#: views/admin-page.php:30
+msgid "Run them again on the server"
+msgstr "شغّلها مرة أخرى على الخادم"
+
+#: views/admin-page.php:31
+msgid "The email checks have finished."
+msgstr "انتهت فحوص البريد الإلكتروني."
+
+#: views/admin-page.php:33
+#: views/report-card.php:15
+msgid "Email Health Report"
+msgstr "تقرير صحة البريد الإلكتروني"
+
+#: views/admin-page.php:36
+msgid "Running the checks. DNS lookups can take a few seconds."
+msgstr "جارٍ تشغيل الفحوص. قد تستغرق استعلامات DNS بضع ثوانٍ."
+
+#: views/admin-page.php:39
+msgid "Run the checks without JavaScript"
+msgstr "شغّل الفحوص بدون JavaScript"
+
+#: views/admin-page.php:49
+msgid "Test Your Email Sending"
+msgstr "اختبر إرسال بريدك"
+
+#: views/admin-page.php:51
+msgid "Send a test email through your real mail setup to confirm that it works. Use your own address, or any inbox you want to test (for example a Gmail or Outlook address)."
+msgstr "أرسل رسالة اختبار عبر إعدادات بريدك الفعلية للتأكد من عملها. استخدم عنوانك أو أي صندوق بريد تريد اختباره (مثل عنوان Gmail أو Outlook)."
+
+#: views/admin-page.php:56
+msgid "Send to"
+msgstr "إرسال إلى"
+
+#: views/admin-page.php:60
+msgid "Subject (optional)"
+msgstr "الموضوع (اختياري)"
+
+#: views/admin-page.php:63
+msgid "Send Test Email"
+msgstr "إرسال رسالة اختبار"
+
+#: views/admin-page.php:69
+msgid "Test Your WooCommerce Emails"
+msgstr "اختبر رسائل WooCommerce"
+
+#: views/admin-page.php:71
+msgid "Recent WooCommerce versions can preview each email and send you a test copy, using your real From address and mail setup. Open it, pick an email and use its preview to send yourself a test."
+msgstr "تستطيع إصدارات WooCommerce الحديثة معاينة كل رسالة وإرسال نسخة اختبار إليك، باستخدام عنوان المرسل وإعدادات البريد الفعلية. افتحها واختر رسالة واستخدم معاينتها لإرسال اختبار لنفسك."
+
+#: views/admin-page.php:73
+msgid "Open WooCommerce email settings"
+msgstr "افتح إعدادات بريد WooCommerce"
+
+#: views/admin-page.php:75
+msgid "The test email then shows up in the Email Log tab as a WooCommerce email."
+msgstr "تظهر رسالة الاختبار بعد ذلك في تبويب سجل البريد الإلكتروني كرسالة WooCommerce."
+
+#: views/checklist.php:19
+msgid "Getting started"
+msgstr "البدء"
+
+#: views/checklist.php:30
+msgid "(done)"
+msgstr "(تم)"
+
+#: views/checklist.php:30
+msgid "(to do)"
+msgstr "(للإنجاز)"
+
+#: views/checklist.php:37
+msgid "Hide this checklist"
+msgstr "إخفاء هذه القائمة"
+
+#: views/email-log.php:30
+msgid "Settings saved."
+msgstr "تم حفظ الإعدادات."
+
+#: views/email-log.php:32
+msgid "The email log was cleared."
+msgstr "تم مسح سجل البريد الإلكتروني."
+
+#: views/email-log.php:36
+msgid "Email logging is turned off, so new emails are not recorded. Existing entries stay until they expire or you clear the log."
+msgstr "تسجيل البريد متوقف، لذا لا تُسجَّل الرسائل الجديدة. تبقى المدخلات الحالية حتى تنتهي صلاحيتها أو تمسح السجل."
+
+#: views/email-log.php:40
+msgid "The email log needs WordPress 5.9 or newer, or has been turned off by a filter, so nothing is recorded."
+msgstr "يتطلب سجل البريد ووردبريس 5.9 أو أحدث، أو أنه أُوقف بواسطة فلتر، لذلك لا يُسجَّل شيء."
+
+#: views/email-log.php:44
+msgid "\"Accepted\" means WordPress handed the email to your mail system without an error. It does not prove the email was delivered. Entries are kept for a short time (7 days by default), and only a partly hidden recipient address is stored, never the message."
+msgstr "تعني «مقبولة» أن ووردبريس سلّم الرسالة إلى نظام بريدك دون خطأ. هذا لا يثبت أن الرسالة وصلت. تُحفظ المدخلات لفترة قصيرة (7 أيام افتراضيًا)، ويُخزَّن عنوان المستلم مخفيًا جزئيًا فقط، ولا تُخزَّن الرسالة أبدًا."
+
+#: views/email-log.php:50
+msgid "Last 24 hours"
+msgstr "آخر 24 ساعة"
+
+#: views/email-log.php:51
+msgid "Last 7 days"
+msgstr "آخر 7 أيام"
+
+#: views/email-log.php:59
+msgid "accepted"
+msgstr "مقبولة"
+
+#: views/email-log.php:61
+msgid "failed"
+msgstr "فاشلة"
+
+#. translators: %d: failure rate percentage
+#: views/email-log.php:65
+#, php-format
+msgid "%d%% failure rate"
+msgstr "نسبة فشل %d%%"
+
+#: views/email-log.php:75
+msgid "By source (last 7 days)"
+msgstr "حسب المصدر (آخر 7 أيام)"
+
+#: views/email-log.php:77
+#: views/email-log.php:131
+#: views/email-log.php:166
+msgid "Source"
+msgstr "المصدر"
+
+#: views/email-log.php:77
+#: views/email-log.php:94
+#: views/email-log.php:142
+#: views/email-log.php:197
+msgid "Accepted"
+msgstr "مقبولة"
+
+#: views/email-log.php:77
+#: views/email-log.php:94
+#: views/email-log.php:143
+#: views/email-log.php:195
+msgid "Failed"
+msgstr "فاشلة"
+
+#: views/email-log.php:92
+msgid "WooCommerce emails (last 7 days)"
+msgstr "رسائل WooCommerce (آخر 7 أيام)"
+
+#: views/email-log.php:112
+msgid "Last failure:"
+msgstr "آخر فشل:"
+
+#. translators: 1: date and time, 2: source name, 3: error message
+#: views/email-log.php:117
+#, php-format
+msgid "%1$s, %2$s: %3$s"
+msgstr "%1$s، %2$s: %3$s"
+
+#: views/email-log.php:133
+msgid "All sources"
+msgstr "كل المصادر"
+
+#: views/email-log.php:139
+#: views/email-log.php:169
+#: views/report-card.php:24
+msgid "Status"
+msgstr "الحالة"
+
+#: views/email-log.php:141
+msgid "Any status"
+msgstr "أي حالة"
+
+#: views/email-log.php:147
+msgid "WooCommerce email type"
+msgstr "نوع رسالة WooCommerce"
+
+#: views/email-log.php:149
+msgid "Any WooCommerce email"
+msgstr "أي رسالة WooCommerce"
+
+#: views/email-log.php:156
+msgid "Filter"
+msgstr "تصفية"
+
+#: views/email-log.php:158
+msgid "Reset"
+msgstr "إعادة ضبط"
+
+#: views/email-log.php:165
+msgid "Time"
+msgstr "الوقت"
+
+#: views/email-log.php:167
+msgid "WooCommerce email"
+msgstr "رسالة WooCommerce"
+
+#: views/email-log.php:168
+msgid "Recipient"
+msgstr "المستلم"
+
+#: views/email-log.php:170
+msgid "Error"
+msgstr "الخطأ"
+
+#: views/email-log.php:180
+msgid "No emails match these filters."
+msgstr "لا توجد رسائل تطابق هذه المرشحات."
+
+#: views/email-log.php:181
+msgid "No emails have been logged yet. The log starts recording as soon as your site sends its next email."
+msgstr "لم تُسجَّل أي رسائل بعد. يبدأ التسجيل فور إرسال موقعك رسالته التالية."
+
+#. translators: %d: number of emails shown at most
+#: views/email-log.php:232
+#, php-format
+msgid "The newest %d emails are shown."
+msgstr "تُعرض أحدث %d رسالة."
+
+#: views/email-log.php:240
+msgid "Log settings"
+msgstr "إعدادات السجل"
+
+#: views/email-log.php:246
+msgid "Record the emails this site sends"
+msgstr "سجّل الرسائل التي يرسلها هذا الموقع"
+
+#: views/email-log.php:250
+msgid "Keep entries for"
+msgstr "احتفظ بالمدخلات لمدة"
+
+#. translators: %d: number of days
+#: views/email-log.php:258
+#, php-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d يوم"
+msgstr[1] "%d يوم"
+msgstr[2] "يومان"
+msgstr[3] "%d أيام"
+msgstr[4] "%d يومًا"
+msgstr[5] "%d يوم"
+
+#: views/email-log.php:267
+msgid "Save settings"
+msgstr "حفظ الإعدادات"
+
+#: views/email-log.php:273
+msgid "Clear log now"
+msgstr "مسح السجل الآن"
+
+#: views/email-log.php:273
+msgid "Delete all logged emails? This cannot be undone."
+msgstr "حذف كل الرسائل المسجّلة؟ لا يمكن التراجع عن ذلك."
+
+#: views/report-card.php:17
+msgid "The following checks will help you identify common issues that prevent emails from being delivered successfully."
+msgstr "ستساعدك الفحوص التالية على تحديد المشكلات الشائعة التي تمنع وصول الرسائل بنجاح."
+
+#: views/report-card.php:23
+msgid "Check"
+msgstr "الفحص"
+
+#: views/report-card.php:25
+msgid "Message"
+msgstr "الرسالة"
+
+#: views/report-card.php:47
+msgid "How to fix this"
+msgstr "كيف تصلح هذا"
+
+#: views/report-card.php:53
+#: views/report-card.php:75
+msgid "Copied"
+msgstr "تم النسخ"
+
+#: views/report-card.php:53
+msgid "Copy"
+msgstr "نسخ"
+
+#: views/report-card.php:57
+msgid "Official setup guide"
+msgstr "دليل الإعداد الرسمي"
+
+#: views/report-card.php:69
+msgid "Re-check"
+msgstr "إعادة الفحص"
+
+#: views/report-card.php:70
+msgid "The mail service detection and blacklist lookups are saved for up to 12 hours. Re-check to refresh them."
+msgstr "يُحفظ اكتشاف خدمة البريد واستعلامات القوائم السوداء حتى 12 ساعة. اضغط «إعادة الفحص» لتحديثها."
+
+#: views/report-card.php:75
+msgid "Copy support report"
+msgstr "نسخ تقرير الدعم"
+
+#: views/report-card.php:76
+msgid "A plain-text summary to paste into a support ticket. It has your site and mail domains, versions, check results, the plugin that handles your email and, if the blacklist check ran, your server IP address, but no passwords, message contents or full email addresses. Remove anything you would rather not share publicly."
+msgstr "ملخص نصي بسيط للصقه في تذكرة دعم. يتضمن نطاق موقعك ونطاق بريدك والإصدارات ونتائج الفحوص والإضافة التي تتولى بريدك، وعنوان IP لخادمك إن أُجري فحص القوائم السوداء، دون كلمات مرور أو محتوى رسائل أو عناوين بريد كاملة. احذف ما لا تريد مشاركته علنًا."
+
+#: views/report-card.php:78
+msgid "Preview the report"
+msgstr "معاينة التقرير"
+
+#: views/report-card.php:79
+msgid "Support report"
+msgstr "تقرير الدعم"
+
+#: views/review-notice.php:20
+msgid "Is Email Health Check useful to you?"
+msgstr "هل فحص صحة البريد الإلكتروني مفيد لك؟"
+
+#: views/review-notice.php:20
+msgid "A short review on WordPress.org helps other store owners find it."
+msgstr "مراجعة قصيرة على WordPress.org تساعد أصحاب المتاجر الآخرين على العثور عليها."
+
+#: views/review-notice.php:25
+msgid "Leave a review"
+msgstr "اترك مراجعة"
+
+#: views/review-notice.php:25
+msgid "(opens in a new tab)"
+msgstr "(يفتح في تبويب جديد)"
+
+#: views/review-notice.php:26
+msgid "Maybe later"
+msgstr "ربما لاحقًا"
+
+#: views/review-notice.php:27
+msgid "I have left a review, or no thanks"
+msgstr "تركت مراجعة، أو لا شكرًا"
+
+#: views/tabs.php:13
+msgid "Health Report"
+msgstr "تقرير الصحة"
+
+#: views/tabs.php:14
+msgid "Email Log"
+msgstr "سجل البريد الإلكتروني"
+
+#: views/tabs.php:17
+msgid "Email Health Check sections"
+msgstr "أقسام فحص صحة البريد الإلكتروني"

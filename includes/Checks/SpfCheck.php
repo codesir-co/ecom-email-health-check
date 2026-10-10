@@ -10,6 +10,12 @@ defined( 'ABSPATH' ) || exit;
 
 class SpfCheck implements CheckInterface {
 
+	/** An SPF record starts with this version tag. */
+	const RECORD_PATTERN = '/^v=spf1(\s|$)/i';
+
+	/** A mechanism (or redirect) that authorises some sender: include, ip4, ip6, a, mx, exists, redirect, with an optional qualifier. */
+	const MECHANISM_PATTERN = '/\s[+\-~?]?(include:|ip4:|ip6:|a(?=[\s:\/]|$)|mx(?=[\s:\/]|$)|exists:)|\sredirect=/i';
+
 	public function get_id(): string {
 		return 'spf_record';
 	}
@@ -37,7 +43,7 @@ class SpfCheck implements CheckInterface {
 
 		$spf_records = array();
 		foreach ( $records as $record ) {
-			if ( preg_match( '/^v=spf1(\s|$)/i', $record ) ) {
+			if ( preg_match( self::RECORD_PATTERN, $record ) ) {
 				$spf_records[] = $record;
 			}
 		}
@@ -47,7 +53,7 @@ class SpfCheck implements CheckInterface {
 		}
 
 		if ( 1 === count( $spf_records ) ) {
-			if ( ! preg_match( '/\s[+\-~?]?(include:|ip4:|ip6:|a(?=[\s:\/]|$)|mx(?=[\s:\/]|$)|exists:)|\sredirect=/i', $spf_records[0] ) ) {
+			if ( ! preg_match( self::MECHANISM_PATTERN, $spf_records[0] ) ) {
 				return new Result( false, __( 'An SPF record exists but does not authorize any sending service (no include:, ip4:, ip6:, a, mx or redirect). Add the service that sends your email, such as your SMTP provider or host.', 'ecom-email-health-check' ) );
 			}
 
@@ -74,9 +80,8 @@ class SpfCheck implements CheckInterface {
 
 				return Result::warning(
 					sprintf(
-						/* translators: %s: mail service name */
-						__( 'Your site sends email through %s, but your SPF record does not appear to include it. Add the include value from your provider\'s DNS instructions to your SPF record, or emails may fail SPF. (If %s is listed inside another include, you can ignore this.)', 'ecom-email-health-check' ),
-						$provider['name'],
+						/* translators: %1$s: mail service name */
+						__( 'Your site sends email through %1$s, but your SPF record does not appear to include it. Add the include value from your provider\'s DNS instructions to your SPF record, or emails may fail SPF. (If %1$s is listed inside another include, you can ignore this.)', 'ecom-email-health-check' ),
 						$provider['name']
 					)
 				);

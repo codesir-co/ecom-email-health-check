@@ -166,3 +166,14 @@
     margin-left: 6px;
     vertical-align: middle;
 }
+
+.ecehc-test-form .regular-text {
+    width: 100%;
+    max-width: 100%;
+}
+
+.ecehc-report-loading .spinner {
+    float: none;
+    margin: 0 8px 0 0;
+    vertical-align: middle;
+}

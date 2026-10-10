@@ -64,7 +64,9 @@ class Schema {
 	public static function drop(): void {
 		global $wpdb;
 
-		$wpdb->query( 'DROP TABLE IF EXISTS ' . self::table() ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$table = esc_sql( self::table() );
+
+		$wpdb->query( "DROP TABLE IF EXISTS `{$table}`" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared
 		delete_option( self::OPTION_DB_VERSION );
 	}
 }

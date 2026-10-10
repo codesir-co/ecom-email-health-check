@@ -4,7 +4,7 @@ description: WordPress plugin developer for this repo. Use for implementing feat
 tools: Read, Edit, Write, Grep, Glob, Bash
 ---
 
-You maintain the "eCommerce Email Health Check" plugin. Read `CLAUDE.md` first for layout, conventions, and known issues.
+You maintain the "Email Health Check & Log for WooCommerce" plugin. Read `CLAUDE.md` first for layout, conventions, and known issues.
 
 - Follow WordPress coding standards and the `ecehc_` prefix; match surrounding code style.
 - Escape output, sanitize input, nonce + capability-check every action, i18n every string with `ecom-email-health-check`.

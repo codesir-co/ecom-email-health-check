@@ -36,15 +36,18 @@ class AdminPage {
 	}
 
 	public function render(): void {
-		$active_tab = $this->active_tab();
+		$ecehc_active_tab = $this->active_tab();
 
-		if ( 'log' === $active_tab ) {
-			$this->render_log( $active_tab );
+		if ( 'log' === $ecehc_active_tab ) {
+			$this->render_log( $ecehc_active_tab );
 			return;
 		}
 
-		$results   = ( new CheckRunner() )->run_all();
-		$checklist = Checklist::items( $results );
+		// The checks (DNS lookups) normally run in the background after the page has opened.
+		// ?ecehc_sync=1 runs them while the page loads, as the fallback without JavaScript.
+		$sync      = isset( $_GET['ecehc_sync'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$results   = $sync ? ( new CheckRunner() )->run_all() : null;
+		$checklist = $sync ? Checklist::items( $results ) : array();
 		include ECEHC_PLUGIN_PATH . 'views/admin-page.php';
 	}
 
@@ -60,7 +63,7 @@ class AdminPage {
 	/**
 	 * Email Log tab: statistics, filters and the list of recent emails.
 	 */
-	private function render_log( string $active_tab ): void {
+	private function render_log( string $ecehc_active_tab ): void {
 		Checklist::mark_log_seen();
 
 		$supported = EmailLogger::is_supported();
@@ -128,7 +131,7 @@ class AdminPage {
 		wp_enqueue_script(
 			'ecom-email-health-check-admin',
 			ECEHC_PLUGIN_URL . 'assets/js/admin.js',
-			array(),
+			array( 'wp-a11y' ),
 			ECEHC_VERSION,
 			true
 		);

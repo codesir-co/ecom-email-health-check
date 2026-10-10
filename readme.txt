@@ -1,6 +1,6 @@
 === Email Health Check & Log for WooCommerce – SPF, DKIM, DMARC & Alerts ===
 Contributors: engahmeds3ed
-Tags: woocommerce, email, email log, smtp, deliverability
+Tags: woocommerce, email log, deliverability, dkim, dmarc
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
@@ -8,13 +8,13 @@ Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Email log, delivery checks and failure alerts for WooCommerce. Find out why order emails land in spam or never arrive.
+Email log, SPF/DKIM/DMARC checks and failure alerts. Find out why WooCommerce order emails go to spam or never arrive.
 
 == Description ==
 
-**Customers not getting your order emails? Find out why, and fix it.**
+**WooCommerce emails not sending, or going to spam? Find out why, and fix it.**
 
-Email Health Check looks at how your WordPress or WooCommerce site sends email, tells you what is wrong in plain language, and keeps an eye on every email your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is an optional server IP blacklist check (see External services).
+Email Health Check looks at how your WordPress or WooCommerce site sends email and tells you what is wrong in plain language: SPF, DKIM and DMARC problems, mail sent through plain PHP mail, a blacklisted server IP, order emails that are switched off or stuck behind unpaid orders, and more. It also keeps an email log of what your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is an optional server IP blacklist check (see External services).
 
 = Diagnose =
 
@@ -28,7 +28,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email, 
 * **WooCommerce email setup:** flags turned-off key emails, a missing new-order recipient, an invalid From address and outdated theme overrides of WooCommerce email templates. It only reads your settings.
 * **Unpaid orders (WooCommerce):** warns when many orders are stuck in "Pending payment" or "Failed". WooCommerce sends no order emails for those, so the real problem may be your payment gateway. Only order counts are read.
 
-= Monitor =
+= Email log and failure alerts =
 
 * **Email Log and statistics:** every email your site sends (WooCommerce, other plugins and WordPress itself) with its source, WooCommerce email type, status and error. Filter by source, status and WooCommerce email type, and see accepted and failed counts for the last 24 hours and 7 days. Only a partly hidden recipient address is stored, never the message. You can shorten the retention, turn logging off or clear the log.
 * **Failure alerts in wp-admin:** an "Email Health" dashboard widget and a Site Health test warn you when many emails fail, without needing email to work.
@@ -62,6 +62,9 @@ WooCommerce is a trademark of Automattic Inc. This plugin is independent and is 
 3. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Frequently Asked Questions ==
+
+= Why are my WooCommerce emails not sending, or going to spam? =
+The usual causes are: the site sends through plain PHP mail instead of an SMTP service; the SPF, DKIM or DMARC records for your From address are missing or wrong; the From address does not match your domain; the server's IP address is on a blacklist; the WooCommerce email is switched off or has no recipient; or the order is stuck in "Pending payment", which sends no order email. The Health Report checks each of these and, for the DNS records, shows what to fix. The Email Log then shows whether your emails are being accepted or failing.
 
 = What problem does this plugin solve? =
 Many hosting providers have poor email delivery configurations that can silently fail, leaving you and your customers in the dark. This plugin diagnoses those issues so you can address them.

@@ -27,3 +27,13 @@ ecehc_assert_same(
 	'server reply text around the address is kept'
 );
 ecehc_assert_same( 'nothing to hide here', EmailLogger::mask_addresses( 'nothing to hide here' ), 'text without addresses is unchanged' );
+ecehc_assert_same(
+	'Error: o***@example.com failed',
+	EmailLogger::mask_addresses( "Error: o'brien@example.com failed" ),
+	'an apostrophe in the local part is masked completely'
+);
+ecehc_assert_same(
+	"user's mail 'a***@c.org' bounced",
+	EmailLogger::mask_addresses( "user's mail 'a.b@c.org' bounced" ),
+	'a quoted address is masked and the quotes are kept'
+);

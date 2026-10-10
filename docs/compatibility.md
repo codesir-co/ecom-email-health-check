@@ -7,8 +7,8 @@ What was tested, how, and how to repeat it before a release. The plugin headers
 
 | Component | Version | Result |
 |---|---|---|
-| WordPress | 7.1.3 (latest) | all checks, log, admin pages |
-| WooCommerce | 11.2.1 (latest) | all checks, log, HPOS, admin pages |
+| WordPress | 7.1.3 (latest at the time) | all checks, log, admin pages (rendered via PHP) |
+| WooCommerce | 11.2.1 (latest at the time) | all checks, log, HPOS, admin pages (rendered via PHP) |
 | PHP | 8.5 | no notices or deprecations from the plugin |
 
 Method: a **throwaway site** (own table prefix, own folder, deleted afterwards), WordPress 7.1.3
@@ -24,18 +24,22 @@ with WooCommerce 11.2.1 and the plugin built from `develop`, driven with WP-CLI:
 - `AdminPage::render()` for the report shell, the synchronous report (`ecehc_sync=1`) and the Email Log tab
   rendered with no PHP notices or deprecations.
 
-Not covered: the real wp-admin screens in a browser on WooCommerce 11 (only rendered through PHP), HPOS
-turned off with live orders, multisite, older WordPress/WooCommerce versions (the declared minimums,
-WordPress 5.0 and `WC requires at least: 8.0`, are conservative claims that were never run).
+Not covered: the real wp-admin screens in a browser on WooCommerce 11 (only rendered through PHP), including
+the background loading of the report (the AJAX path added in PR #104; only the PHP-rendered shell and the
+`ecehc_sync=1` fallback were run), HPOS turned off with live orders, multisite, and the declared minimums:
+WordPress 5.0, PHP 7.4 (only PHP 8.5 was run) and `WC requires at least: 8.0` are conservative claims that
+were never run.
 
 ## How to repeat it (about 10 minutes)
 
-1. Make a scratch site that does not touch your real one: a separate database, or a separate table
-   prefix (`wp config create --dbprefix=ecehctmp_ ...`) in a development database, in a temporary folder.
+1. Make a scratch site that does not touch your real one: a dedicated database, or an unmistakably unique
+   table prefix (`wp config create --dbprefix=ecehctmp_ ...`) in a development database, in a temporary folder.
+   Create its own `wp-config.php`; never reuse or edit the real site's.
 2. `wp core install`, `wp plugin install woocommerce --activate`, copy the plugin
    (`git archive develop | tar -x -C wp-content/plugins/ecom-email-health-check`), activate it.
 3. Run the steps above. Also run Plugin Check on a copy built with `.distignore` (see the release skill).
-4. Delete the scratch site and drop every table with its prefix.
+4. Delete the scratch site and its tables: inside the scratch install run `wp config get table_prefix` to confirm
+   the prefix, then `wp db clean --yes` (it removes only the tables with that prefix), and delete the folder.
 5. Update the headers and the table in this file.
 
 ## WordPress 7.2 and later

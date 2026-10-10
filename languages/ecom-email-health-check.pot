@@ -1,0 +1,894 @@
+# Copyright (C) 2026 CodeSir
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Email Health Check & Log for WooCommerce – SPF, DKIM, DMARC & Alerts 1.4.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ecom-email-health-check\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-10T06:19:59+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: ecom-email-health-check\n"
+
+#. Plugin Name of the plugin
+#: ecom-email-health-check.php
+msgid "Email Health Check & Log for WooCommerce – SPF, DKIM, DMARC & Alerts"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: ecom-email-health-check.php
+msgid "https://github.com/codesir-co/ecom-email-health-check"
+msgstr ""
+
+#. Description of the plugin
+#: ecom-email-health-check.php
+msgid "Email log, SPF/DKIM/DMARC checks and failure alerts. Find out why WooCommerce order emails go to spam or never arrive."
+msgstr ""
+
+#. Author of the plugin
+#: ecom-email-health-check.php
+msgid "CodeSir"
+msgstr ""
+
+#: includes/Admin/AdminPage.php:28
+#: includes/Admin/AdminPage.php:29
+#: views/admin-page.php:5
+#: views/email-log.php:25
+msgid "Email Health Check"
+msgstr ""
+
+#: includes/Admin/Checklist.php:63
+msgid "Send a test email with the button on this page"
+msgstr ""
+
+#: includes/Admin/Checklist.php:81
+msgid "Fix the failing checks in the report"
+msgstr ""
+
+#. translators: %s: name of a check, e.g. SPF Record Validation
+#: includes/Admin/Checklist.php:84
+#, php-format
+msgid "Fix the top failing check: %s"
+msgstr ""
+
+#: includes/Admin/Checklist.php:93
+msgid "Take a look at the Email Log"
+msgstr ""
+
+#: includes/Admin/ChecklistHandler.php:27
+#: includes/Admin/LogSettingsHandler.php:34
+#: includes/Admin/RecheckHandler.php:30
+#: includes/Admin/ReviewPromptHandler.php:27
+#: includes/Admin/TestEmailHandler.php:41
+msgid "Security check failed."
+msgstr ""
+
+#: includes/Admin/DashboardWidget.php:28
+msgid "Email Health"
+msgstr ""
+
+#: includes/Admin/DashboardWidget.php:47
+msgid "No emails have been logged in the last 24 hours."
+msgstr ""
+
+#: includes/Admin/DashboardWidget.php:49
+msgid "Needs attention"
+msgstr ""
+
+#: includes/Admin/DashboardWidget.php:51
+msgid "Looks fine"
+msgstr ""
+
+#. translators: 1: date and time, 2: source name, 3: error message
+#: includes/Admin/DashboardWidget.php:62
+#, php-format
+msgid "Last failure: %1$s, %2$s: %3$s"
+msgstr ""
+
+#: includes/Admin/DashboardWidget.php:64
+msgid "unknown source"
+msgstr ""
+
+#: includes/Admin/DashboardWidget.php:65
+#: views/email-log.php:120
+msgid "no error message"
+msgstr ""
+
+#: includes/Admin/DashboardWidget.php:70
+msgid "View the email log"
+msgstr ""
+
+#: includes/Admin/RecheckHandler.php:40
+msgid "Checks refreshed."
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:38
+msgid "Email deliverability"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:45
+msgid "Recent email failures"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:64
+msgid "Many of your recent emails are failing"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:66
+msgid "No emails were logged in the last 24 hours"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:68
+msgid "Your recent emails are going out without errors"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:75
+#: includes/Admin/SiteHealth.php:156
+#: views/email-log.php:94
+msgid "Email"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:90
+msgid "Open the email log"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:141
+msgid "Open the Email Health Check report"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:145
+msgid "Your store's email deliverability could be improved"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:147
+msgid "Some email checks could not be completed"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:149
+msgid "Your email deliverability checks look healthy"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:168
+#: views/admin-page.php:35
+msgid "Pass"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:170
+#: views/admin-page.php:37
+msgid "Warning"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:172
+#: views/admin-page.php:41
+msgid "Fail"
+msgstr ""
+
+#: includes/Admin/SiteHealth.php:174
+#: views/admin-page.php:39
+msgid "Not checked"
+msgstr ""
+
+#: includes/Admin/TestEmailHandler.php:70
+#: views/admin-page.php:101
+msgid "Email Health Check: Test Email"
+msgstr ""
+
+#: includes/Admin/TestEmailHandler.php:79
+msgid "This is a test email sent from the Email Health Check plugin. If you received this, your site can send basic emails."
+msgstr ""
+
+#: includes/Admin/TestEmailHandler.php:168
+msgid "That does not look like a valid email address. No test email was sent."
+msgstr ""
+
+#: includes/Admin/TestEmailHandler.php:173
+msgid "You have sent several test emails in the last few minutes. Please wait a little before sending another."
+msgstr ""
+
+#: includes/Admin/TestEmailHandler.php:178
+msgid "Test email handed off for sending."
+msgstr ""
+
+#. translators: %s: partly hidden email address the test was sent to
+#: includes/Admin/TestEmailHandler.php:182
+#, php-format
+msgid "It was sent to %s. Please check that inbox to confirm it actually arrived."
+msgstr ""
+
+#: includes/Admin/TestEmailHandler.php:195
+msgid "View it in the Email Log"
+msgstr ""
+
+#: includes/Admin/TestEmailHandler.php:203
+msgid "Test email failed to send."
+msgstr ""
+
+#: includes/Admin/TestEmailHandler.php:203
+msgid "This is a common issue with standard hosting providers."
+msgstr ""
+
+#. translators: %s: error message from the mail system
+#: includes/Admin/TestEmailHandler.php:209
+#, php-format
+msgid "The mail system said: %s"
+msgstr ""
+
+#: includes/Admin/TestEmailHandler.php:215
+msgid "Review the checks below, and consider sending your email through an SMTP service or asking your hosting provider whether outgoing email is blocked."
+msgstr ""
+
+#: includes/Checks/BasicEmailCheck.php:24
+msgid "Basic Email Functionality"
+msgstr ""
+
+#: includes/Checks/BasicEmailCheck.php:31
+msgid "No test email has been sent yet. Use \"Send Test Email\" to check that your site can send mail."
+msgstr ""
+
+#. translators: %s: date and time the test email was sent
+#: includes/Checks/BasicEmailCheck.php:39
+#, php-format
+msgid "(Sent %s.)"
+msgstr ""
+
+#: includes/Checks/BasicEmailCheck.php:44
+msgid "The last test email was accepted for sending by WordPress. This does not guarantee delivery, so check your inbox to confirm it arrived."
+msgstr ""
+
+#. translators: %s: error message returned by the mail system
+#: includes/Checks/BasicEmailCheck.php:50
+#, php-format
+msgid "The last test email failed to send. Error: %s"
+msgstr ""
+
+#: includes/Checks/BasicEmailCheck.php:52
+msgid "The last test email failed to send. Your hosting provider may be blocking emails."
+msgstr ""
+
+#: includes/Checks/BlacklistCheck.php:32
+msgid "Server IP Blacklists"
+msgstr ""
+
+#: includes/Checks/BlacklistCheck.php:92
+msgid "Skipped: your email is sent through an SMTP plugin or mail service, so your web server's own IP address is not what receivers see."
+msgstr ""
+
+#: includes/Checks/BlacklistCheck.php:98
+msgid "Skipped on the command line, where the web server's IP address is not available. Set it with the ecehc_server_ip filter to check it here."
+msgstr ""
+
+#: includes/Checks/BlacklistCheck.php:102
+msgid "Your server's public IPv4 address could not be determined (it may be IPv6, private, or behind a proxy), so blacklists were not checked."
+msgstr ""
+
+#. translators: 1: server IP address, 2: list names
+#: includes/Checks/BlacklistCheck.php:170
+#, php-format
+msgid "Your server IP address %1$s is listed on: %2$s. Mail sent straight from this server is likely to be rejected or sent to spam. Ask your host to resolve it, or send through an SMTP service instead."
+msgstr ""
+
+#: includes/Checks/BlacklistCheck.php:178
+msgid "The DNS lookups to the blacklists failed, so your server IP address could not be checked. Try again later."
+msgstr ""
+
+#. translators: 1: server IP address, 2: list names
+#: includes/Checks/BlacklistCheck.php:185
+#, php-format
+msgid "Your server IP address %1$s is not listed on %2$s. Only these free lists are checked: major lists such as Spamhaus cannot be queried by a plugin under their terms, so a clean result here does not guarantee a clean reputation."
+msgstr ""
+
+#. translators: %s: check id
+#: includes/Checks/CheckRunner.php:64
+#, php-format
+msgid "Duplicate diagnostic check id \"%s\" was skipped."
+msgstr ""
+
+#. translators: %s: domain of the From address
+#: includes/Checks/CheckRunner.php:79
+#, php-format
+msgid "(Checked for %s, the domain of your From address.)"
+msgstr ""
+
+#: includes/Checks/DkimCheck.php:25
+msgid "DKIM Record"
+msgstr ""
+
+#. translators: %s: DKIM selector name
+#: includes/Checks/DkimCheck.php:63
+#, php-format
+msgid "A DKIM key was found for selector \"%s\". This lets receivers verify that your emails were not altered."
+msgstr ""
+
+#: includes/Checks/DkimCheck.php:70
+msgid "The DNS lookup was not possible on this server, so DKIM could not be checked. Use an online DKIM checker with your mail provider's selector."
+msgstr ""
+
+#: includes/Checks/DkimCheck.php:73
+msgid "No DKIM key was found under common selectors. Your mail provider may use a custom selector that cannot be detected automatically. Check your provider's DNS instructions or use an online DKIM checker."
+msgstr ""
+
+#: includes/Checks/DmarcCheck.php:22
+msgid "DMARC Record"
+msgstr ""
+
+#: includes/Checks/DmarcCheck.php:35
+msgid "The DNS lookup was not possible on this server, so the DMARC record could not be checked. Use an online DMARC checker for your domain."
+msgstr ""
+
+#: includes/Checks/DmarcCheck.php:44
+msgid "A DMARC record was found, but its policy is \"none\" (monitoring only). Once your email is authenticated correctly, consider moving to \"quarantine\" or \"reject\"."
+msgstr ""
+
+#: includes/Checks/DmarcCheck.php:47
+msgid "A DMARC record was found. This tells receiving servers how to treat email that fails authentication."
+msgstr ""
+
+#: includes/Checks/DmarcCheck.php:50
+msgid "No DMARC record was found. Without one, mailbox providers have no policy for spoofed or unauthenticated email from your domain, which can hurt deliverability."
+msgstr ""
+
+#: includes/Checks/PendingOrdersCheck.php:29
+msgid "Unpaid Orders"
+msgstr ""
+
+#: includes/Checks/PendingOrdersCheck.php:34
+#: includes/Checks/PendingOrdersCheck.php:44
+msgid "WooCommerce orders could not be read."
+msgstr ""
+
+#. translators: 1: number of unpaid or failed orders, 2: number of orders that went through
+#: includes/Checks/PendingOrdersCheck.php:58
+#, php-format
+msgid "In the last 7 days, %1$d orders are still \"Pending payment\" or \"Failed\" against %2$d that went through (processing, completed or on hold). WooCommerce sends no order emails for unpaid orders, so customers may look like they are missing emails when the real cause is a payment problem. Check your payment gateway before changing your email setup."
+msgstr ""
+
+#. translators: 1: number of unpaid or failed orders, 2: number of orders that went through
+#: includes/Checks/PendingOrdersCheck.php:69
+#, php-format
+msgid "In the last 7 days, %1$d orders are \"Pending payment\" or \"Failed\" and %2$d went through (processing, completed or on hold). WooCommerce sends no order emails for unpaid orders, so a few are normal (abandoned checkouts)."
+msgstr ""
+
+#: includes/Checks/SenderAddressCheck.php:16
+msgid "Sender Address Check"
+msgstr ""
+
+#. translators: 1: email address, 2: domain such as gmail.com
+#: includes/Checks/SenderAddressCheck.php:28
+#, php-format
+msgid "Your emails are sent from %1$s. Receivers expect mail from %2$s to come from its own servers, so mail sent from your site is likely to be rejected or sent to spam. Use an address at your own domain instead."
+msgstr ""
+
+#. translators: %s: email address
+#: includes/Checks/SenderAddressCheck.php:40
+#, php-format
+msgid "Your emails are sent from %s, whose domain matches your site domain. This is good practice."
+msgstr ""
+
+#. translators: 1: email address, 2: domain of the From address
+#: includes/Checks/SenderAddressCheck.php:49
+#, php-format
+msgid "Your emails are sent from %1$s, whose domain differs from your site domain. That is fine if %2$s is a domain you control and your mail service is set up for it. The SPF, DKIM and DMARC checks below are run for %2$s."
+msgstr ""
+
+#: includes/Checks/SmtpConfiguredCheck.php:22
+msgid "SMTP / Mail Service"
+msgstr ""
+
+#: includes/Checks/SmtpConfiguredCheck.php:27
+msgid "No SMTP plugin or mail service was detected, so WordPress is probably sending email through your web host's default PHP mail. That mail is unauthenticated and is often filtered as spam or blocked. Use an SMTP plugin or a transactional email service to send authenticated email."
+msgstr ""
+
+#. translators: 1: mail provider name, e.g. SendGrid, 2: plugin name(s)
+#: includes/Checks/SmtpConfiguredCheck.php:39
+#, php-format
+msgid "Email appears to be sent through %1$s, handled by %2$s."
+msgstr ""
+
+#. translators: %s: mail provider name, e.g. SendGrid
+#: includes/Checks/SmtpConfiguredCheck.php:51
+#, php-format
+msgid "Email appears to be sent through %s."
+msgstr ""
+
+#. translators: %s: plugin name(s)
+#: includes/Checks/SmtpConfiguredCheck.php:62
+#, php-format
+msgid "Outgoing email is handled by: %s."
+msgstr ""
+
+#: includes/Checks/SmtpConfiguredCheck.php:68
+msgid "A plugin or mail service that handles outgoing email was detected."
+msgstr ""
+
+#: includes/Checks/SpfCheck.php:24
+msgid "SPF Record Validation"
+msgstr ""
+
+#: includes/Checks/SpfCheck.php:29
+msgid "Your server does not allow DNS lookups, so the SPF record could not be checked. Use an online SPF checker for your domain."
+msgstr ""
+
+#: includes/Checks/SpfCheck.php:41
+msgid "The DNS lookup failed, so the SPF record could not be checked. Try again later or use an online SPF checker."
+msgstr ""
+
+#: includes/Checks/SpfCheck.php:52
+msgid "Multiple SPF records were found. Only one is allowed (RFC 7208), and receivers will treat your SPF as invalid. Merge them into a single record."
+msgstr ""
+
+#: includes/Checks/SpfCheck.php:57
+msgid "An SPF record exists but does not authorize any sending service (no include:, ip4:, ip6:, a, mx or redirect). Add the service that sends your email, such as your SMTP provider or host."
+msgstr ""
+
+#. translators: %s: mail service name
+#: includes/Checks/SpfCheck.php:66
+#, php-format
+msgid "A valid SPF record was found and it appears to include %s, the service your site sends email through."
+msgstr ""
+
+#. translators: %s: mail service name
+#: includes/Checks/SpfCheck.php:75
+#, php-format
+msgid "A valid SPF record was found. %s authenticates SPF through its own return-path records, so it does not need to appear in your root SPF record. Make sure you completed its domain setup."
+msgstr ""
+
+#. translators: %1$s: mail service name
+#: includes/Checks/SpfCheck.php:84
+#, php-format
+msgid "Your site sends email through %1$s, but your SPF record does not appear to include it. Add the include value from your provider's DNS instructions to your SPF record, or emails may fail SPF. (If %1$s is listed inside another include, you can ignore this.)"
+msgstr ""
+
+#: includes/Checks/SpfCheck.php:90
+msgid "A valid SPF record was found. This helps authenticate your emails. Make sure it includes the service that actually sends your mail."
+msgstr ""
+
+#: includes/Checks/SpfCheck.php:93
+msgid "No SPF record was found. This is a critical issue that makes your emails look suspicious to spam filters."
+msgstr ""
+
+#: includes/Checks/WooCommerceEmailCheck.php:27
+msgid "WooCommerce Email Setup"
+msgstr ""
+
+#: includes/Checks/WooCommerceEmailCheck.php:32
+#: includes/Checks/WooCommerceEmailCheck.php:38
+#: includes/Checks/WooCommerceEmailCheck.php:62
+msgid "WooCommerce's email settings could not be read."
+msgstr ""
+
+#: includes/Checks/WooCommerceEmailCheck.php:68
+msgid "The \"New order\" email is on but has no valid recipient, so nobody receives new order emails. Set one in WooCommerce > Settings > Emails > New order."
+msgstr ""
+
+#. translators: %s: comma-separated list of WooCommerce email names
+#: includes/Checks/WooCommerceEmailCheck.php:74
+#, php-format
+msgid "These WooCommerce emails are turned off: %s. That is fine if you did it on purpose; if not, turn them on in WooCommerce > Settings > Emails."
+msgstr ""
+
+#: includes/Checks/WooCommerceEmailCheck.php:86
+msgid "WooCommerce's \"From\" address is empty or not a valid email address. Set it in WooCommerce > Settings > Emails."
+msgstr ""
+
+#. translators: %s: comma-separated list of template file names
+#: includes/Checks/WooCommerceEmailCheck.php:93
+#, php-format
+msgid "Your theme overrides WooCommerce email templates that are older than WooCommerce's own versions: %s. Outdated overrides can break emails or miss changes. Update them or remove the overrides."
+msgstr ""
+
+#: includes/Checks/WooCommerceEmailCheck.php:99
+msgid "The key WooCommerce emails (new order, processing and completed) are on, the new order recipient and the From address are set, and no outdated email template overrides were found."
+msgstr ""
+
+#: includes/Log/EmailLogger.php:211
+#: includes/Log/SourceDetector.php:56
+#: includes/Log/SourceDetector.php:91
+msgid "Unknown"
+msgstr ""
+
+#: includes/Log/EmailLogger.php:312
+msgid "This plugin keeps a short log of the emails your site sends (time, which plugin sent it, WooCommerce email type, whether it was accepted or failed, the recipient's email domain and a partly hidden address such as j***@example.com). It does not store message contents or subjects, and email addresses, including those in error messages, are partly hidden. Log entries are deleted automatically after a few days (7 by default, and you can shorten this or clear or turn off the log at any time in the Email Log tab)."
+msgstr ""
+
+#: includes/Log/FailureAlert.php:60
+msgid "\"Accepted\" means WordPress handed the email off without an error, not that it was delivered."
+msgstr ""
+
+#. translators: 1: accepted emails, 2: failed emails, 3: failure rate percent
+#: includes/Log/FailureAlert.php:71
+#, php-format
+msgid "Last 24 hours: %1$d accepted, %2$d failed (%3$d%% failure rate)."
+msgstr ""
+
+#: includes/Log/SourceDetector.php:77
+msgid "Theme"
+msgstr ""
+
+#: includes/Log/SourceDetector.php:85
+msgid "WordPress"
+msgstr ""
+
+#: includes/Plugin.php:70
+msgid "Health Check"
+msgstr ""
+
+#. translators: %s: domain such as gmail.com
+#: includes/Support/Domain.php:89
+#, php-format
+msgid "Your emails are sent from an address at %s, a domain you cannot publish DNS records for, so there is nothing to check here. Use an address at your own domain instead."
+msgstr ""
+
+#. translators: 1: mail provider name
+#: includes/Support/ProviderGuidance.php:106
+#, php-format
+msgid "%1$s authenticates SPF through its own return-path records, shown in your %1$s dashboard, so no include is needed in your root domain's SPF record. Complete its domain setup there. Your domain still needs a valid SPF record for your other senders, such as your web host or mailbox provider."
+msgstr ""
+
+#. translators: 1: SPF include, e.g. include:mailgun.org
+#: includes/Support/ProviderGuidance.php:115
+#, php-format
+msgid "If you have no SPF record, publish this one. If you already have one, add %1$s to it instead: a domain may only have a single SPF record, and a second one breaks both."
+msgstr ""
+
+#: includes/Support/ProviderGuidance.php:141
+msgid "DMARC works only once SPF or DKIM passes for your sending service. Start in monitoring mode, then tighten the policy once your reports look clean. If you already have a DMARC record, edit it instead of adding a second one."
+msgstr ""
+
+#: includes/Support/ProviderGuidance.php:162
+msgid "In the Google Admin console go to Apps, Google Workspace, Gmail, Authenticate email, generate the record (the default host is google._domainkey), publish it as a TXT record and then turn DKIM on."
+msgstr ""
+
+#: includes/Support/ProviderGuidance.php:164
+msgid "Microsoft 365 uses two CNAME records, selector1._domainkey and selector2._domainkey, whose targets are specific to your tenant. Publish them, then enable DKIM signing for your domain."
+msgstr ""
+
+#: includes/Support/ProviderGuidance.php:166
+msgid "Amazon SES gives you three CNAME records (token._domainkey) for Easy DKIM. Copy them from your SES identity, because the values are specific to it."
+msgstr ""
+
+#: includes/Support/ProviderGuidance.php:168
+msgid "Copy the DKIM TXT record from the \"Domain Verification & DNS\" section of your Mailgun domain."
+msgstr ""
+
+#: includes/Support/ProviderGuidance.php:170
+msgid "Brevo shows either one DKIM TXT record or two CNAME records for your domain. Copy them from Brevo, because the values are generated for your account."
+msgstr ""
+
+#: includes/Support/ProviderGuidance.php:172
+msgid "SendGrid gives you CNAME records (or TXT records if Automated Security is off) when you authenticate your domain. Copy them from SendGrid, because the values are specific to your account."
+msgstr ""
+
+#: includes/Support/ProviderGuidance.php:174
+msgid "Postmark issues a unique DKIM TXT record for each domain you add. Copy it from your Postmark domain settings."
+msgstr ""
+
+#. translators: %s: mail provider name
+#: includes/Support/ProviderGuidance.php:177
+#, php-format
+msgid "Copy the DKIM records from your %s dashboard (its domain authentication or verification section), because the values are generated for your account."
+msgstr ""
+
+#: views/admin-page.php:7
+msgid "Run a quick diagnostic to check the health of your store's email delivery system."
+msgstr ""
+
+#: views/admin-page.php:16
+msgid "Email Health Report"
+msgstr ""
+
+#: views/admin-page.php:18
+msgid "The following checks will help you identify common issues that prevent emails from being delivered successfully."
+msgstr ""
+
+#: views/admin-page.php:24
+msgid "Check"
+msgstr ""
+
+#: views/admin-page.php:25
+#: views/email-log.php:139
+#: views/email-log.php:169
+msgid "Status"
+msgstr ""
+
+#: views/admin-page.php:26
+msgid "Message"
+msgstr ""
+
+#: views/admin-page.php:48
+msgid "How to fix this"
+msgstr ""
+
+#: views/admin-page.php:54
+#: views/admin-page.php:76
+msgid "Copied"
+msgstr ""
+
+#: views/admin-page.php:54
+msgid "Copy"
+msgstr ""
+
+#: views/admin-page.php:58
+msgid "Official setup guide"
+msgstr ""
+
+#: views/admin-page.php:70
+msgid "Re-check"
+msgstr ""
+
+#: views/admin-page.php:71
+msgid "The mail service detection and blacklist lookups are saved for up to 12 hours. Re-check to refresh them."
+msgstr ""
+
+#: views/admin-page.php:76
+msgid "Copy support report"
+msgstr ""
+
+#: views/admin-page.php:77
+msgid "A plain-text summary to paste into a support ticket. It has your site and mail domains, versions, check results, the plugin that handles your email and your server IP if it is blacklisted, but no passwords, message contents or full email addresses."
+msgstr ""
+
+#: views/admin-page.php:79
+msgid "Preview the report"
+msgstr ""
+
+#: views/admin-page.php:80
+msgid "Support report"
+msgstr ""
+
+#: views/admin-page.php:89
+msgid "Test Your Email Sending"
+msgstr ""
+
+#: views/admin-page.php:91
+msgid "Send a test email through your real mail setup to confirm that it works. Use your own address, or any inbox you want to test (for example a Gmail or Outlook address)."
+msgstr ""
+
+#: views/admin-page.php:96
+msgid "Send to"
+msgstr ""
+
+#: views/admin-page.php:100
+msgid "Subject (optional)"
+msgstr ""
+
+#: views/admin-page.php:103
+msgid "Send Test Email"
+msgstr ""
+
+#: views/admin-page.php:109
+msgid "Test Your WooCommerce Emails"
+msgstr ""
+
+#: views/admin-page.php:111
+msgid "Recent WooCommerce versions can preview each email and send you a test copy, using your real From address and mail setup. Open it, pick an email and use its preview to send yourself a test."
+msgstr ""
+
+#: views/admin-page.php:113
+msgid "Open WooCommerce email settings"
+msgstr ""
+
+#: views/admin-page.php:115
+msgid "The test email then shows up in the Email Log tab as a WooCommerce email."
+msgstr ""
+
+#: views/checklist.php:19
+msgid "Getting started"
+msgstr ""
+
+#: views/checklist.php:30
+msgid "(done)"
+msgstr ""
+
+#: views/checklist.php:30
+msgid "(to do)"
+msgstr ""
+
+#: views/checklist.php:37
+msgid "Hide this checklist"
+msgstr ""
+
+#: views/email-log.php:30
+msgid "Settings saved."
+msgstr ""
+
+#: views/email-log.php:32
+msgid "The email log was cleared."
+msgstr ""
+
+#: views/email-log.php:36
+msgid "Email logging is turned off, so new emails are not recorded. Existing entries stay until they expire or you clear the log."
+msgstr ""
+
+#: views/email-log.php:40
+msgid "The email log needs WordPress 5.9 or newer, or has been turned off by a filter, so nothing is recorded."
+msgstr ""
+
+#: views/email-log.php:44
+msgid "\"Accepted\" means WordPress handed the email to your mail system without an error. It does not prove the email was delivered. Entries are kept for a short time (7 days by default), and only a partly hidden recipient address is stored, never the message."
+msgstr ""
+
+#: views/email-log.php:50
+msgid "Last 24 hours"
+msgstr ""
+
+#: views/email-log.php:51
+msgid "Last 7 days"
+msgstr ""
+
+#: views/email-log.php:59
+msgid "accepted"
+msgstr ""
+
+#: views/email-log.php:61
+msgid "failed"
+msgstr ""
+
+#. translators: %d: failure rate percentage
+#: views/email-log.php:65
+#, php-format
+msgid "%d%% failure rate"
+msgstr ""
+
+#: views/email-log.php:75
+msgid "By source (last 7 days)"
+msgstr ""
+
+#: views/email-log.php:77
+#: views/email-log.php:131
+#: views/email-log.php:166
+msgid "Source"
+msgstr ""
+
+#: views/email-log.php:77
+#: views/email-log.php:94
+#: views/email-log.php:142
+#: views/email-log.php:197
+msgid "Accepted"
+msgstr ""
+
+#: views/email-log.php:77
+#: views/email-log.php:94
+#: views/email-log.php:143
+#: views/email-log.php:195
+msgid "Failed"
+msgstr ""
+
+#: views/email-log.php:92
+msgid "WooCommerce emails (last 7 days)"
+msgstr ""
+
+#: views/email-log.php:112
+msgid "Last failure:"
+msgstr ""
+
+#. translators: 1: date and time, 2: source name, 3: error message
+#: views/email-log.php:117
+#, php-format
+msgid "%1$s, %2$s: %3$s"
+msgstr ""
+
+#: views/email-log.php:133
+msgid "All sources"
+msgstr ""
+
+#: views/email-log.php:141
+msgid "Any status"
+msgstr ""
+
+#: views/email-log.php:147
+msgid "WooCommerce email type"
+msgstr ""
+
+#: views/email-log.php:149
+msgid "Any WooCommerce email"
+msgstr ""
+
+#: views/email-log.php:156
+msgid "Filter"
+msgstr ""
+
+#: views/email-log.php:158
+msgid "Reset"
+msgstr ""
+
+#: views/email-log.php:165
+msgid "Time"
+msgstr ""
+
+#: views/email-log.php:167
+msgid "WooCommerce email"
+msgstr ""
+
+#: views/email-log.php:168
+msgid "Recipient"
+msgstr ""
+
+#: views/email-log.php:170
+msgid "Error"
+msgstr ""
+
+#: views/email-log.php:180
+msgid "No emails match these filters."
+msgstr ""
+
+#: views/email-log.php:181
+msgid "No emails have been logged yet. The log starts recording as soon as your site sends its next email."
+msgstr ""
+
+#. translators: %d: number of emails shown at most
+#: views/email-log.php:232
+#, php-format
+msgid "The newest %d emails are shown."
+msgstr ""
+
+#: views/email-log.php:240
+msgid "Log settings"
+msgstr ""
+
+#: views/email-log.php:246
+msgid "Record the emails this site sends"
+msgstr ""
+
+#: views/email-log.php:250
+msgid "Keep entries for"
+msgstr ""
+
+#. translators: %d: number of days
+#: views/email-log.php:258
+#, php-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/email-log.php:267
+msgid "Save settings"
+msgstr ""
+
+#: views/email-log.php:273
+msgid "Clear log now"
+msgstr ""
+
+#: views/email-log.php:273
+msgid "Delete all logged emails? This cannot be undone."
+msgstr ""
+
+#: views/review-notice.php:20
+msgid "Is Email Health Check useful to you?"
+msgstr ""
+
+#: views/review-notice.php:20
+msgid "A short review on WordPress.org helps other store owners find it."
+msgstr ""
+
+#: views/review-notice.php:25
+msgid "Leave a review"
+msgstr ""
+
+#: views/review-notice.php:25
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: views/review-notice.php:26
+msgid "Maybe later"
+msgstr ""
+
+#: views/review-notice.php:27
+msgid "I have left a review, or no thanks"
+msgstr ""
+
+#: views/tabs.php:13
+msgid "Health Report"
+msgstr ""
+
+#: views/tabs.php:14
+msgid "Email Log"
+msgstr ""
+
+#: views/tabs.php:17
+msgid "Email Health Check sections"
+msgstr ""

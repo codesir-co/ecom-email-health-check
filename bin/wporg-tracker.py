@@ -4,8 +4,9 @@ Private WordPress.org tracker for ecom-email-health-check.
 
 Reads PUBLIC WordPress.org API data (installs, downloads, ratings, support
 thread counts and our search position for a few phrases) and appends one row to
-a local CSV that lives OUTSIDE this repository. The repository is public, so the
-numbers are never committed, posted or logged anywhere else.
+a local CSV in the git-ignored folder .tracker/ of this checkout. The repository
+is public, so the numbers are never committed (see .gitignore), posted, or
+logged anywhere else.
 
 Usage:
     bin/wporg-tracker.py            record one row (weekly, from cron or a systemd timer)
@@ -13,7 +14,7 @@ Usage:
     bin/wporg-tracker.py --dry-run  fetch and print without writing anything
 
 Settings (environment variables):
-    ECEHC_TRACKER_FILE   data file, default ~/.local/share/ecehc-wporg-tracker/stats.csv
+    ECEHC_TRACKER_FILE   data file, default <this checkout>/.tracker/stats.csv
     ECEHC_TRACKER_QUERIES  ';'-separated search phrases, replaces the default list
 
 Only the Python standard library is used. No credentials are needed or stored.
@@ -58,7 +59,8 @@ METRICS = [f for f in FIELDS if f not in ("date_utc", "version", "positions")]
 
 
 def data_file():
-    default = os.path.join(os.path.expanduser("~"), ".local", "share", "ecehc-wporg-tracker", "stats.csv")
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    default = os.path.join(root, ".tracker", "stats.csv")
     return os.path.expanduser(os.environ.get("ECEHC_TRACKER_FILE", default))
 
 

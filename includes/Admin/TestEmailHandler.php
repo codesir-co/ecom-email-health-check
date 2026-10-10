@@ -38,7 +38,7 @@ class TestEmailHandler {
 		}
 
 		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), self::ACTION ) ) {
-			wp_die( 'Security check failed.' );
+			wp_die( esc_html__( 'Security check failed.', 'ecom-email-health-check' ) );
 		}
 
 		// Recipient: the admin address unless another valid address was typed.

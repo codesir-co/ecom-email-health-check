@@ -105,6 +105,9 @@ The Email Log keeps, for a few days (7 by default), the time of each email, whic
 = Does the email log slow down my site? =
 Each email causes one small database insert. Entries are pruned daily and the log is capped, so it stays small.
 
+= Can I help translate the plugin? =
+Yes, and thank you. Translations are done by the community on translate.wordpress.org: https://translate.wordpress.org/projects/wp-plugins/ecom-email-health-check/ . The plugin's texts can be translated, except the plain-text support report and the WP-CLI output, which stay in English on purpose. A draft Arabic translation is kept in the plugin's GitHub repository; it still needs a native speaker to review it and a translation editor to import it.
+
 = Where do I get support? =
 Please use the plugin's support forum on WordPress.org: https://wordpress.org/support/plugin/ecom-email-health-check/
 

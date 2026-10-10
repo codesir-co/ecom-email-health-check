@@ -8,80 +8,40 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     </p>
 
     <?php $ecehc_active_tab = 'report'; include ECEHC_PLUGIN_PATH . 'views/tabs.php'; ?>
-    <?php include ECEHC_PLUGIN_PATH . 'views/checklist.php'; ?>
+    <div id="ecehc-checklist-slot"><?php include ECEHC_PLUGIN_PATH . 'views/checklist.php'; ?></div>
 
     <div class="ecehc-grid">
         <div class="ecehc-main-col">
-            <div id="ecehc-main-report" class="card">
-                <h2><?php esc_html_e( 'Email Health Report', 'ecom-email-health-check' ); ?></h2>
-                <p>
-					<?php esc_html_e( 'The following checks will help you identify common issues that prevent emails from being delivered successfully.', 'ecom-email-health-check' ); ?>
-                </p>
-
-                <table class="widefat fixed" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th class="manage-column column-columnname" scope="col"><?php esc_html_e( 'Check', 'ecom-email-health-check' ); ?></th>
-                        <th class="manage-column column-columnname" scope="col"><?php esc_html_e( 'Status', 'ecom-email-health-check' ); ?></th>
-                        <th class="manage-column column-columnname" scope="col"><?php esc_html_e( 'Message', 'ecom-email-health-check' ); ?></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-					<?php foreach ( $results as $ecehc_check_id => $ecehc_result ) : ?>
-                        <tr id="ecehc-check-<?php echo esc_attr( (string) $ecehc_check_id ); ?>">
-                            <td class="column-columnname"><strong><?php echo esc_html( $ecehc_result['label'] ); ?></strong></td>
-                            <td class="column-columnname">
-								<?php if ( 'pass' === $ecehc_result['status'] ) : ?>
-                                    <span class="ecehc-status ecehc-status-pass">&#10004; <?php esc_html_e( 'Pass', 'ecom-email-health-check' ); ?></span>
-								<?php elseif ( 'warning' === $ecehc_result['status'] ) : ?>
-                                    <span class="ecehc-status ecehc-status-warning">&#9888; <?php esc_html_e( 'Warning', 'ecom-email-health-check' ); ?></span>
-								<?php elseif ( 'unknown' === $ecehc_result['status'] ) : ?>
-                                    <span class="ecehc-status ecehc-status-unknown">&#63; <?php esc_html_e( 'Not checked', 'ecom-email-health-check' ); ?></span>
-								<?php else : ?>
-                                    <span class="ecehc-status ecehc-status-fail">&#10006; <?php esc_html_e( 'Fail', 'ecom-email-health-check' ); ?></span>
-								<?php endif; ?>
-                            </td>
-                            <td class="column-columnname">
-								<?php echo esc_html( $ecehc_result['message'] ); ?>
-								<?php if ( ! empty( $ecehc_result['guidance'] ) ) : ?>
-                                    <details class="ecehc-guidance">
-                                        <summary><?php esc_html_e( 'How to fix this', 'ecom-email-health-check' ); ?></summary>
-                                        <p><?php echo esc_html( $ecehc_result['guidance']['text'] ); ?></p>
-										<?php foreach ( $ecehc_result['guidance']['records'] as $ecehc_record ) : ?>
-                                            <div class="ecehc-record">
-                                                <span class="ecehc-record-meta"><?php echo esc_html( $ecehc_record['type'] ); ?> &middot; <?php echo esc_html( $ecehc_record['host'] ); ?></span>
-                                                <code><?php echo esc_html( $ecehc_record['value'] ); ?></code>
-                                                <button type="button" class="button button-small ecehc-copy" data-ecehc-copy="<?php echo esc_attr( $ecehc_record['value'] ); ?>" data-copied="<?php esc_attr_e( 'Copied', 'ecom-email-health-check' ); ?>"><?php esc_html_e( 'Copy', 'ecom-email-health-check' ); ?></button>
-                                            </div>
-										<?php endforeach; ?>
-										<?php if ( ! empty( $ecehc_result['guidance']['docs'] ) ) : ?>
-                                            <p><a href="<?php echo esc_url( $ecehc_result['guidance']['docs'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Official setup guide', 'ecom-email-health-check' ); ?></a></p>
-										<?php endif; ?>
-                                    </details>
-								<?php endif; ?>
-                            </td>
-                        </tr>
-					<?php endforeach; ?>
-                    </tbody>
-                </table>
-
-                <form method="post" class="ecehc-recheck-form">
-					<?php wp_nonce_field( 'ecehc_recheck', '_ecehc_recheck_nonce' ); ?>
-                    <input type="submit" name="ecehc_recheck" class="button button-secondary" value="<?php esc_attr_e( 'Re-check', 'ecom-email-health-check' ); ?>">
-                    <span class="description"><?php esc_html_e( 'The mail service detection and blacklist lookups are saved for up to 12 hours. Re-check to refresh them.', 'ecom-email-health-check' ); ?></span>
-                </form>
-
-                <?php $ecehc_report = \CodeSir\EmailHealthCheck\Support\SupportReport::build( $results ); ?>
-                <div class="ecehc-support-report">
-                    <button type="button" class="button ecehc-copy" data-ecehc-copy="<?php echo esc_attr( $ecehc_report ); ?>" data-copied="<?php esc_attr_e( 'Copied', 'ecom-email-health-check' ); ?>"><?php esc_html_e( 'Copy support report', 'ecom-email-health-check' ); ?></button>
-                    <span class="description"><?php esc_html_e( 'A plain-text summary to paste into a support ticket. It has your site and mail domains, versions, check results, the plugin that handles your email and your server IP if it is blacklisted, but no passwords, message contents or full email addresses.', 'ecom-email-health-check' ); ?></span>
-                    <details>
-                        <summary><?php esc_html_e( 'Preview the report', 'ecom-email-health-check' ); ?></summary>
-                        <label class="screen-reader-text" for="ecehc-support-report-text"><?php esc_html_e( 'Support report', 'ecom-email-health-check' ); ?></label>
-                        <textarea id="ecehc-support-report-text" class="large-text code" rows="14" readonly><?php echo esc_textarea( $ecehc_report ); ?></textarea>
-                    </details>
+            <?php if ( null === $results ) : ?>
+                <?php
+                $ecehc_sync_url = add_query_arg(
+                    array(
+                        'page'       => \CodeSir\EmailHealthCheck\Admin\AdminPage::MENU_SLUG,
+                        'ecehc_sync' => 1,
+                    ),
+                    admin_url( 'admin.php' )
+                );
+                // The checks run in the background (DNS lookups can be slow), so the page opens at once.
+                ?>
+                <div id="ecehc-main-report" class="card ecehc-report-loading"
+                     data-ecehc-ajax="1"
+                     data-nonce="<?php echo esc_attr( wp_create_nonce( \CodeSir\EmailHealthCheck\Admin\ReportLoader::NONCE_ACTION ) ); ?>"
+                     data-error="<?php esc_attr_e( 'The checks could not be loaded.', 'ecom-email-health-check' ); ?>"
+                     data-retry="<?php esc_attr_e( 'Run them again on the server', 'ecom-email-health-check' ); ?>"
+                     data-done="<?php esc_attr_e( 'The email checks have finished.', 'ecom-email-health-check' ); ?>"
+                     data-sync-url="<?php echo esc_url( $ecehc_sync_url ); ?>">
+                    <h2><?php esc_html_e( 'Email Health Report', 'ecom-email-health-check' ); ?></h2>
+                    <p class="ecehc-report-status" role="status" aria-live="polite">
+                        <span class="spinner is-active" aria-hidden="true"></span>
+                        <?php esc_html_e( 'Running the checks. DNS lookups can take a few seconds.', 'ecom-email-health-check' ); ?>
+                    </p>
+                    <noscript>
+                        <p><a href="<?php echo esc_url( $ecehc_sync_url ); ?>"><?php esc_html_e( 'Run the checks without JavaScript', 'ecom-email-health-check' ); ?></a></p>
+                    </noscript>
                 </div>
-            </div>
+            <?php else : ?>
+                <?php include ECEHC_PLUGIN_PATH . 'views/report-card.php'; ?>
+            <?php endif; ?>
         </div>
 
         <div class="ecehc-sidebar-col">

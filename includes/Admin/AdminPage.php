@@ -43,8 +43,11 @@ class AdminPage {
 			return;
 		}
 
-		$results   = ( new CheckRunner() )->run_all();
-		$checklist = Checklist::items( $results );
+		// The checks (DNS lookups) normally run in the background after the page has opened.
+		// ?ecehc_sync=1 runs them while the page loads, as the fallback without JavaScript.
+		$sync      = isset( $_GET['ecehc_sync'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$results   = $sync ? ( new CheckRunner() )->run_all() : null;
+		$checklist = $sync ? Checklist::items( $results ) : array();
 		include ECEHC_PLUGIN_PATH . 'views/admin-page.php';
 	}
 
@@ -128,7 +131,7 @@ class AdminPage {
 		wp_enqueue_script(
 			'ecom-email-health-check-admin',
 			ECEHC_PLUGIN_URL . 'assets/js/admin.js',
-			array(),
+			array( 'wp-a11y' ),
 			ECEHC_VERSION,
 			true
 		);

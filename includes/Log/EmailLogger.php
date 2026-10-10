@@ -288,7 +288,7 @@ class EmailLogger {
 	 */
 	public static function mask_addresses( string $text ): string {
 		return (string) preg_replace_callback(
-			'/[^\s<>"\',;:()\[\]]+@[^\s<>"\',;:()\[\]]+/',
+			'/[^\s<>"\',;:()\[\]][^\s<>",;:()\[\]]*@[^\s<>"\',;:()\[\]]+/',
 			static function ( $match ) {
 				return self::mask_address( $match[0] );
 			},

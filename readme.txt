@@ -20,7 +20,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 
 * **Email Health Report:** one page with a Pass, Warning or Fail status for each check.
 * **Getting-started checklist:** a short checklist for new installs (send a test email, fix the top failing check, look at the Email Log) that ticks itself off and can be hidden.
-* **Sending test:** one click to confirm your site can send email.
+* **Sending test:** send a test email to your own address or to any inbox you want to try (for example Gmail or Outlook), with an optional subject. The result shows right away, with the error if it failed.
 * **Copy support report:** a plain-text summary of your setup (versions, check results, detected mail provider, recent email counts, and your server IP if it is blacklisted) to paste into a support ticket, with no passwords, message contents or full email addresses.
 * **SMTP / mail service:** warns when mail goes out through plain PHP mail, and names the plugin that handles your outgoing email when it finds one.
 * **Sender address, SPF, DKIM and DMARC:** checked for the domain you actually send from, since that is what receivers verify.

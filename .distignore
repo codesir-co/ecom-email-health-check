@@ -19,3 +19,4 @@
 /phpcs.xml
 /bin
 /.tracker
+/tests

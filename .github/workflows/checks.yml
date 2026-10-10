@@ -1,4 +1,7 @@
 name: Checks
+permissions:
+  contents: read
+
 on:
   pull_request:
     branches:
@@ -46,7 +49,7 @@ jobs:
       - name: Build the release copy
         run: |
           mkdir -p build/ecom-email-health-check
-          rsync -a --exclude '.git' --exclude-from=<(sed 's#^/##' .distignore) ./ build/ecom-email-health-check/
+          rsync -a --exclude '.git' --exclude-from=.distignore ./ build/ecom-email-health-check/
 
       - name: Run Plugin Check
         uses: WordPress/plugin-check-action@v1

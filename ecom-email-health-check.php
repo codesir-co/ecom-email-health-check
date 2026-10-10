@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Email Health Check & Log for WooCommerce – SPF, DKIM, DMARC & Alerts
  * Plugin URI:  https://github.com/codesir-co/ecom-email-health-check
- * Description: Email log, delivery checks and failure alerts for WooCommerce. Find out why order emails land in spam or never arrive.
+ * Description: Email log, SPF/DKIM/DMARC checks and failure alerts. Find out why WooCommerce order emails go to spam or never arrive.
  * Version:     1.4.0
  * Requires PHP: 7.4
  * WC requires at least: 8.0

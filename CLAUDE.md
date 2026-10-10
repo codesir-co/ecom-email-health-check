@@ -29,5 +29,11 @@ Namespace `CodeSir\EmailHealthCheck`, PSR-4 autoloaded from `includes/` (autoloa
 ## Version bump touches 3 places
 Plugin header `Version`, the `ECEHC_VERSION` constant, and `readme.txt` `Stable tag` (+ changelog).
 
+## Agents and orchestrators (`.claude/`)
+- Agents: `wp-plugin-dev` (implements), `wp-plugin-reviewer` (code), `wp-plugin-security`, `wp-org-compliance` (WordPress.org rules), `wp-plugin-qa` (behaviour on the local site), `competitor-analyst` (market research).
+- Skill `ship-issue <n>`: one issue to a merged PR into `develop` (implement, gates, three review layers, QA, fix loop). Never releases.
+- Skill `plan-features`: competitors + our issues + the Pro repo (`docs/pro-alignment.md`, `docs/competitors.md`) to a now/next/later plan and GitHub issues. Tracker numbers stay private.
+- Release stays manual: `wporg-release` skill, explicit approval for merge to `trunk`, tag and deploy.
+
 ## Known issues
 Tracked as GitHub issues (`gh issue list`). The refactor was behaviour-preserving, so these bugs still exist until fixed individually.

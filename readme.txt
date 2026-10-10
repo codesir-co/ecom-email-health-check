@@ -64,7 +64,16 @@ WooCommerce is a trademark of Automattic Inc. This plugin is independent and is 
 == Frequently Asked Questions ==
 
 = Why are my WooCommerce emails not sending, or going to spam? =
-The usual causes are: the site sends through plain PHP mail instead of an SMTP service; the SPF, DKIM or DMARC records for your From address are missing or wrong; the From address does not match your domain; the server's IP address is on a blacklist; the WooCommerce email is switched off or has no recipient; or the order is stuck in "Pending payment", which sends no order email. The Health Report checks each of these and, for the DNS records, shows what to fix. The Email Log then shows whether your emails are being accepted or failing.
+The usual causes, all of which the Health Report checks:
+
+* the site sends through plain PHP mail instead of an SMTP service;
+* the SPF, DKIM or DMARC records for your From address are missing or wrong;
+* the From address does not match your domain;
+* the server's IP address is on a blacklist;
+* the WooCommerce email is switched off or has no recipient;
+* the order is stuck in "Pending payment", which sends no order email.
+
+For SPF, DKIM and DMARC the report shows how to fix it for common mail providers. The Email Log then shows whether your emails are being accepted or failing.
 
 = What problem does this plugin solve? =
 Many hosting providers have poor email delivery configurations that can silently fail, leaving you and your customers in the dark. This plugin diagnoses those issues so you can address them.

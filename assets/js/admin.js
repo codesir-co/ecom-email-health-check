@@ -30,6 +30,50 @@
 	}
 
 	// Ask before a destructive action (data-ecehc-confirm).
+	// Health Report: the checks run in the background and fill the page when ready.
+	function loadReport() {
+		var placeholder = document.getElementById( 'ecehc-main-report' );
+
+		if ( ! placeholder || ! placeholder.hasAttribute( 'data-ecehc-ajax' ) || typeof window.ajaxurl === 'undefined' ) {
+			return;
+		}
+
+		var body = new URLSearchParams();
+		body.append( 'action', 'ecehc_load_report' );
+		body.append( 'nonce', placeholder.getAttribute( 'data-nonce' ) );
+
+		var fail = function () {
+			var status = placeholder.querySelector( '.ecehc-report-status' );
+			if ( status ) {
+				status.textContent = placeholder.getAttribute( 'data-error' );
+			}
+		};
+
+		window.fetch( window.ajaxurl, { method: 'POST', credentials: 'same-origin', body: body } )
+			.then( function ( response ) {
+				return response.json();
+			} )
+			.then( function ( data ) {
+				if ( ! data || ! data.success ) {
+					fail();
+					return;
+				}
+
+				var slot = document.getElementById( 'ecehc-checklist-slot' );
+				if ( slot ) {
+					slot.innerHTML = data.data.checklist;
+				}
+				placeholder.outerHTML = data.data.report;
+			} )
+			.catch( fail );
+	}
+
+	if ( 'loading' === document.readyState ) {
+		document.addEventListener( 'DOMContentLoaded', loadReport );
+	} else {
+		loadReport();
+	}
+
 	document.addEventListener( 'click', function ( event ) {
 		var guarded = event.target.closest( '[data-ecehc-confirm]' );
 

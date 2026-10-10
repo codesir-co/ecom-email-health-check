@@ -12,6 +12,7 @@ use CodeSir\EmailHealthCheck\Admin\ChecklistHandler;
 use CodeSir\EmailHealthCheck\Admin\DashboardWidget;
 use CodeSir\EmailHealthCheck\Admin\LogSettingsHandler;
 use CodeSir\EmailHealthCheck\Admin\RecheckHandler;
+use CodeSir\EmailHealthCheck\Admin\ReportLoader;
 use CodeSir\EmailHealthCheck\Admin\ReviewPromptHandler;
 use CodeSir\EmailHealthCheck\Admin\SiteHealth;
 use CodeSir\EmailHealthCheck\Admin\TestEmailHandler;
@@ -45,6 +46,7 @@ class Plugin {
 		( new AdminPage() )->register();
 		( new TestEmailHandler() )->register();
 		( new RecheckHandler() )->register();
+		( new ReportLoader() )->register();
 		( new SiteHealth() )->register();
 		( new DashboardWidget() )->register();
 		( new LogSettingsHandler() )->register();

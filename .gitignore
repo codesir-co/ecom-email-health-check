@@ -1,0 +1,5 @@
+# Never commit tracking data (the repository is public).
+/.tracker/
+*.csv
+stats*
+__pycache__/

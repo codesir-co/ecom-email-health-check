@@ -36,6 +36,7 @@ function esc_html( $text ) {
 	return htmlspecialchars( (string) $text, ENT_QUOTES );
 }
 
+// Approximations: apply_filters() ignores filters, is_email() uses filter_var() (close to, but not exactly, WordPress's version).
 function apply_filters( $hook, $value ) {
 	return $value;
 }

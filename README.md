@@ -1,4 +1,4 @@
-# eCommerce Email Health Check
+# Email Health Check & Log for WooCommerce – SPF, DKIM, DMARC & Alerts
 
 [![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/ecom-email-health-check.svg)](https://wordpress.org/plugins/ecom-email-health-check/)
 [![License](https://img.shields.io/github/license/codesir-co/ecom-email-health-check)](LICENSE)
@@ -11,7 +11,7 @@ Are your eCommerce emails ending up in spam folders? Is your store failing to se
 
 ## ✨ The Solution
 
-eCommerce Email Health Check is a lightweight diagnostic tool that quickly identifies common email delivery issues on your WordPress site. It provides a clear, actionable report so you can stop guessing and start fixing the problem.
+Email Health Check is a lightweight diagnostic tool that quickly identifies common email delivery issues on your WordPress site. It provides a clear, actionable report so you can stop guessing and start fixing the problem.
 
 ### Key Features:
 
@@ -34,7 +34,7 @@ _Add screenshots here to show your plugin in action. Here are some ideas:_
 ### Via WordPress Dashboard
 
 1.  Go to `Plugins > Add New` in your WordPress dashboard.
-2.  Search for "eCommerce Email Health Check".
+2.  Search for "Email Health Check".
 3.  Click "Install Now" and then "Activate".
 
 ### Manual Installation

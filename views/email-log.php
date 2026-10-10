@@ -22,7 +22,7 @@ $ecehc_base_url = add_query_arg(
 );
 ?>
 <div class="wrap">
-	<h1><?php esc_html_e( 'eCommerce Email Health Check', 'ecom-email-health-check' ); ?></h1>
+	<h1><?php esc_html_e( 'Email Health Check', 'ecom-email-health-check' ); ?></h1>
 
 	<?php include ECEHC_PLUGIN_PATH . 'views/tabs.php'; ?>
 

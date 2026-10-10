@@ -35,8 +35,8 @@ class TestEmailHandler {
 
 		$sent = wp_mail(
 			get_option( 'admin_email' ),
-			__( 'eCommerce Email Health Check: Test Email', 'ecom-email-health-check' ),
-			__( 'This is a test email sent from the eCommerce Email Health Check plugin. If you received this, your site can send basic emails.', 'ecom-email-health-check' )
+			__( 'Email Health Check: Test Email', 'ecom-email-health-check' ),
+			__( 'This is a test email sent from the Email Health Check plugin. If you received this, your site can send basic emails.', 'ecom-email-health-check' )
 		);
 
 		remove_action( 'wp_mail_failed', array( $this, 'capture_error' ) );

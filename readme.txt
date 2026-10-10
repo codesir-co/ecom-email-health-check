@@ -1,4 +1,4 @@
-=== eCommerce Email Health Check ===
+=== Email Health Check & Log for WooCommerce – SPF, DKIM, DMARC & Alerts ===
 Contributors: engahmeds3ed
 Tags: woocommerce, email, email log, smtp, deliverability
 Requires at least: 5.0
@@ -14,7 +14,7 @@ Email log, delivery checks and failure alerts for WooCommerce. Find out why orde
 
 **Customers not getting your order emails? Find out why, and fix it.**
 
-eCommerce Email Health Check looks at how your WordPress or WooCommerce site sends email, tells you what is wrong in plain language, and keeps an eye on every email your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is an optional server IP blacklist check (see External services).
+Email Health Check looks at how your WordPress or WooCommerce site sends email, tells you what is wrong in plain language, and keeps an eye on every email your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is an optional server IP blacklist check (see External services).
 
 = Diagnose =
 
@@ -47,11 +47,13 @@ eCommerce Email Health Check looks at how your WordPress or WooCommerce site sen
 
 The plugin identifies the provider from the settings of WP Mail SMTP, FluentSMTP and Post SMTP, and gives setup guidance for SendGrid, Mailgun, Brevo, Postmark, Amazon SES, SparkPost, Mailjet, Elastic Email, Google Workspace and Microsoft 365. It also works with any other SMTP plugin, or with none.
 
+WooCommerce is a trademark of Automattic Inc. This plugin is independent and is not affiliated with or endorsed by WooCommerce or Automattic.
+
 == Installation ==
 
 ### Via WordPress Dashboard
 1. Go to `Plugins > Add New` in your WordPress dashboard.
-2. Search for "eCommerce Email Health Check".
+2. Search for "Email Health Check".
 3. Click "Install Now" and then "Activate".
 
 ### Manual Installation

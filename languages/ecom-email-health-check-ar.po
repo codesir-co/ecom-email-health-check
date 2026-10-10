@@ -64,6 +64,7 @@ msgstr "ألقِ نظرة على سجل البريد الإلكتروني"
 #: includes/Admin/LogSettingsHandler.php:34
 #: includes/Admin/RecheckHandler.php:30
 #: includes/Admin/ReviewPromptHandler.php:27
+#: includes/Admin/TestEmailHandler.php:41
 msgid "Security check failed."
 msgstr "فشل التحقق الأمني."
 
@@ -197,7 +198,7 @@ msgstr "تم تسليم رسالة الاختبار للإرسال."
 #: includes/Admin/TestEmailHandler.php:182
 #, php-format
 msgid "It was sent to %s. Please check that inbox to confirm it actually arrived."
-msgstr "أُرسلت إلى %s. يُرجى التحقق من ذلك البريد للتأكد من وصولها فعلًا."
+msgstr "أُرسلت إلى %s. يُرجى التحقق من صندوق الوارد للتأكد من وصولها فعلًا."
 
 #: includes/Admin/TestEmailHandler.php:195
 msgid "View it in the Email Log"
@@ -344,13 +345,13 @@ msgstr "تعذّرت قراءة طلبات WooCommerce."
 #: includes/Checks/PendingOrdersCheck.php:58
 #, php-format
 msgid "In the last 7 days, %1$d orders are still \"Pending payment\" or \"Failed\" against %2$d that went through (processing, completed or on hold). WooCommerce sends no order emails for unpaid orders, so customers may look like they are missing emails when the real cause is a payment problem. Check your payment gateway before changing your email setup."
-msgstr "في آخر 7 أيام، لا يزال %1$d طلبات في حالة «بانتظار الدفع» أو «فشل» مقابل %2$d نجحت (قيد المعالجة أو مكتملة أو معلّقة). لا ترسل WooCommerce رسائل للطلبات غير المدفوعة، فقد يبدو أن عملاءك لا يتلقون رسائل بينما السبب مشكلة في الدفع. تحقّق من بوابة الدفع قبل تغيير إعدادات بريدك."
+msgstr "في آخر 7 أيام، عدد الطلبات التي لا تزال في حالة «بانتظار الدفع» أو «فشل» هو %1$d مقابل %2$d نجحت (قيد المعالجة أو مكتملة أو معلّقة). لا ترسل WooCommerce رسائل للطلبات غير المدفوعة، فقد يبدو أن عملاءك لا يتلقون رسائل بينما السبب مشكلة في الدفع. تحقّق من بوابة الدفع قبل تغيير إعدادات بريدك."
 
 #. translators: 1: number of unpaid or failed orders, 2: number of orders that went through
 #: includes/Checks/PendingOrdersCheck.php:69
 #, php-format
 msgid "In the last 7 days, %1$d orders are \"Pending payment\" or \"Failed\" and %2$d went through (processing, completed or on hold). WooCommerce sends no order emails for unpaid orders, so a few are normal (abandoned checkouts)."
-msgstr "في آخر 7 أيام، %1$d طلبات «بانتظار الدفع» أو «فشل» و%2$d نجحت (قيد المعالجة أو مكتملة أو معلّقة). لا ترسل WooCommerce رسائل للطلبات غير المدفوعة، لذا فوجود بعضها أمر طبيعي (سلات متروكة)."
+msgstr "في آخر 7 أيام، عدد الطلبات «بانتظار الدفع» أو «فشل» هو %1$d، وعدد الطلبات التي نجحت هو %2$d (قيد المعالجة أو مكتملة أو معلّقة). لا ترسل WooCommerce رسائل للطلبات غير المدفوعة، لذا فوجود بعضها أمر طبيعي (سلات متروكة)."
 
 #: includes/Checks/SenderAddressCheck.php:16
 msgid "Sender Address Check"
@@ -380,7 +381,7 @@ msgstr "SMTP / خدمة البريد"
 
 #: includes/Checks/SmtpConfiguredCheck.php:27
 msgid "No SMTP plugin or mail service was detected, so WordPress is probably sending email through your web host's default PHP mail. That mail is unauthenticated and is often filtered as spam or blocked. Use an SMTP plugin or a transactional email service to send authenticated email."
-msgstr "لم تُكتشف إضافة SMTP أو خدمة بريد، لذا من المرجّح أن ووردبريس يرسل البريد عبر بريد PHP الافتراضي لدى مزوّد الاستضافة. هذا البريد غير مصادَق عليه وغالبًا ما يُصنَّف كمزعج أو يُحظر. استخدم إضافة SMTP أو خدمة بريد معاملات لإرسال بريد مصادَق عليه."
+msgstr "لم تُكتشف إضافة SMTP أو خدمة بريد، لذا من المرجّح أن ووردبريس يرسل البريد عبر بريد PHP الافتراضي لدى مزوّد الاستضافة. هذا البريد غير مصادَق عليه وغالبًا ما يُصنَّف كمزعج أو يُحظر. استخدم إضافة SMTP أو خدمة بريد المعاملات لإرسال بريد مصادَق عليه."
 
 #. translators: 1: mail provider name, e.g. SendGrid, 2: plugin name(s)
 #: includes/Checks/SmtpConfiguredCheck.php:39
@@ -404,49 +405,49 @@ msgstr "يتولى الإرسال: %s."
 msgid "A plugin or mail service that handles outgoing email was detected."
 msgstr "تم اكتشاف إضافة أو خدمة بريد تتولى إرسال البريد الصادر."
 
-#: includes/Checks/SpfCheck.php:18
+#: includes/Checks/SpfCheck.php:24
 msgid "SPF Record Validation"
 msgstr "التحقق من سجل SPF"
 
-#: includes/Checks/SpfCheck.php:23
+#: includes/Checks/SpfCheck.php:29
 msgid "Your server does not allow DNS lookups, so the SPF record could not be checked. Use an online SPF checker for your domain."
 msgstr "خادمك لا يسمح باستعلامات DNS، لذلك لم يمكن فحص سجل SPF. استخدم أداة فحص SPF عبر الإنترنت لنطاقك."
 
-#: includes/Checks/SpfCheck.php:35
+#: includes/Checks/SpfCheck.php:41
 msgid "The DNS lookup failed, so the SPF record could not be checked. Try again later or use an online SPF checker."
 msgstr "فشل استعلام DNS، لذلك لم يمكن فحص سجل SPF. حاول مرة أخرى لاحقًا أو استخدم أداة فحص SPF عبر الإنترنت."
 
-#: includes/Checks/SpfCheck.php:46
+#: includes/Checks/SpfCheck.php:52
 msgid "Multiple SPF records were found. Only one is allowed (RFC 7208), and receivers will treat your SPF as invalid. Merge them into a single record."
 msgstr "عُثر على عدة سجلات SPF. يُسمح بسجل واحد فقط (RFC 7208)، وسيعتبر المستلمون SPF لديك غير صالح. ادمجها في سجل واحد."
 
-#: includes/Checks/SpfCheck.php:51
+#: includes/Checks/SpfCheck.php:57
 msgid "An SPF record exists but does not authorize any sending service (no include:, ip4:, ip6:, a, mx or redirect). Add the service that sends your email, such as your SMTP provider or host."
-msgstr "يوجد سجل SPF لكنه لا يصرّح بأي خدمة إرسال (لا include: ولا ip4: ولا ip6: ولا a ولا mx ولا redirect). أضف الخدمة التي ترسل بريدك، مثل مزوّد SMTP أو الاستضافة."
+msgstr "يوجد سجل SPF لكنه لا يصرّح بأي خدمة إرسال (لا include:‎ ولا ip4:‎ ولا ip6:‎ ولا a ولا mx ولا redirect). أضف الخدمة التي ترسل بريدك، مثل مزوّد SMTP أو الاستضافة."
 
 #. translators: %s: mail service name
-#: includes/Checks/SpfCheck.php:60
+#: includes/Checks/SpfCheck.php:66
 #, php-format
 msgid "A valid SPF record was found and it appears to include %s, the service your site sends email through."
 msgstr "عُثر على سجل SPF صالح ويبدو أنه يتضمن %s، الخدمة التي يرسل موقعك البريد عبرها."
 
 #. translators: %s: mail service name
-#: includes/Checks/SpfCheck.php:69
+#: includes/Checks/SpfCheck.php:75
 #, php-format
 msgid "A valid SPF record was found. %s authenticates SPF through its own return-path records, so it does not need to appear in your root SPF record. Make sure you completed its domain setup."
-msgstr "عُثر على سجل SPF صالح. تصادق %s على SPF عبر سجلات المسار الراجع الخاصة بها، لذا لا يلزم ظهورها في سجل SPF الجذري. تأكد من إكمال إعداد نطاقها."
+msgstr "عُثر على سجل SPF صالح. يصادق %s على SPF عبر سجلات Return-Path الخاصة به، لذا لا يلزم ظهوره في سجل SPF الجذري. تأكد من إكمال إعداد نطاقه."
 
 #. translators: %1$s: mail service name
-#: includes/Checks/SpfCheck.php:78
+#: includes/Checks/SpfCheck.php:84
 #, php-format
 msgid "Your site sends email through %1$s, but your SPF record does not appear to include it. Add the include value from your provider's DNS instructions to your SPF record, or emails may fail SPF. (If %1$s is listed inside another include, you can ignore this.)"
 msgstr "يرسل موقعك البريد عبر %1$s، لكن يبدو أن سجل SPF لديك لا يتضمنه. أضف قيمة include من تعليمات DNS لدى مزوّدك إلى سجل SPF، وإلا قد تفشل رسائلك في SPF. (إن كان %1$s مدرجًا ضمن include آخر فيمكنك تجاهل هذا.)"
 
-#: includes/Checks/SpfCheck.php:84
+#: includes/Checks/SpfCheck.php:90
 msgid "A valid SPF record was found. This helps authenticate your emails. Make sure it includes the service that actually sends your mail."
 msgstr "عُثر على سجل SPF صالح. هذا يساعد في مصادقة رسائلك. تأكد من أنه يتضمن الخدمة التي ترسل بريدك فعلًا."
 
-#: includes/Checks/SpfCheck.php:87
+#: includes/Checks/SpfCheck.php:93
 msgid "No SPF record was found. This is a critical issue that makes your emails look suspicious to spam filters."
 msgstr "لم يُعثر على سجل SPF. هذه مشكلة خطيرة تجعل رسائلك تبدو مشبوهة لمرشحات البريد المزعج."
 
@@ -462,27 +463,27 @@ msgstr "تعذّرت قراءة إعدادات بريد WooCommerce."
 
 #: includes/Checks/WooCommerceEmailCheck.php:68
 msgid "The \"New order\" email is on but has no valid recipient, so nobody receives new order emails. Set one in WooCommerce > Settings > Emails > New order."
-msgstr "بريد «طلب جديد» مفعّل لكن بلا مستلم صالح، لذا لا يتلقى أحد رسائل الطلبات الجديدة. عيّن مستلمًا في WooCommerce > الإعدادات > رسائل البريد > طلب جديد."
+msgstr "بريد «طلب جديد» مفعّل لكن بلا مستلم صالح، لذا لا يتلقى أحد رسائل الطلبات الجديدة. عيّن مستلمًا في WooCommerce ‏>‏ الإعدادات ‏>‏ رسائل البريد ‏>‏ طلب جديد."
 
 #. translators: %s: comma-separated list of WooCommerce email names
 #: includes/Checks/WooCommerceEmailCheck.php:74
 #, php-format
 msgid "These WooCommerce emails are turned off: %s. That is fine if you did it on purpose; if not, turn them on in WooCommerce > Settings > Emails."
-msgstr "رسائل WooCommerce التالية متوقفة: %s. لا بأس بذلك إن فعلته عمدًا؛ وإلا فعّلها من WooCommerce > الإعدادات > رسائل البريد."
+msgstr "رسائل WooCommerce التالية متوقفة: %s. لا بأس بذلك إن فعلته عمدًا؛ وإلا فعّلها من WooCommerce ‏>‏ الإعدادات ‏>‏ رسائل البريد."
 
 #: includes/Checks/WooCommerceEmailCheck.php:86
 msgid "WooCommerce's \"From\" address is empty or not a valid email address. Set it in WooCommerce > Settings > Emails."
-msgstr "عنوان «المرسل» في WooCommerce فارغ أو ليس بريدًا إلكترونيًا صالحًا. عيّنه في WooCommerce > الإعدادات > رسائل البريد."
+msgstr "عنوان «المرسل» في WooCommerce فارغ أو ليس بريدًا إلكترونيًا صالحًا. عيّنه في WooCommerce ‏>‏ الإعدادات ‏>‏ رسائل البريد."
 
 #. translators: %s: comma-separated list of template file names
 #: includes/Checks/WooCommerceEmailCheck.php:93
 #, php-format
 msgid "Your theme overrides WooCommerce email templates that are older than WooCommerce's own versions: %s. Outdated overrides can break emails or miss changes. Update them or remove the overrides."
-msgstr "تستبدل قوالبك قوالب بريد WooCommerce بنسخ أقدم من نسخ WooCommerce نفسها: %s. قد تعطّل القوالب القديمة الرسائل أو تفوّتها تغييرات. حدّثها أو أزل الاستبدالات."
+msgstr "يستبدل قالب موقعك (theme) ملفات قوالب بريد WooCommerce بنسخ أقدم من نسخ WooCommerce نفسها: %s. قد تعطّل القوالب القديمة الرسائل أو تفوّتها تغييرات. حدّثها أو أزل الاستبدالات."
 
 #: includes/Checks/WooCommerceEmailCheck.php:99
 msgid "The key WooCommerce emails (new order, processing and completed) are on, the new order recipient and the From address are set, and no outdated email template overrides were found."
-msgstr "رسائل WooCommerce الأساسية (طلب جديد، قيد المعالجة، مكتمل) مفعّلة، ومستلم الطلب الجديد وعنوان المرسل مضبوطان، ولم تُعثر على قوالب بريد قديمة مستبدلة."
+msgstr "رسائل WooCommerce الأساسية (طلب جديد، قيد المعالجة، مكتمل) مفعّلة، ومستلم الطلب الجديد وعنوان المرسل مضبوطان، ولم يُعثر على قوالب بريد قديمة مستبدلة."
 
 #: includes/Log/EmailLogger.php:211
 #: includes/Log/SourceDetector.php:56
@@ -526,7 +527,7 @@ msgstr "تُرسَل رسائلك من عنوان في %s، وهو نطاق لا
 #: includes/Support/ProviderGuidance.php:106
 #, php-format
 msgid "%1$s authenticates SPF through its own return-path records, shown in your %1$s dashboard, so no include is needed in your root domain's SPF record. Complete its domain setup there. Your domain still needs a valid SPF record for your other senders, such as your web host or mailbox provider."
-msgstr "تصادق %1$s على SPF عبر سجلات المسار الراجع الخاصة بها، والتي تظهر في لوحة %1$s لديك، لذا لا حاجة إلى include في سجل SPF لنطاقك الجذري. أكمل إعداد النطاق هناك. لا يزال نطاقك بحاجة إلى سجل SPF صالح لمرسلين آخرين، مثل استضافتك أو مزوّد صندوق بريدك."
+msgstr "يصادق %1$s على SPF عبر سجلات Return-Path الخاصة به، والتي تظهر في لوحة %1$s لديك، لذا لا حاجة إلى include في سجل SPF لنطاقك الجذري. أكمل إعداد النطاق هناك. لا يزال نطاقك بحاجة إلى سجل SPF صالح لمرسلين آخرين، مثل استضافتك أو مزوّد صندوق بريدك."
 
 #. translators: 1: SPF include, e.g. include:mailgun.org
 #: includes/Support/ProviderGuidance.php:115

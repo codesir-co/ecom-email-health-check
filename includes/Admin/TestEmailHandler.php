@@ -42,7 +42,8 @@ class TestEmailHandler {
 		}
 
 		// Recipient: the admin address unless another valid address was typed.
-		$to = isset( $_POST['ecehc_test_to'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['ecehc_test_to'] ) ) ) : '';
+		// Not sanitize_text_field(): it would strip valid characters such as a percent sign in the local part and silently change the address. Control characters are removed, then is_email() decides.
+		$to = isset( $_POST['ecehc_test_to'] ) ? trim( (string) preg_replace( '/[\x00-\x1F\x7F]/', '', wp_unslash( $_POST['ecehc_test_to'] ) ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- validated with is_email() below.
 		$to = '' === $to ? (string) get_option( 'admin_email' ) : $to;
 
 		if ( ! is_email( $to ) ) {

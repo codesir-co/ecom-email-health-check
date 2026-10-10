@@ -13,18 +13,30 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     <div class="ecehc-grid">
         <div class="ecehc-main-col">
             <?php if ( null === $results ) : ?>
-                <?php // The checks run in the background (DNS lookups can be slow), so the page opens at once. ?>
+                <?php
+                $ecehc_sync_url = add_query_arg(
+                    array(
+                        'page'       => \CodeSir\EmailHealthCheck\Admin\AdminPage::MENU_SLUG,
+                        'ecehc_sync' => 1,
+                    ),
+                    admin_url( 'admin.php' )
+                );
+                // The checks run in the background (DNS lookups can be slow), so the page opens at once.
+                ?>
                 <div id="ecehc-main-report" class="card ecehc-report-loading"
                      data-ecehc-ajax="1"
                      data-nonce="<?php echo esc_attr( wp_create_nonce( \CodeSir\EmailHealthCheck\Admin\ReportLoader::NONCE_ACTION ) ); ?>"
-                     data-error="<?php esc_attr_e( 'The checks could not be loaded.', 'ecom-email-health-check' ); ?>">
+                     data-error="<?php esc_attr_e( 'The checks could not be loaded.', 'ecom-email-health-check' ); ?>"
+                     data-retry="<?php esc_attr_e( 'Run them again on the server', 'ecom-email-health-check' ); ?>"
+                     data-done="<?php esc_attr_e( 'The email checks have finished.', 'ecom-email-health-check' ); ?>"
+                     data-sync-url="<?php echo esc_url( $ecehc_sync_url ); ?>">
                     <h2><?php esc_html_e( 'Email Health Report', 'ecom-email-health-check' ); ?></h2>
                     <p class="ecehc-report-status" role="status" aria-live="polite">
                         <span class="spinner is-active" aria-hidden="true"></span>
                         <?php esc_html_e( 'Running the checks. DNS lookups can take a few seconds.', 'ecom-email-health-check' ); ?>
                     </p>
                     <noscript>
-                        <p><a href="<?php echo esc_url( add_query_arg( array( 'page' => \CodeSir\EmailHealthCheck\Admin\AdminPage::MENU_SLUG, 'ecehc_sync' => 1 ), admin_url( 'admin.php' ) ) ); ?>"><?php esc_html_e( 'Run the checks without JavaScript', 'ecom-email-health-check' ); ?></a></p>
+                        <p><a href="<?php echo esc_url( $ecehc_sync_url ); ?>"><?php esc_html_e( 'Run the checks without JavaScript', 'ecom-email-health-check' ); ?></a></p>
                     </noscript>
                 </div>
             <?php else : ?>

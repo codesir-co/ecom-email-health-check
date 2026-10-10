@@ -29,12 +29,21 @@
 		return copied;
 	}
 
-	// Ask before a destructive action (data-ecehc-confirm).
 	// Health Report: the checks run in the background and fill the page when ready.
 	function loadReport() {
 		var placeholder = document.getElementById( 'ecehc-main-report' );
 
-		if ( ! placeholder || ! placeholder.hasAttribute( 'data-ecehc-ajax' ) || typeof window.ajaxurl === 'undefined' ) {
+		if ( ! placeholder || ! placeholder.hasAttribute( 'data-ecehc-ajax' ) ) {
+			return;
+		}
+
+		var syncUrl = placeholder.getAttribute( 'data-sync-url' );
+
+		// Browsers without fetch or URLSearchParams (or without ajaxurl) get the page with the checks run on the server.
+		if ( ! window.fetch || ! window.URLSearchParams || typeof window.ajaxurl === 'undefined' ) {
+			if ( syncUrl ) {
+				window.location.replace( syncUrl );
+			}
 			return;
 		}
 
@@ -44,8 +53,17 @@
 
 		var fail = function () {
 			var status = placeholder.querySelector( '.ecehc-report-status' );
-			if ( status ) {
-				status.textContent = placeholder.getAttribute( 'data-error' );
+			if ( ! status ) {
+				return;
+			}
+
+			status.textContent = placeholder.getAttribute( 'data-error' ) + ' ';
+
+			if ( syncUrl ) {
+				var link = document.createElement( 'a' );
+				link.href = syncUrl;
+				link.textContent = placeholder.getAttribute( 'data-retry' );
+				status.appendChild( link );
 			}
 		};
 
@@ -59,21 +77,29 @@
 					return;
 				}
 
+				var done = placeholder.getAttribute( 'data-done' );
 				var slot = document.getElementById( 'ecehc-checklist-slot' );
 				if ( slot ) {
 					slot.innerHTML = data.data.checklist;
 				}
 				placeholder.outerHTML = data.data.report;
+
+				// Tell screen reader users that the results arrived, and honour a #hash the page was opened with.
+				if ( window.wp && window.wp.a11y && window.wp.a11y.speak && done ) {
+					window.wp.a11y.speak( done );
+				}
+				if ( window.location.hash ) {
+					var target = document.getElementById( window.location.hash.substring( 1 ) );
+					if ( target && target.scrollIntoView ) {
+						target.scrollIntoView();
+					}
+				}
 			} )
 			.catch( fail );
 	}
 
-	if ( 'loading' === document.readyState ) {
-		document.addEventListener( 'DOMContentLoaded', loadReport );
-	} else {
-		loadReport();
-	}
 
+	// Ask before a destructive action (data-ecehc-confirm).
 	document.addEventListener( 'click', function ( event ) {
 		var guarded = event.target.closest( '[data-ecehc-confirm]' );
 
@@ -113,4 +139,15 @@
 			done();
 		}
 	} );
+
+	// Last, so a problem here can never stop the handlers above from being registered.
+	try {
+		if ( 'loading' === document.readyState ) {
+			document.addEventListener( 'DOMContentLoaded', loadReport );
+		} else {
+			loadReport();
+		}
+	} catch ( error ) {
+		window.console && window.console.error && window.console.error( error );
+	}
 }() );

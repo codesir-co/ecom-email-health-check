@@ -28,8 +28,11 @@ class ReportLoader {
 			wp_send_json_error( null, 403 );
 		}
 
+		// A notice or deprecation printed by a third-party hook must not end up in front of the JSON.
+		ob_start();
 		$results   = ( new CheckRunner() )->run_all();
 		$checklist = Checklist::items( $results );
+		ob_end_clean();
 
 		ob_start();
 		include ECEHC_PLUGIN_PATH . 'views/checklist.php';

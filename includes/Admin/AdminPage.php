@@ -131,7 +131,7 @@ class AdminPage {
 		wp_enqueue_script(
 			'ecom-email-health-check-admin',
 			ECEHC_PLUGIN_URL . 'assets/js/admin.js',
-			array(),
+			array( 'wp-a11y' ),
 			ECEHC_VERSION,
 			true
 		);

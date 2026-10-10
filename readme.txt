@@ -118,6 +118,7 @@ Please use the plugin's support forum on WordPress.org: https://wordpress.org/su
 3. The Email Log tab: accepted and failed counts for the last 24 hours and 7 days, broken down by source and WooCommerce email type.
 4. The latest emails, filterable by source, status and WooCommerce email type.
 5. The Email Health dashboard widget warns you inside wp-admin when many emails fail.
+6. The same warning in Tools > Site Health, so a problem shows up without opening the plugin.
 
 == External services ==
 

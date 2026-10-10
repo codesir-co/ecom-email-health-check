@@ -88,12 +88,18 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
             <div class="card ecehc-card-padded" id="ecehc-test-email">
                 <h2 class="ecehc-card-title"><?php esc_html_e( 'Test Your Email Sending', 'ecom-email-health-check' ); ?></h2>
                 <p>
-					<?php esc_html_e( 'Click the button below to send a test email to your admin email address (', 'ecom-email-health-check' ); ?>
-                    <code><?php echo esc_html( get_option('admin_email') ); ?></code>
-					<?php esc_html_e( ') to confirm basic functionality.', 'ecom-email-health-check' ); ?>
+					<?php esc_html_e( 'Send a test email through your real mail setup to confirm that it works. Use your own address, or any inbox you want to test (for example a Gmail or Outlook address).', 'ecom-email-health-check' ); ?>
                 </p>
-                <form method="post">
+                <form method="post" class="ecehc-test-form">
 					<?php wp_nonce_field( 'ecehc_send_test_email' ); ?>
+                    <p>
+                        <label for="ecehc-test-to"><?php esc_html_e( 'Send to', 'ecom-email-health-check' ); ?></label><br>
+                        <input type="email" id="ecehc-test-to" name="ecehc_test_to" class="regular-text" value="<?php echo esc_attr( get_option( 'admin_email' ) ); ?>" required>
+                    </p>
+                    <p>
+                        <label for="ecehc-test-subject"><?php esc_html_e( 'Subject (optional)', 'ecom-email-health-check' ); ?></label><br>
+                        <input type="text" id="ecehc-test-subject" name="ecehc_test_subject" class="regular-text" maxlength="150" placeholder="<?php echo esc_attr__( 'Email Health Check: Test Email', 'ecom-email-health-check' ); ?>">
+                    </p>
                     <input type="submit" name="ecehc_send_test_email" class="button button-secondary" value="<?php esc_attr_e( 'Send Test Email', 'ecom-email-health-check' ); ?>">
                 </form>
             </div>

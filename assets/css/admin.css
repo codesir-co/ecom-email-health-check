@@ -166,3 +166,8 @@
     margin-left: 6px;
     vertical-align: middle;
 }
+
+.ecehc-test-form .regular-text {
+    width: 100%;
+    max-width: 100%;
+}

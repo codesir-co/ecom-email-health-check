@@ -2,7 +2,7 @@
 /**
  * Email Log tab.
  *
- * Expects: $active_tab, $supported, $settings, $notice, $sources, $types, $filters, $result, $paged, $stats24, $stats7.
+ * Expects: $ecehc_active_tab, $supported, $settings, $notice, $sources, $types, $filters, $result, $paged, $stats24, $stats7.
  *
  * @package CodeSir\EmailHealthCheck
  */

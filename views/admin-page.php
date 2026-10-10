@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 		<?php esc_html_e( 'Run a quick diagnostic to check the health of your store\'s email delivery system.', 'ecom-email-health-check' ); ?>
     </p>
 
-    <?php $active_tab = 'report'; include ECEHC_PLUGIN_PATH . 'views/tabs.php'; ?>
+    <?php $ecehc_active_tab = 'report'; include ECEHC_PLUGIN_PATH . 'views/tabs.php'; ?>
     <?php include ECEHC_PLUGIN_PATH . 'views/checklist.php'; ?>
 
     <div class="ecehc-grid">
@@ -27,35 +27,35 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                     </tr>
                     </thead>
                     <tbody>
-					<?php foreach ( $results as $ecehc_check_id => $result ) : ?>
+					<?php foreach ( $results as $ecehc_check_id => $ecehc_result ) : ?>
                         <tr id="ecehc-check-<?php echo esc_attr( (string) $ecehc_check_id ); ?>">
-                            <td class="column-columnname"><strong><?php echo esc_html( $result['label'] ); ?></strong></td>
+                            <td class="column-columnname"><strong><?php echo esc_html( $ecehc_result['label'] ); ?></strong></td>
                             <td class="column-columnname">
-								<?php if ( 'pass' === $result['status'] ) : ?>
+								<?php if ( 'pass' === $ecehc_result['status'] ) : ?>
                                     <span class="ecehc-status ecehc-status-pass">&#10004; <?php esc_html_e( 'Pass', 'ecom-email-health-check' ); ?></span>
-								<?php elseif ( 'warning' === $result['status'] ) : ?>
+								<?php elseif ( 'warning' === $ecehc_result['status'] ) : ?>
                                     <span class="ecehc-status ecehc-status-warning">&#9888; <?php esc_html_e( 'Warning', 'ecom-email-health-check' ); ?></span>
-								<?php elseif ( 'unknown' === $result['status'] ) : ?>
+								<?php elseif ( 'unknown' === $ecehc_result['status'] ) : ?>
                                     <span class="ecehc-status ecehc-status-unknown">&#63; <?php esc_html_e( 'Not checked', 'ecom-email-health-check' ); ?></span>
 								<?php else : ?>
                                     <span class="ecehc-status ecehc-status-fail">&#10006; <?php esc_html_e( 'Fail', 'ecom-email-health-check' ); ?></span>
 								<?php endif; ?>
                             </td>
                             <td class="column-columnname">
-								<?php echo esc_html( $result['message'] ); ?>
-								<?php if ( ! empty( $result['guidance'] ) ) : ?>
+								<?php echo esc_html( $ecehc_result['message'] ); ?>
+								<?php if ( ! empty( $ecehc_result['guidance'] ) ) : ?>
                                     <details class="ecehc-guidance">
                                         <summary><?php esc_html_e( 'How to fix this', 'ecom-email-health-check' ); ?></summary>
-                                        <p><?php echo esc_html( $result['guidance']['text'] ); ?></p>
-										<?php foreach ( $result['guidance']['records'] as $record ) : ?>
+                                        <p><?php echo esc_html( $ecehc_result['guidance']['text'] ); ?></p>
+										<?php foreach ( $ecehc_result['guidance']['records'] as $ecehc_record ) : ?>
                                             <div class="ecehc-record">
-                                                <span class="ecehc-record-meta"><?php echo esc_html( $record['type'] ); ?> &middot; <?php echo esc_html( $record['host'] ); ?></span>
-                                                <code><?php echo esc_html( $record['value'] ); ?></code>
-                                                <button type="button" class="button button-small ecehc-copy" data-ecehc-copy="<?php echo esc_attr( $record['value'] ); ?>" data-copied="<?php esc_attr_e( 'Copied', 'ecom-email-health-check' ); ?>"><?php esc_html_e( 'Copy', 'ecom-email-health-check' ); ?></button>
+                                                <span class="ecehc-record-meta"><?php echo esc_html( $ecehc_record['type'] ); ?> &middot; <?php echo esc_html( $ecehc_record['host'] ); ?></span>
+                                                <code><?php echo esc_html( $ecehc_record['value'] ); ?></code>
+                                                <button type="button" class="button button-small ecehc-copy" data-ecehc-copy="<?php echo esc_attr( $ecehc_record['value'] ); ?>" data-copied="<?php esc_attr_e( 'Copied', 'ecom-email-health-check' ); ?>"><?php esc_html_e( 'Copy', 'ecom-email-health-check' ); ?></button>
                                             </div>
 										<?php endforeach; ?>
-										<?php if ( ! empty( $result['guidance']['docs'] ) ) : ?>
-                                            <p><a href="<?php echo esc_url( $result['guidance']['docs'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Official setup guide', 'ecom-email-health-check' ); ?></a></p>
+										<?php if ( ! empty( $ecehc_result['guidance']['docs'] ) ) : ?>
+                                            <p><a href="<?php echo esc_url( $ecehc_result['guidance']['docs'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Official setup guide', 'ecom-email-health-check' ); ?></a></p>
 										<?php endif; ?>
                                     </details>
 								<?php endif; ?>

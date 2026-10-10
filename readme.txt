@@ -4,7 +4,7 @@ Tags: woocommerce, email log, deliverability, dkim, dmarc
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -132,6 +132,9 @@ Spamhaus is intentionally not queried, because its free service is limited to lo
 
 == Upgrade Notice ==
 
+= 1.5.0 =
+The Health Report now opens at once and loads its checks in the background. You can send the test email to any address. Renamed to "Email Health Check & Log for WooCommerce". Adds an Arabic draft translation and WordPress and WooCommerce compatibility updates.
+
 = 1.4.0 =
 Fixes the SMTP / Mail Service check, which always passed since 1.3.0, so the server IP blacklist check runs again. Adds a WooCommerce email setup check, WP-CLI commands, a copy support report button, a getting-started checklist and WooCommerce HPOS compatibility.
 
@@ -148,6 +151,16 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.5.0 =
+* New: the Health Report loads in the background, so the page opens at once while the DNS checks run. Without JavaScript, or if the request fails, it falls back to loading in the page, and a retry link appears.
+* New: send the test email to any address, with an optional subject. The address is shown partly hidden in notices, and test emails are limited to 5 every 5 minutes.
+* New: translation-ready, with a template (.pot) and an Arabic draft translation.
+* Changed: the plugin is now named "Email Health Check & Log for WooCommerce" and its tags, description and FAQ are rewritten to describe it better. The plugin folder, settings and data are unchanged.
+* Improved: tested with WooCommerce 11.2 and WordPress 7.1.
+* Improved: the support report describes exactly what it contains.
+* Improved: a sixth screenshot, a new banner and a refreshed readme.
+* Developer: dependency-free unit tests (`php tests/run.php`), Plugin Check and lint in continuous integration, and a more resilient deploy workflow.
 
 = 1.4.0 =
 * Fix: the "SMTP / Mail Service" check always passed since 1.3.0, because it counted the email log's own mail hook as a mail service. It now warns again when your site uses plain PHP mail, and the server IP blacklist check is no longer skipped by mistake.

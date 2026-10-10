@@ -4,7 +4,7 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Email Health Check & Log for WooCommerce 1.4.0\n"
+"Project-Id-Version: Email Health Check & Log for WooCommerce 1.5.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ecom-email-health-check\n"
 "Last-Translator: Claude (draft, needs native review)\n"
 "Language-Team: Arabic\n"

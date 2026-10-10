@@ -154,27 +154,27 @@ msgid "Your email deliverability checks look healthy"
 msgstr "فحوص وصول بريدك الإلكتروني تبدو سليمة"
 
 #: includes/Admin/SiteHealth.php:168
-#: views/admin-page.php:35
+#: views/report-card.php:34
 msgid "Pass"
 msgstr "ناجح"
 
 #: includes/Admin/SiteHealth.php:170
-#: views/admin-page.php:37
+#: views/report-card.php:36
 msgid "Warning"
 msgstr "تحذير"
 
 #: includes/Admin/SiteHealth.php:172
-#: views/admin-page.php:41
+#: views/report-card.php:40
 msgid "Fail"
 msgstr "فاشل"
 
 #: includes/Admin/SiteHealth.php:174
-#: views/admin-page.php:39
+#: views/report-card.php:38
 msgid "Not checked"
 msgstr "لم يتم الفحص"
 
 #: includes/Admin/TestEmailHandler.php:70
-#: views/admin-page.php:101
+#: views/admin-page.php:61
 msgid "Email Health Check: Test Email"
 msgstr "فحص صحة البريد الإلكتروني: رسالة اختبار"
 
@@ -513,7 +513,7 @@ msgstr "القالب"
 msgid "WordPress"
 msgstr "ووردبريس"
 
-#: includes/Plugin.php:70
+#: includes/Plugin.php:72
 msgid "Health Check"
 msgstr "فحص الصحة"
 
@@ -577,102 +577,64 @@ msgstr "انسخ سجلات DKIM من لوحة %s لديك (قسم مصادقة 
 msgid "Run a quick diagnostic to check the health of your store's email delivery system."
 msgstr "أجرِ فحصًا سريعًا للتحقق من صحة نظام إرسال البريد في متجرك."
 
-#: views/admin-page.php:16
+#: views/admin-page.php:29
+msgid "The checks could not be loaded."
+msgstr "تعذّر تحميل الفحوص."
+
+#: views/admin-page.php:30
+msgid "Run them again on the server"
+msgstr "شغّلها مرة أخرى على الخادم"
+
+#: views/admin-page.php:31
+msgid "The email checks have finished."
+msgstr "انتهت فحوص البريد الإلكتروني."
+
+#: views/admin-page.php:33
+#: views/report-card.php:15
 msgid "Email Health Report"
 msgstr "تقرير صحة البريد الإلكتروني"
 
-#: views/admin-page.php:18
-msgid "The following checks will help you identify common issues that prevent emails from being delivered successfully."
-msgstr "ستساعدك الفحوص التالية على تحديد المشكلات الشائعة التي تمنع وصول الرسائل بنجاح."
+#: views/admin-page.php:36
+msgid "Running the checks. DNS lookups can take a few seconds."
+msgstr "جارٍ تشغيل الفحوص. قد تستغرق استعلامات DNS بضع ثوانٍ."
 
-#: views/admin-page.php:24
-msgid "Check"
-msgstr "الفحص"
+#: views/admin-page.php:39
+msgid "Run the checks without JavaScript"
+msgstr "شغّل الفحوص بدون JavaScript"
 
-#: views/admin-page.php:25
-#: views/email-log.php:139
-#: views/email-log.php:169
-msgid "Status"
-msgstr "الحالة"
-
-#: views/admin-page.php:26
-msgid "Message"
-msgstr "الرسالة"
-
-#: views/admin-page.php:48
-msgid "How to fix this"
-msgstr "كيف تصلح هذا"
-
-#: views/admin-page.php:54
-#: views/admin-page.php:76
-msgid "Copied"
-msgstr "تم النسخ"
-
-#: views/admin-page.php:54
-msgid "Copy"
-msgstr "نسخ"
-
-#: views/admin-page.php:58
-msgid "Official setup guide"
-msgstr "دليل الإعداد الرسمي"
-
-#: views/admin-page.php:70
-msgid "Re-check"
-msgstr "إعادة الفحص"
-
-#: views/admin-page.php:71
-msgid "The mail service detection and blacklist lookups are saved for up to 12 hours. Re-check to refresh them."
-msgstr "يُحفظ اكتشاف خدمة البريد واستعلامات القوائم السوداء حتى 12 ساعة. اضغط «إعادة الفحص» لتحديثها."
-
-#: views/admin-page.php:76
-msgid "Copy support report"
-msgstr "نسخ تقرير الدعم"
-
-#: views/admin-page.php:77
-msgid "A plain-text summary to paste into a support ticket. It has your site and mail domains, versions, check results, the plugin that handles your email and your server IP if it is blacklisted, but no passwords, message contents or full email addresses."
-msgstr "ملخص نصي بسيط للصقه في تذكرة دعم. يتضمن نطاق موقعك ونطاق بريدك والإصدارات ونتائج الفحوص والإضافة التي تتولى بريدك وعنوان IP لخادمك إن كان مدرجًا في قائمة سوداء، دون كلمات مرور أو محتوى رسائل أو عناوين بريد كاملة."
-
-#: views/admin-page.php:79
-msgid "Preview the report"
-msgstr "معاينة التقرير"
-
-#: views/admin-page.php:80
-msgid "Support report"
-msgstr "تقرير الدعم"
-
-#: views/admin-page.php:89
+#: views/admin-page.php:49
 msgid "Test Your Email Sending"
 msgstr "اختبر إرسال بريدك"
 
-#: views/admin-page.php:91
+#: views/admin-page.php:51
 msgid "Send a test email through your real mail setup to confirm that it works. Use your own address, or any inbox you want to test (for example a Gmail or Outlook address)."
 msgstr "أرسل رسالة اختبار عبر إعدادات بريدك الفعلية للتأكد من عملها. استخدم عنوانك أو أي صندوق بريد تريد اختباره (مثل عنوان Gmail أو Outlook)."
 
-#: views/admin-page.php:96
+#: views/admin-page.php:56
 msgid "Send to"
 msgstr "إرسال إلى"
 
-#: views/admin-page.php:100
+#: views/admin-page.php:60
 msgid "Subject (optional)"
 msgstr "الموضوع (اختياري)"
 
-#: views/admin-page.php:103
+#: views/admin-page.php:63
 msgid "Send Test Email"
 msgstr "إرسال رسالة اختبار"
 
-#: views/admin-page.php:109
+#: views/admin-page.php:69
 msgid "Test Your WooCommerce Emails"
 msgstr "اختبر رسائل WooCommerce"
 
-#: views/admin-page.php:111
+#: views/admin-page.php:71
 msgid "Recent WooCommerce versions can preview each email and send you a test copy, using your real From address and mail setup. Open it, pick an email and use its preview to send yourself a test."
 msgstr "تستطيع إصدارات WooCommerce الحديثة معاينة كل رسالة وإرسال نسخة اختبار إليك، باستخدام عنوان المرسل وإعدادات البريد الفعلية. افتحها واختر رسالة واستخدم معاينتها لإرسال اختبار لنفسك."
 
-#: views/admin-page.php:113
+#: views/admin-page.php:73
 msgid "Open WooCommerce email settings"
 msgstr "افتح إعدادات بريد WooCommerce"
 
-#: views/admin-page.php:115
+#: views/admin-page.php:75
 msgid "The test email then shows up in the Email Log tab as a WooCommerce email."
 msgstr "تظهر رسالة الاختبار بعد ذلك في تبويب سجل البريد الإلكتروني كرسالة WooCommerce."
 
@@ -776,6 +738,12 @@ msgstr "%1$s، %2$s: %3$s"
 msgid "All sources"
 msgstr "كل المصادر"
 
+#: views/email-log.php:139
+#: views/email-log.php:169
+#: views/report-card.php:24
+msgid "Status"
+msgstr "الحالة"
+
 #: views/email-log.php:141
 msgid "Any status"
 msgstr "أي حالة"
@@ -861,6 +829,59 @@ msgstr "مسح السجل الآن"
 #: views/email-log.php:273
 msgid "Delete all logged emails? This cannot be undone."
 msgstr "حذف كل الرسائل المسجّلة؟ لا يمكن التراجع عن ذلك."
+
+#: views/report-card.php:17
+msgid "The following checks will help you identify common issues that prevent emails from being delivered successfully."
+msgstr "ستساعدك الفحوص التالية على تحديد المشكلات الشائعة التي تمنع وصول الرسائل بنجاح."
+
+#: views/report-card.php:23
+msgid "Check"
+msgstr "الفحص"
+
+#: views/report-card.php:25
+msgid "Message"
+msgstr "الرسالة"
+
+#: views/report-card.php:47
+msgid "How to fix this"
+msgstr "كيف تصلح هذا"
+
+#: views/report-card.php:53
+#: views/report-card.php:75
+msgid "Copied"
+msgstr "تم النسخ"
+
+#: views/report-card.php:53
+msgid "Copy"
+msgstr "نسخ"
+
+#: views/report-card.php:57
+msgid "Official setup guide"
+msgstr "دليل الإعداد الرسمي"
+
+#: views/report-card.php:69
+msgid "Re-check"
+msgstr "إعادة الفحص"
+
+#: views/report-card.php:70
+msgid "The mail service detection and blacklist lookups are saved for up to 12 hours. Re-check to refresh them."
+msgstr "يُحفظ اكتشاف خدمة البريد واستعلامات القوائم السوداء حتى 12 ساعة. اضغط «إعادة الفحص» لتحديثها."
+
+#: views/report-card.php:75
+msgid "Copy support report"
+msgstr "نسخ تقرير الدعم"
+
+#: views/report-card.php:76
+msgid "A plain-text summary to paste into a support ticket. It has your site and mail domains, versions, check results, the plugin that handles your email and, if the blacklist check ran, your server IP address, but no passwords, message contents or full email addresses. Remove anything you would rather not share publicly."
+msgstr "ملخص نصي بسيط للصقه في تذكرة دعم. يتضمن نطاق موقعك ونطاق بريدك والإصدارات ونتائج الفحوص والإضافة التي تتولى بريدك، وعنوان IP لخادمك إن أُجري فحص القوائم السوداء، دون كلمات مرور أو محتوى رسائل أو عناوين بريد كاملة. احذف ما لا تريد مشاركته علنًا."
+
+#: views/report-card.php:78
+msgid "Preview the report"
+msgstr "معاينة التقرير"
+
+#: views/report-card.php:79
+msgid "Support report"
+msgstr "تقرير الدعم"
 
 #: views/review-notice.php:20
 msgid "Is Email Health Check useful to you?"

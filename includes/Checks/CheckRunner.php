@@ -64,7 +64,7 @@ class CheckRunner {
 						esc_html__( 'Duplicate diagnostic check id "%s" was skipped.', 'ecom-email-health-check' ),
 						esc_html( $check->get_id() )
 					),
-					ECEHC_VERSION
+					esc_html( ECEHC_VERSION )
 				);
 				continue;
 			}

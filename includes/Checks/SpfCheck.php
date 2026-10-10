@@ -74,9 +74,8 @@ class SpfCheck implements CheckInterface {
 
 				return Result::warning(
 					sprintf(
-						/* translators: %s: mail service name */
-						__( 'Your site sends email through %s, but your SPF record does not appear to include it. Add the include value from your provider\'s DNS instructions to your SPF record, or emails may fail SPF. (If %s is listed inside another include, you can ignore this.)', 'ecom-email-health-check' ),
-						$provider['name'],
+						/* translators: %1$s: mail service name */
+						__( 'Your site sends email through %1$s, but your SPF record does not appear to include it. Add the include value from your provider\'s DNS instructions to your SPF record, or emails may fail SPF. (If %1$s is listed inside another include, you can ignore this.)', 'ecom-email-health-check' ),
 						$provider['name']
 					)
 				);

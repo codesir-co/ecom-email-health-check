@@ -31,8 +31,9 @@ class BasicEmailCheck implements CheckInterface {
 			return Result::unknown( __( 'No test email has been sent yet. Use "Send Test Email" to check that your site can send mail.', 'ecom-email-health-check' ) );
 		}
 
-		$when = $last['time'] && function_exists( 'wp_date' )
-			? wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $last['time'] )
+		// date_i18n() instead of wp_date() (WordPress 5.3+): the plugin supports WordPress 5.0.
+		$when = $last['time']
+			? date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $last['time'] ) ) ) )
 			: '';
 		/* translators: %s: date and time the test email was sent */
 		$suffix = $when ? ' ' . sprintf( __( '(Sent %s.)', 'ecom-email-health-check' ), $when ) : '';

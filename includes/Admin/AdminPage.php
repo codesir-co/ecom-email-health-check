@@ -36,10 +36,10 @@ class AdminPage {
 	}
 
 	public function render(): void {
-		$active_tab = $this->active_tab();
+		$ecehc_active_tab = $this->active_tab();
 
-		if ( 'log' === $active_tab ) {
-			$this->render_log( $active_tab );
+		if ( 'log' === $ecehc_active_tab ) {
+			$this->render_log( $ecehc_active_tab );
 			return;
 		}
 
@@ -60,7 +60,7 @@ class AdminPage {
 	/**
 	 * Email Log tab: statistics, filters and the list of recent emails.
 	 */
-	private function render_log( string $active_tab ): void {
+	private function render_log( string $ecehc_active_tab ): void {
 		Checklist::mark_log_seen();
 
 		$supported = EmailLogger::is_supported();

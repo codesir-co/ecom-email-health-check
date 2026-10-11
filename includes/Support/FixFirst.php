@@ -21,7 +21,10 @@ class FixFirst {
 	const STATE_OK        = 'ok';
 	const STATE_UNCHECKED = 'unchecked';
 
-	/** Check ids from the most to the least important, for checks of the same severity. */
+	/**
+	 * Check ids from the most to the least important, for checks of the same severity.
+	 * An independent heuristic from the ordering in WooDiagnosis (feature/118); the two are not meant to agree.
+	 */
 	const PRIORITY = array(
 		'basic_functionality',
 		'smtp_configured',

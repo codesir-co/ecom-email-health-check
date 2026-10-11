@@ -107,7 +107,16 @@
 		var row = link ? document.getElementById( link.getAttribute( 'data-ecehc-open' ) ) : null;
 		var panel = row ? row.querySelector( 'details.ecehc-guidance' ) : null;
 
+		if ( ! row ) {
+			return;
+		}
+
 		if ( ! panel ) {
+			// No "How to fix this" panel: move focus to the row itself so keyboard and screen reader users land on the check.
+			row.setAttribute( 'tabindex', '-1' );
+			if ( row.focus ) {
+				row.focus();
+			}
 			return;
 		}
 

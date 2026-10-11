@@ -60,6 +60,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php esc_html_e( 'The following checks will help you identify common issues that prevent emails from being delivered successfully.', 'ecom-email-health-check' ); ?>
                 </p>
 
+				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+					<?php include ECEHC_PLUGIN_PATH . 'views/woo-diagnosis.php'; ?>
+				<?php endif; ?>
+
                 <table class="widefat fixed" cellspacing="0">
                     <thead>
                     <tr>

@@ -84,9 +84,11 @@
 				}
 				placeholder.outerHTML = data.data.report;
 
-				// Tell screen reader users that the results arrived, and honour a #hash the page was opened with.
+				// Tell screen reader users that the results arrived and what to fix first, and honour a #hash the page was opened with.
 				if ( window.wp && window.wp.a11y && window.wp.a11y.speak && done ) {
-					window.wp.a11y.speak( done );
+					var fixFirst = document.getElementById( 'ecehc-fix-first' );
+					var summary = fixFirst ? fixFirst.getAttribute( 'data-ecehc-announce' ) : '';
+					window.wp.a11y.speak( summary ? done + ' ' + summary : done );
 				}
 				if ( window.location.hash ) {
 					var target = document.getElementById( window.location.hash.substring( 1 ) );
@@ -98,6 +100,32 @@
 			.catch( fail );
 	}
 
+
+	// "Fix this first" link: open the check's "How to fix this" panel (if it has one) and move focus to it.
+	document.addEventListener( 'click', function ( event ) {
+		var link = event.target.closest( '[data-ecehc-open]' );
+		var row = link ? document.getElementById( link.getAttribute( 'data-ecehc-open' ) ) : null;
+		var panel = row ? row.querySelector( 'details.ecehc-guidance' ) : null;
+
+		if ( ! row ) {
+			return;
+		}
+
+		if ( ! panel ) {
+			// No "How to fix this" panel: move focus to the row itself so keyboard and screen reader users land on the check.
+			row.setAttribute( 'tabindex', '-1' );
+			if ( row.focus ) {
+				row.focus();
+			}
+			return;
+		}
+
+		panel.open = true;
+		var summary = panel.querySelector( 'summary' );
+		if ( summary && summary.focus ) {
+			summary.focus();
+		}
+	} );
 
 	// Ask before a destructive action (data-ecehc-confirm).
 	document.addEventListener( 'click', function ( event ) {

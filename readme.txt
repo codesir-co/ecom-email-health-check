@@ -33,6 +33,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 
 * **Email Health Report:** one page with a Pass, Warning or Fail status for each check. The page opens at once and the checks (including the DNS lookups) run in the background, so slow DNS never holds it up.
 * **Getting-started checklist:** a short checklist for new installs (send a test email, fix the top failing check, look at the Email Log) that ticks itself off and can be hidden.
+* **"Fix this first" summary:** the top of the report names the one check to fix first (failures before warnings, never a "Not checked" result) with a plain-language next step and a link to its "How to fix this" panel. When every check passes it says so. When the report loads in the background, the summary is also announced to screen readers.
 * **Sending test:** send a test email to your own address or to any inbox you want to try (for example Gmail or Outlook), with an optional subject. The result shows right away, with the error if it failed.
 * **Copy support report:** a plain-text summary of your setup (versions, domains, check results, the detected mail provider, recent email counts and, if the blacklist check ran, your server IP address) to paste into a support ticket, with no passwords, message contents or full email addresses. Review it before posting it publicly.
 * **SMTP / mail service:** warns when mail goes out through plain PHP mail, and names the plugin that handles your outgoing email when it finds one.
@@ -56,6 +57,10 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 
 * `wp ehc check` runs all checks (add `--format=json` for scripts). It exits with status 1 when any check fails. The server IP blacklist check needs a web request, so from the command line it is skipped unless you set the IP with the `ecehc_server_ip` filter.
 * `wp ehc log` lists recent logged emails (`--source`, `--status`, `--type`, `--limit`), and `wp ehc log --stats` shows accepted and failed counts for the last 24 hours and 7 days.
+
+= For developers =
+
+* The `ecehc_checks_completed` action fires after every run of the checks, with the results of each check. Together with the `ecehc_email_logged` action and the `ecehc_checks` filter and others, the hooks are documented with a stability promise in `docs/extending.md` in the plugin's GitHub repository.
 
 = Works with =
 

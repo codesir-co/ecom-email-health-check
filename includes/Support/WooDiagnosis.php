@@ -8,6 +8,9 @@
  * wording says "most likely" on purpose: the checks cannot see inside a mailbox,
  * so this is a pointer to where to look first, not a verdict.
  *
+ * Its order of causes is an independent heuristic from FixFirst::PRIORITY (feature/117);
+ * the two are not meant to agree.
+ *
  * @package CodeSir\EmailHealthCheck
  */
 
@@ -42,6 +45,7 @@ class WooDiagnosis {
 				'wc_sent'   => 0,
 				'wc_failed' => 0,
 			);
+			// This sum counts WooCommerce emails only because EmailLog::stats() fills 'types' for WooCommerce email types alone.
 			foreach ( $stats['types'] as $type ) {
 				$log['wc_sent']   += (int) $type['sent'];
 				$log['wc_failed'] += (int) $type['failed'];

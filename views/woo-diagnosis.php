@@ -13,10 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 $ecehc_diagnosis = \CodeSir\EmailHealthCheck\Support\WooDiagnosis::for_site( $results );
 $ecehc_diag_url  = '';
 $ecehc_diag_text = '';
+$ecehc_diag_open = '';
 
 if ( 'check' === $ecehc_diagnosis['link'] && '' !== $ecehc_diagnosis['check_id'] ) {
 	$ecehc_diag_url  = '#ecehc-check-' . $ecehc_diagnosis['check_id'];
 	$ecehc_diag_text = __( 'Go to this check', 'ecom-email-health-check' );
+	$ecehc_diag_open = 'ecehc-check-' . $ecehc_diagnosis['check_id'];
 } elseif ( 'wc_settings' === $ecehc_diagnosis['link'] && current_user_can( 'manage_woocommerce' ) ) {
 	$ecehc_diag_url  = admin_url( 'admin.php?page=wc-settings&tab=email' );
 	$ecehc_diag_text = __( 'Open WooCommerce email settings', 'ecom-email-health-check' );
@@ -37,7 +39,7 @@ if ( 'check' === $ecehc_diagnosis['link'] && '' !== $ecehc_diagnosis['check_id']
 	<p><strong><?php echo esc_html( $ecehc_diagnosis['headline'] ); ?></strong></p>
 	<p><?php echo esc_html( $ecehc_diagnosis['step'] ); ?></p>
 	<?php if ( '' !== $ecehc_diag_url ) : ?>
-		<p><a href="<?php echo esc_url( $ecehc_diag_url ); ?>"><?php echo esc_html( $ecehc_diag_text ); ?></a></p>
+		<p><a href="<?php echo esc_url( $ecehc_diag_url ); ?>"<?php echo '' !== $ecehc_diag_open ? ' data-ecehc-open="' . esc_attr( $ecehc_diag_open ) . '"' : ''; ?>><?php echo esc_html( $ecehc_diag_text ); ?></a></p>
 	<?php endif; ?>
 	<p class="description"><?php echo esc_html( $ecehc_diagnosis['log_note'] ); ?></p>
 </div>

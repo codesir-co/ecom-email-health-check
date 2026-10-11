@@ -33,6 +33,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 
 * **Email Health Report:** one page with a Pass, Warning or Fail status for each check. The page opens at once and the checks (including the DNS lookups) run in the background, so slow DNS never holds it up.
 * **Getting-started checklist:** a short checklist for new installs (send a test email, fix the top failing check, look at the Email Log) that ticks itself off and can be hidden.
+* **"Fix this first" summary:** the top of the report names the one check to fix first (failures before warnings, never a "Not checked" result) with a plain-language next step and a link to its "How to fix this" panel. When every check passes it says so. It is announced to screen readers when the report loads.
 * **Sending test:** send a test email to your own address or to any inbox you want to try (for example Gmail or Outlook), with an optional subject. The result shows right away, with the error if it failed.
 * **Copy support report:** a plain-text summary of your setup (versions, domains, check results, the detected mail provider, recent email counts and, if the blacklist check ran, your server IP address) to paste into a support ticket, with no passwords, message contents or full email addresses. Review it before posting it publicly.
 * **SMTP / mail service:** warns when mail goes out through plain PHP mail, and names the plugin that handles your outgoing email when it finds one.
@@ -167,6 +168,9 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.6.0 =
+* New: a "Fix this first" summary at the top of the Health Report names the most important problem with one plain-language next step and a link to its "How to fix this" panel.
 
 = 1.5.1 =
 * Improved: the description says plainly what the plugin does not do (it is not an SMTP plugin, has no upsell banners, no tracking and nothing bundled) and what data it touches.

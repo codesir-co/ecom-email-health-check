@@ -177,3 +177,28 @@
     margin: 0 8px 0 0;
     vertical-align: middle;
 }
+
+/* "Fix this first" summary at the top of the Health Report */
+.ecehc-fix-first {
+	margin: 12px 0 16px;
+	padding: 4px 16px;
+	border: 1px solid #c3c4c7;
+	border-left-width: 4px;
+	background: #fff;
+}
+.ecehc-fix-first-fail {
+	border-left-color: #d63638;
+}
+.ecehc-fix-first-warning {
+	border-left-color: #dba617;
+}
+.ecehc-fix-first-ok {
+	border-left-color: #00a32a;
+}
+.ecehc-fix-first-unchecked {
+	border-left-color: #8a5a00;
+}
+.ecehc-fix-first-title {
+	margin: 12px 0 4px;
+	font-size: 14px;
+}

@@ -31,6 +31,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 ### Diagnose
 
 * **Email Health Report:** one page with a Pass, Warning or Fail status for each check. The page opens at once and the checks (including the DNS lookups) run in the background.
+* **"Fix this first" summary** at the top of the report: the one check to fix first (failures before warnings, never a "Not checked" result) with a plain-language next step and a link to its "How to fix this" panel.
 * **Getting-started checklist** for new installs, and **Copy support report** (versions, domains, check results; no passwords, message contents or full email addresses).
 * **Sending test** to your own address or any inbox you want to try, with an optional subject.
 * **SMTP / mail service:** warns when mail goes out through plain PHP mail, and names the plugin that handles your outgoing email.

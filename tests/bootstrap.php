@@ -32,6 +32,10 @@ function __( $text ) {
 	return $text;
 }
 
+function _n( $single, $plural, $number ) {
+	return 1 === (int) $number ? $single : $plural;
+}
+
 function esc_html( $text ) {
 	return htmlspecialchars( (string) $text, ENT_QUOTES );
 }

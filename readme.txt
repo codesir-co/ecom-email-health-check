@@ -39,6 +39,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 * **Sender address, SPF, DKIM and DMARC:** checked for the domain you actually send from, since that is what receivers verify.
 * **Server IP blacklists:** when you send straight from your server (no SMTP service), your IP is looked up on the free DroneBL and PSBL lists.
 * **WooCommerce email setup:** flags turned-off key emails, a missing new-order recipient, an invalid From address and outdated theme overrides of WooCommerce email templates. It only reads your settings.
+* **"WooCommerce emails not arriving?" panel (WooCommerce):** combines the results below and the last 7 days of the Email Log into the most likely cause and one next step: a broken WooCommerce email setting, recent failed WooCommerce emails, turned-off emails, unpaid orders, no mail service, a From address problem, missing DNS records or a blacklisted server. It says "most likely" because the checks cannot see inside a mailbox. It makes no requests of its own and stores nothing.
 * **Unpaid orders (WooCommerce):** warns when many orders are stuck in "Pending payment" or "Failed". WooCommerce sends no order emails for those, so the real problem may be your payment gateway. Only order counts are read.
 
 = Email log and failure alerts =
@@ -167,6 +168,9 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.6.0 =
+* New: on WooCommerce sites the Health Report has a "WooCommerce emails not arriving?" panel that combines the existing results and the email log into the most likely cause and one next step. It makes no new requests and stores nothing new.
 
 = 1.5.1 =
 * Improved: the description says plainly what the plugin does not do (it is not an SMTP plugin, has no upsell banners, no tracking and nothing bundled) and what data it touches.

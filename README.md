@@ -36,6 +36,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 * **SMTP / mail service:** warns when mail goes out through plain PHP mail, and names the plugin that handles your outgoing email.
 * **Sender address, SPF, DKIM and DMARC**, checked for the domain you actually send from.
 * **Server IP blacklists** (DroneBL and PSBL) when you send straight from your server.
+* **"WooCommerce emails not arriving?" panel** (WooCommerce only): combines the results and the last 7 days of the Email Log into the most likely cause and one next step. It makes no requests of its own and stores nothing.
 * **WooCommerce email setup** (turned-off emails, recipient, From address, outdated theme overrides) and **unpaid orders** (WooCommerce sends no order email for "Pending payment" or "Failed" orders).
 
 ### Email log and failure alerts

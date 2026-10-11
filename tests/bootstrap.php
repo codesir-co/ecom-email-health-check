@@ -32,15 +32,56 @@ function __( $text ) {
 	return $text;
 }
 
+function _n( $single, $plural, $number ) {
+	return 1 === (int) $number ? $single : $plural;
+}
+
 function esc_html( $text ) {
 	return htmlspecialchars( (string) $text, ENT_QUOTES );
 }
 
-// Approximations: apply_filters() ignores filters, is_email() uses filter_var() (close to, but not exactly, WordPress's version).
-function apply_filters( $hook, $value ) {
+// A minimal hook system: tests register callbacks with add_filter()/add_action(); run.php clears them after each file.
+$GLOBALS['ecehc_test_hooks'] = array();
+
+function add_filter( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
+	$GLOBALS['ecehc_test_hooks'][ $hook ][] = array( $callback, $accepted_args );
+	return true;
+}
+
+function add_action( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
+	return add_filter( $hook, $callback, $priority, $accepted_args );
+}
+
+function apply_filters( $hook, $value, ...$args ) {
+	foreach ( $GLOBALS['ecehc_test_hooks'][ $hook ] ?? array() as $entry ) {
+		$value = call_user_func_array( $entry[0], array_slice( array_merge( array( $value ), $args ), 0, $entry[1] ) );
+	}
 	return $value;
 }
 
+function do_action( $hook, ...$args ) {
+	foreach ( $GLOBALS['ecehc_test_hooks'][ $hook ] ?? array() as $entry ) {
+		call_user_func_array( $entry[0], array_slice( $args, 0, $entry[1] ) );
+	}
+}
+
+function esc_html__( $text ) {
+	return $text;
+}
+
+function _doing_it_wrong( $function_name, $message, $version ) {
+	$GLOBALS['ecehc_test_doing_it_wrong'][] = $message;
+}
+
+function get_home_url() {
+	return 'https://shop.example.com';
+}
+
+function wp_parse_url( $url, $component = -1 ) {
+	return parse_url( $url, $component );
+}
+
+// Approximation: is_email() uses filter_var() (close to, but not exactly, WordPress's version).
 function is_email( $email ) {
 	return false !== filter_var( $email, FILTER_VALIDATE_EMAIL ) ? $email : false;
 }

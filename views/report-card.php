@@ -13,9 +13,56 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
             <div id="ecehc-main-report" class="card">
                 <h2><?php esc_html_e( 'Email Health Report', 'ecom-email-health-check' ); ?></h2>
+
+				<?php
+				$ecehc_fix = \CodeSir\EmailHealthCheck\Support\FixFirst::pick( $results );
+				?>
+                <div id="ecehc-fix-first" class="ecehc-fix-first ecehc-fix-first-<?php echo esc_attr( 'fix' === $ecehc_fix['state'] ? $ecehc_fix['status'] : $ecehc_fix['state'] ); ?>" data-ecehc-announce="<?php echo esc_attr( \CodeSir\EmailHealthCheck\Support\FixFirst::headline( $ecehc_fix ) ); ?>">
+					<?php if ( 'fix' === $ecehc_fix['state'] ) : ?>
+                        <h3 class="ecehc-fix-first-title"><?php esc_html_e( 'Fix this first', 'ecom-email-health-check' ); ?></h3>
+                        <p>
+                            <strong><?php echo esc_html( $ecehc_fix['label'] ); ?></strong>
+							<?php if ( 'warning' === $ecehc_fix['status'] ) : ?>
+                                <span class="ecehc-status ecehc-status-warning">&#9888; <?php esc_html_e( 'Warning', 'ecom-email-health-check' ); ?></span>
+							<?php else : ?>
+                                <span class="ecehc-status ecehc-status-fail">&#10006; <?php esc_html_e( 'Fail', 'ecom-email-health-check' ); ?></span>
+							<?php endif; ?>
+                        </p>
+                        <p><?php echo esc_html( $ecehc_fix['step'] ); ?></p>
+                        <p>
+                            <a href="#ecehc-check-<?php echo esc_attr( $ecehc_fix['id'] ); ?>" class="ecehc-fix-first-link" data-ecehc-open="ecehc-check-<?php echo esc_attr( $ecehc_fix['id'] ); ?>">
+								<?php echo $ecehc_fix['has_guidance'] ? esc_html__( 'Show how to fix this', 'ecom-email-health-check' ) : esc_html__( 'Go to this check', 'ecom-email-health-check' ); ?>
+                            </a>
+                        </p>
+					<?php elseif ( 'ok' === $ecehc_fix['state'] ) : ?>
+                        <h3 class="ecehc-fix-first-title"><?php esc_html_e( 'Nothing to fix', 'ecom-email-health-check' ); ?></h3>
+                        <p><?php esc_html_e( 'Every check that ran passed.', 'ecom-email-health-check' ); ?></p>
+					<?php else : ?>
+                        <h3 class="ecehc-fix-first-title"><?php esc_html_e( 'No problem found yet', 'ecom-email-health-check' ); ?></h3>
+                        <p><?php esc_html_e( 'The checks could not reach a conclusion. See the results below.', 'ecom-email-health-check' ); ?></p>
+					<?php endif; ?>
+					<?php if ( $ecehc_fix['not_checked'] > 0 ) : ?>
+                        <p class="description">
+							<?php
+							echo esc_html(
+								sprintf(
+									/* translators: %d: number of checks */
+									_n( '%d check shows "Not checked": it could not reach a conclusion.', '%d checks show "Not checked": they could not reach a conclusion.', $ecehc_fix['not_checked'], 'ecom-email-health-check' ),
+									$ecehc_fix['not_checked']
+								)
+							);
+							?>
+                        </p>
+					<?php endif; ?>
+                </div>
+
                 <p>
 					<?php esc_html_e( 'The following checks will help you identify common issues that prevent emails from being delivered successfully.', 'ecom-email-health-check' ); ?>
                 </p>
+
+				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+					<?php include ECEHC_PLUGIN_PATH . 'views/woo-diagnosis.php'; ?>
+				<?php endif; ?>
 
                 <table class="widefat fixed" cellspacing="0">
                     <thead>

@@ -4,7 +4,9 @@ Used by the `plan-features` skill.
 
 ## Repositories
 - Free plugin (this repo): `codesir-co/ecom-email-health-check`, released on WordPress.org.
-- Pro plugin: **not created yet**. When it exists, set its name here: `codesir-co/<pro-repo>`. Until then `plan-features` proposes Pro items but creates nothing there. Choosing the name and brand waits for the domain decision.
+- Pro plugin: `codesir-co/outbox-health-pro` (private). Product name to confirm; the working name is "Outbox Health Pro".
+- Website: `codesir-co/outbox-health-site` (private), for outboxhealth.com: theme, content and site features.
+- `plan-features` may create issues in all three repos. It never edits or closes existing issues in the Pro or site repos.
 
 ## Split rules
 Free (earns installs and ratings, keeps the plugin useful on its own):

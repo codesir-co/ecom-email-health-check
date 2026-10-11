@@ -2,7 +2,7 @@
 
 Used by the `competitor-analyst` agent. Public information only. Update it when the market changes.
 
-Last checked: never (the first `plan-features` run sets this; changes are reported relative to this date).
+Last checked: 2026-10-10 (changes are reported relative to this date; the next `plan-features` run updates it). Candidates not yet checked: `easy-wp-smtp`, `wp-mail-bank`.
 
 | Plugin (WordPress.org slug) | Why we watch it |
 |---|---|

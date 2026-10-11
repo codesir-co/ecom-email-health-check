@@ -4,7 +4,7 @@ Tags: woocommerce, email log, deliverability, dkim, dmarc
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,20 @@ Email log, SPF/DKIM/DMARC checks and failure alerts. Find out why WooCommerce or
 
 **WooCommerce emails not sending, or going to spam? Find out why, and fix it.**
 
-Email Health Check looks at how your WordPress or WooCommerce site sends email and tells you what is wrong in plain language: SPF, DKIM and DMARC problems, mail sent through plain PHP mail, a blacklisted server IP, order emails that are switched off or stuck behind unpaid orders, and more. It also keeps an email log of what your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is an optional server IP blacklist check (see External services).
+Email Health Check looks at how your WordPress or WooCommerce site sends email and tells you what is wrong in plain language: SPF, DKIM and DMARC problems, mail sent through plain PHP mail, a blacklisted server IP, order emails that are switched off or stuck behind unpaid orders, and more. It also keeps an email log of what your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is a server IP blacklist check that runs only when your site sends mail directly from your server (see External services).
+
+= What it does not do =
+
+* It is **not an SMTP plugin** and does not send your email for you. It works next to whichever plugin or mail service you already use.
+* **No account, no upsell banners, no tracking and no analytics.** It makes no HTTP requests of its own and sends nothing to the plugin's authors; the only outside lookups are the DNS queries described under External services. The only prompt it ever shows is one dismissible request for a review, on its own screens, to administrators only.
+* **Nothing bundled:** no third-party libraries, fonts or scripts, only the plugin's own code.
+
+= What data it touches =
+
+* **The checks** read your site's own settings and look up the public DNS records of your sending domain through your server's own DNS resolver. The one lookup that involves your server is the IP blacklist check, which runs only when your site sends mail directly from your server (see External services).
+* **The email log** keeps the time, source, status, WooCommerce email type, the recipient's domain, a partly hidden address such as j***@example.com and an error message with addresses hidden. Never the subject or the message. It is kept for 7 days by default (choose 1, 3 or 7), can be turned off or cleared, and is removed when you uninstall the plugin.
+* **A test email** goes only to the address you type (or the site admin address if you leave it blank).
+* Nothing is sent to the plugin's authors.
 
 = Diagnose =
 
@@ -132,6 +145,9 @@ Spamhaus is intentionally not queried, because its free service is limited to lo
 
 == Upgrade Notice ==
 
+= 1.5.1 =
+No change in how the plugin works. The description now says plainly what the plugin does not do and what data it touches, and the screenshots match the current screens.
+
 = 1.5.0 =
 The Health Report now opens at once and loads its checks in the background. You can send the test email to any address. Renamed to "Email Health Check & Log for WooCommerce". Adds an Arabic draft translation and WordPress and WooCommerce compatibility updates.
 
@@ -151,6 +167,11 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.5.1 =
+* Improved: the description says plainly what the plugin does not do (it is not an SMTP plugin, has no upsell banners, no tracking and nothing bundled) and what data it touches.
+* Improved: new screenshots that match the current screens.
+* No change in how the plugin works.
 
 = 1.5.0 =
 * New: the Health Report loads in the background, so the page opens at once while the DNS checks run. Without JavaScript, or if the request fails, it falls back to loading in the page, and a retry link appears.

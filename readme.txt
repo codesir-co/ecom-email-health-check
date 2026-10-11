@@ -172,9 +172,6 @@ The health report no longer sends an email each time it loads. Send a test email
 
 == Changelog ==
 
-= 1.6.0 =
-* New: the `ecehc_checks_completed` action fires after every run of the checks, with the results, and the hooks for developers are documented with a stability promise.
-
 = 1.5.1 =
 * Improved: the description says plainly what the plugin does not do (it is not an SMTP plugin, has no upsell banners, no tracking and nothing bundled) and what data it touches.
 * Improved: new screenshots that match the current screens.

@@ -78,7 +78,6 @@ function wp_parse_url( $url, $component = -1 ) {
 }
 
 // Approximation: is_email() uses filter_var() (close to, but not exactly, WordPress's version).
-
 function is_email( $email ) {
 	return false !== filter_var( $email, FILTER_VALIDATE_EMAIL ) ? $email : false;
 }

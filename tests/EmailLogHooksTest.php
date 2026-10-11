@@ -34,7 +34,12 @@ add_filter(
 	}
 );
 
-$written = EmailLog::insert( array( 'status' => 'failed', 'recipient_domain' => 'example.com' ) );
+$written = EmailLog::insert(
+	array(
+		'status'           => 'failed',
+		'recipient_domain' => 'example.com',
+	)
+);
 
 ecehc_assert_true( $written, 'insert reports the row as written' );
 ecehc_assert_same( 1, count( $logged ), 'ecehc_email_logged fires once per written row' );

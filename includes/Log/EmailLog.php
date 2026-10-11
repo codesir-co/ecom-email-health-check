@@ -302,7 +302,7 @@ class EmailLog {
 		/**
 		 * Filters how many days of log rows are kept.
 		 *
-		 * @param int $days Days, from the log settings (1, 3 or 7). Pro can raise it.
+		 * @param int $days Days, from the log settings (1, 3 or 7).
 		 */
 		$days = max( 1, (int) apply_filters( 'ecehc_log_retention_days', LogSettings::retention_days() ) );
 

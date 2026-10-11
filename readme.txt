@@ -16,6 +16,19 @@ Email log, SPF/DKIM/DMARC checks and failure alerts. Find out why WooCommerce or
 
 Email Health Check looks at how your WordPress or WooCommerce site sends email and tells you what is wrong in plain language: SPF, DKIM and DMARC problems, mail sent through plain PHP mail, a blacklisted server IP, order emails that are switched off or stuck behind unpaid orders, and more. It also keeps an email log of what your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is an optional server IP blacklist check (see External services).
 
+= What it does not do =
+
+* It is **not an SMTP plugin** and does not send your email for you. It works next to whichever plugin or mail service you already use.
+* **No account, no upsell banners, no tracking.** It reports nothing about you to anyone and makes no web requests of its own. The only thing it shows unasked is one dismissible request for a review, on its own screens.
+* **Nothing bundled:** no third-party libraries, fonts or scripts, only the plugin's own code.
+
+= What data it touches =
+
+* **The checks** read your site's own settings and look up the public DNS records of your sending domain. The one lookup that involves your server is the optional IP blacklist check (see External services).
+* **The email log** keeps the time, source, status, WooCommerce email type, the recipient's domain, a partly hidden address such as j***@example.com and an error message with addresses hidden. Never the subject or the message. It is kept for 7 days by default (choose 1, 3 or 7), can be turned off or cleared, and is removed when you uninstall the plugin.
+* **A test email** goes only to the address you type.
+* Nothing is sent to the plugin's authors.
+
 = Diagnose =
 
 * **Email Health Report:** one page with a Pass, Warning or Fail status for each check. The page opens at once and the checks (including the DNS lookups) run in the background, so slow DNS never holds it up.

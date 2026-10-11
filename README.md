@@ -47,6 +47,10 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 
 * **"How to fix this" panels:** a copy-paste DNS record where the provider documents one, and a link to the provider's official guide (SendGrid, Mailgun, Brevo, Postmark, Amazon SES, SparkPost, Mailjet, Elastic Email, Google Workspace, Microsoft 365).
 
+### For developers
+
+The `ecehc_checks_completed` action fires after every run of the checks, with the results of each check. With the `ecehc_email_logged` action and the filters, the supported hooks and a stability promise are in [`docs/extending.md`](docs/extending.md).
+
 ### WP-CLI
 
 ```
@@ -71,6 +75,7 @@ Search for "Email Health Check" under `Plugins > Add New` and click Install and 
 
 * PHP 7.4+ and WordPress 5.0+ (the email log needs WordPress 5.9+). No build step, no Composer or npm.
 * Namespace `CodeSir\EmailHealthCheck`, PSR-4 autoloaded from `includes/`. Layout and conventions: [`CLAUDE.md`](CLAUDE.md).
+* Hooks for add-ons and other developers (a stability promise, the `ecehc_checks_completed` action after every check run, filters): [`docs/extending.md`](docs/extending.md).
 * Tests for the pure logic need nothing installed: `php tests/run.php` (add a test for every bug fix).
 * Before a release run the official [Plugin Check](https://wordpress.org/plugins/plugin-check/) on a copy built with `.distignore`, and follow [`docs/compatibility.md`](docs/compatibility.md). The `Checks` workflow does lint, tests and Plugin Check on every pull request.
 * Git flow: pull requests go to `develop`; a release is a `develop` to `trunk` pull request followed by a tag, which deploys to WordPress.org.

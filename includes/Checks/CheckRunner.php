@@ -51,11 +51,21 @@ class CheckRunner {
 	 * @return array<string, array{label: string, status: string, message: string, guidance: array|null}>
 	 */
 	public function run_all(): array {
-		$results  = array();
-		$provider = MailProvider::detect();
-		$domain   = Domain::mail_domain();
+		return $this->run_checks( $this->get_checks(), MailProvider::detect(), Domain::mail_domain() );
+	}
 
-		foreach ( $this->get_checks() as $check ) {
+	/**
+	 * Runs the given checks once each and fires `ecehc_checks_completed` with the results.
+	 *
+	 * @param CheckInterface[]                         $checks   Checks to run.
+	 * @param array{name: string, spf: string[]}|null $provider Detected mail provider.
+	 * @param string                                   $domain   Domain of the From address.
+	 * @return array<string, array{label: string, status: string, message: string, guidance: array|null}>
+	 */
+	public function run_checks( array $checks, ?array $provider, string $domain ): array {
+		$results = array();
+
+		foreach ( $checks as $check ) {
 			if ( isset( $results[ $check->get_id() ] ) ) {
 				_doing_it_wrong(
 					__METHOD__,
@@ -88,6 +98,19 @@ class CheckRunner {
 				'guidance' => in_array( $result->get_status(), array( Result::FAIL, Result::WARNING ), true ) ? ProviderGuidance::for_check( $check->get_id(), $provider, $domain ) : null,
 			);
 		}
+
+		/**
+		 * Fires after every run of the full set of checks: the Health Report (also its
+		 * background request), `wp ehc check` and the Site Health test.
+		 *
+		 * Read only: changing $results here has no effect. A hook that is slow or throws
+		 * slows or breaks that run, so keep it light and do any heavy work later.
+		 *
+		 * @param array<string, array{label: string, status: string, message: string, guidance: array|null}> $results
+		 *        One entry per check, keyed by check id. status is one of
+		 *        "pass", "warning", "fail" or "unknown" (shown as "Not checked").
+		 */
+		do_action( 'ecehc_checks_completed', $results );
 
 		return $results;
 	}

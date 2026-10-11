@@ -13,7 +13,20 @@ WooCommerce emails not sending, or landing in spam? Many hosts have poor email s
 
 ## What it does
 
-Email Health Check looks at how your WordPress or WooCommerce site sends email and tells you what is wrong in plain language: SPF, DKIM and DMARC problems, mail sent through plain PHP mail, a blacklisted server IP, order emails that are switched off or stuck behind unpaid orders, and more. It also keeps an email log of what your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is an optional server IP blacklist check (see "External services" in [`readme.txt`](readme.txt)).
+Email Health Check looks at how your WordPress or WooCommerce site sends email and tells you what is wrong in plain language: SPF, DKIM and DMARC problems, mail sent through plain PHP mail, a blacklisted server IP, order emails that are switched off or stuck behind unpaid orders, and more. It also keeps an email log of what your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is a server IP blacklist check that runs only when your site sends mail directly from your server (see "External services" in [`readme.txt`](readme.txt)).
+
+### What it does not do
+
+* It is **not an SMTP plugin** and does not send your email for you; it works next to whichever plugin or mail service you use.
+* **No account, no upsell banners, no tracking and no analytics.** It makes no HTTP requests of its own and sends nothing to the plugin's authors; the only outside lookups are the DNS queries described under External services. The only prompt it ever shows is one dismissible request for a review, on its own screens, to administrators only.
+* **Nothing bundled:** no third-party libraries, fonts or scripts, only the plugin's own code.
+
+### What data it touches
+
+* **The checks** read your site's own settings and look up the public DNS records of your sending domain through your server's own DNS resolver. The one lookup that involves your server is the IP blacklist check, which runs only when your site sends mail directly from your server (see "External services" in [`readme.txt`](readme.txt)).
+* **The email log** keeps the time, source, status, WooCommerce email type, the recipient's domain, a partly hidden address such as j***@example.com and an error message with addresses hidden. Never the subject or the message. Kept 7 days by default (1, 3 or 7), can be turned off or cleared, and removed on uninstall.
+* **A test email** goes only to the address you type (or the site admin address if you leave it blank).
+* Nothing is sent to the plugin's authors.
 
 ### Diagnose
 

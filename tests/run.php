@@ -16,6 +16,7 @@ foreach ( glob( __DIR__ . '/*Test.php' ) as $file ) {
 		$run_file( $file );
 	} finally {
 		unset( $GLOBALS['wp_filter'] );
+		$GLOBALS['ecehc_test_hooks'] = array();
 		$GLOBALS['ecehc_test_options'] = array();
 	}
 }

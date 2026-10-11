@@ -56,6 +56,10 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 * `wp ehc check` runs all checks (add `--format=json` for scripts). It exits with status 1 when any check fails. The server IP blacklist check needs a web request, so from the command line it is skipped unless you set the IP with the `ecehc_server_ip` filter.
 * `wp ehc log` lists recent logged emails (`--source`, `--status`, `--type`, `--limit`), and `wp ehc log --stats` shows accepted and failed counts for the last 24 hours and 7 days.
 
+= For developers =
+
+* The `ecehc_checks_completed` action fires after every run of the checks, with the results of each check. Together with the `ecehc_email_logged` action and the `ecehc_checks` filter and others, the hooks are documented with a stability promise in `docs/extending.md` in the plugin's GitHub repository.
+
 = Works with =
 
 The plugin identifies the provider from the settings of WP Mail SMTP, FluentSMTP and Post SMTP, and gives setup guidance for SendGrid, Mailgun, Brevo, Postmark, Amazon SES, SparkPost, Mailjet, Elastic Email, Google Workspace and Microsoft 365. It also works with any other SMTP plugin, or with none.
@@ -167,6 +171,9 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.6.0 =
+* New: the `ecehc_checks_completed` action fires after every run of the checks, with the results, and the hooks for developers are documented with a stability promise.
 
 = 1.5.1 =
 * Improved: the description says plainly what the plugin does not do (it is not an SMTP plugin, has no upsell banners, no tracking and nothing bundled) and what data it touches.

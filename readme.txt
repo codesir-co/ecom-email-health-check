@@ -4,7 +4,7 @@ Tags: woocommerce, email log, deliverability, dkim, dmarc
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -145,6 +145,9 @@ Spamhaus is intentionally not queried, because its free service is limited to lo
 
 == Upgrade Notice ==
 
+= 1.5.1 =
+No change in how the plugin works. The description now says plainly what the plugin does not do and what data it touches, and the screenshots match the current screens.
+
 = 1.5.0 =
 The Health Report now opens at once and loads its checks in the background. You can send the test email to any address. Renamed to "Email Health Check & Log for WooCommerce". Adds an Arabic draft translation and WordPress and WooCommerce compatibility updates.
 
@@ -164,6 +167,11 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.5.1 =
+* Improved: the description says plainly what the plugin does not do (it is not an SMTP plugin, has no upsell banners, no tracking and nothing bundled) and what data it touches.
+* Improved: new screenshots that match the current screens.
+* No change in how the plugin works.
 
 = 1.5.0 =
 * New: the Health Report loads in the background, so the page opens at once while the DNS checks run. Without JavaScript, or if the request fails, it falls back to loading in the page, and a retry link appears.

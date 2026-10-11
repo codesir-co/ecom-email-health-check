@@ -4,7 +4,7 @@ Tags: woocommerce, email log, deliverability, dkim, dmarc
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.5.1
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -151,6 +151,9 @@ Spamhaus is intentionally not queried, because its free service is limited to lo
 
 == Upgrade Notice ==
 
+= 1.6.0 =
+Adds a "Fix this first" summary to the Health Report and a WooCommerce email diagnosis panel. No new settings, no new requests and no data leaves your site.
+
 = 1.5.1 =
 No change in how the plugin works. The description now says plainly what the plugin does not do and what data it touches, and the screenshots match the current screens.
 
@@ -173,6 +176,11 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.6.0 =
+* New: a "Fix this first" summary at the top of the Health Report names the most important problem and links to its fix. When the report loads in the background, the summary is also announced to screen readers.
+* New: when WooCommerce is active, a "WooCommerce emails not arriving?" panel names the most likely cause and one next step. It uses the checks and the 7-day email log statistics the plugin already has; it makes no new requests and stores nothing new.
+* New: developers get an `ecehc_checks_completed` action after every full check run, and a short guide to the plugin's hooks (docs/extending.md in the GitHub repository).
 
 = 1.5.1 =
 * Improved: the description says plainly what the plugin does not do (it is not an SMTP plugin, has no upsell banners, no tracking and nothing bundled) and what data it touches.

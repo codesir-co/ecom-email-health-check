@@ -60,7 +60,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 
 = For developers =
 
-* The `ecehc_checks_completed` action fires after every run of the checks, with the results of each check. Together with the `ecehc_email_logged` action and the `ecehc_checks` filter and others, the hooks are documented with a stability promise in `docs/extending.md` in the plugin's GitHub repository.
+* The `ecehc_checks_completed` action fires after every run of the checks, with the results of each check. Together with the `ecehc_email_logged` action and the `ecehc_checks` filter and others, the hooks and the `ecehc_run_checks()` function are documented with a stability promise in `docs/extending.md` in the plugin's GitHub repository.
 
 = Works with =
 

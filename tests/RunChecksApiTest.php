@@ -34,9 +34,11 @@ add_filter(
 );
 
 $received = null;
+$fired    = 0;
 add_action(
 	'ecehc_checks_completed',
-	static function ( $results ) use ( &$received ) {
+	static function ( $results ) use ( &$received, &$fired ) {
+		++$fired;
 		$received = $results;
 	}
 );
@@ -49,3 +51,15 @@ ecehc_assert_same( '', $output, 'ecehc_run_checks() echoes nothing' );
 ecehc_assert_same( array( 'api_fake' ), array_keys( $results ), 'ecehc_checks filter applies' );
 ecehc_assert_same( 'pass', $results['api_fake']['status'], 'returns the check status' );
 ecehc_assert_same( $received, $results, 'returns the array ecehc_checks_completed received' );
+ecehc_assert_same( 1, $fired, 'ecehc_checks_completed fires once per call' );
+
+unset( $GLOBALS['ecehc_test_hooks']['ecehc_checks'] );
+add_filter(
+	'ecehc_checks',
+	static function () {
+		return array();
+	}
+);
+$empty = ecehc_run_checks();
+ecehc_assert_true( is_array( $empty ), 'returns an array when there are no checks' );
+ecehc_assert_same( 2, $fired, 'action fires exactly once per call' );

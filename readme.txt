@@ -4,7 +4,7 @@ Tags: woocommerce, email log, deliverability, dkim, dmarc
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.6.0
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,7 +60,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 
 = For developers =
 
-* The `ecehc_checks_completed` action fires after every run of the checks, with the results of each check. Together with the `ecehc_email_logged` action and the `ecehc_checks` filter and others, the hooks are documented with a stability promise in `docs/extending.md` in the plugin's GitHub repository.
+* The `ecehc_checks_completed` action fires after every run of the checks, with the results of each check. Together with the `ecehc_email_logged` action and the `ecehc_checks` filter and others, the hooks and the `ecehc_run_checks()` function are documented with a stability promise in `docs/extending.md` in the plugin's GitHub repository.
 
 = Works with =
 
@@ -151,6 +151,9 @@ Spamhaus is intentionally not queried, because its free service is limited to lo
 
 == Upgrade Notice ==
 
+= 1.7.0 =
+Adds a documented function for developers. No change for site owners: no new settings, no new requests and no data leaves your site.
+
 = 1.6.0 =
 Adds a "Fix this first" summary to the Health Report and a WooCommerce email diagnosis panel. No new settings, no new requests and no data leaves your site.
 
@@ -176,6 +179,10 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.7.0 =
+* New: developers can run the full set of checks from code with `ecehc_run_checks()`, for example from a scheduled job. The function is documented in the hooks guide (docs/extending.md in the GitHub repository). It sends nothing and stores no results; some lookups are cached for up to 12 hours.
+* No change in what the plugin does for site owners.
 
 = 1.6.0 =
 * New: a "Fix this first" summary at the top of the Health Report names the most important problem and links to its fix. When the report loads in the background, the summary is also announced to screen readers.

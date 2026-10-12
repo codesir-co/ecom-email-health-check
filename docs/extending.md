@@ -10,6 +10,24 @@ The hooks below are the plugin's public API for add-ons and other developers. Ev
 - Hooks not listed here are internal.
 - The plugin sends nothing anywhere because of these hooks. What a callback does with the data is the callback's responsibility. The data can include domains and the server IP address, so treat it as private.
 
+## Functions
+
+### `ecehc_run_checks()`
+
+Runs the full set of checks and returns the results.
+
+```php
+$results = ecehc_run_checks(); // array
+```
+
+It does exactly what the Health Report does: the `ecehc_checks` filter applies and `ecehc_checks_completed` fires. The return value is the same array that action receives (see below for its shape). It echoes nothing, sends no headers and needs no admin context, so it works in WP-Cron and WP-CLI. Wrap calls in `function_exists( 'ecehc_run_checks' )` if your add-on can load without this plugin.
+
+Notes:
+
+- It performs DNS lookups through the server's resolver, like the report, and can take several seconds. Schedule it (for example with WP-Cron); do not call it on page loads.
+- Nothing is stored. Keep the results yourself if you need history.
+- Callbacks on `ecehc_checks_completed` run on every call.
+
 ## Actions
 
 ### `ecehc_checks_completed`
@@ -82,4 +100,4 @@ A check is a class that implements `CodeSir\EmailHealthCheck\Checks\CheckInterfa
 
 ## Tests
 
-`php tests/run.php` covers `ecehc_checks_completed` (`tests/CheckRunnerTest.php`) and the shape of `ecehc_email_logged` and `ecehc_log_row` (`tests/EmailLogHooksTest.php`). Add a test when you add a hook.
+`php tests/run.php` covers `ecehc_run_checks()` (`tests/RunChecksApiTest.php`),  `ecehc_checks_completed` (`tests/CheckRunnerTest.php`) and the shape of `ecehc_email_logged` and `ecehc_log_row` (`tests/EmailLogHooksTest.php`). Add a test when you add a hook.

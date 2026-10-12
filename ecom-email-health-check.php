@@ -42,6 +42,8 @@ spl_autoload_register(
 	}
 );
 
+require_once ECEHC_PLUGIN_PATH . 'includes/functions.php';
+
 /**
  * Tell WooCommerce this plugin works with High-Performance Order Storage (the
  * unpaid orders check reads orders through wc_get_orders()) and with the Cart

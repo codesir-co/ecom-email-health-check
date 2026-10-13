@@ -913,3 +913,11 @@ msgstr ""
 #: views/tabs.php:17
 msgid "Email Health Check sections"
 msgstr ""
+
+#: includes/Admin/ProLink.php:78
+msgid "A Pro version is being planned. Free to ignore."
+msgstr ""
+
+#: includes/Admin/ProLink.php:79
+msgid "Follow the Pro plan"
+msgstr ""

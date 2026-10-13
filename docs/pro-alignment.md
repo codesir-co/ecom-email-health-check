@@ -4,7 +4,7 @@ Used by the `plan-features` skill.
 
 ## Repositories
 - Free plugin (this repo): `codesir-co/ecom-email-health-check`, released on WordPress.org.
-- Pro plugin: `codesir-co/outbox-health-pro` (private). Product name to confirm; the working name is "Outbox Health Pro".
+- Pro plugin: `codesir-co/outbox-health-pro` (private), product name "Outbox Health Pro" (decided). Built so far (not released yet): scheduled monitoring with alerts, optional blocklist lookups, alert channels (Slack, Discord, webhook), a licence client with signed updates, and release packaging tools. It requires this plugin (minimum 1.7.0) and uses ONLY the public API documented in `docs/extending.md` (hooks and the function `ecehc_run_checks()`), so the stability promise there is binding: do not rename, remove or change those without a major version and a deprecation notice. Pro's release gates and owner actions are tracked in the Pro repo (`docs/release-checklist.md`, `docs/release-keys.md`) and the site repo (`docs/licence-server.md`).
 - Website: `codesir-co/outbox-health-site` (private), for outboxhealth.com: theme, content and site features.
 - `plan-features` may create issues in all three repos. It never edits or closes existing issues in the Pro or site repos.
 

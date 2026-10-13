@@ -65,6 +65,14 @@ function do_action( $hook, ...$args ) {
 	}
 }
 
+function esc_url( $url ) {
+	return htmlspecialchars( (string) $url, ENT_QUOTES );
+}
+
+function esc_attr( $text ) {
+	return htmlspecialchars( (string) $text, ENT_QUOTES );
+}
+
 function esc_html__( $text ) {
 	return $text;
 }

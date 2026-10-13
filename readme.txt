@@ -19,7 +19,8 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 = What it does not do =
 
 * It is **not an SMTP plugin** and does not send your email for you. It works next to whichever plugin or mail service you already use.
-* **No account, no upsell banners, no tracking and no analytics.** It makes no HTTP requests of its own and sends nothing to the plugin's authors; the only outside lookups are the DNS queries described under External services. The only prompt it ever shows is one dismissible request for a review, on its own screens, to administrators only.
+* **No account, no upsell banners or nags, no tracking and no analytics.** It makes no HTTP requests of its own and sends nothing to the plugin's authors; the only outside lookups are the DNS queries described under External services. The only prompt it ever shows is one dismissible request for a review, on its own screens, to administrators only.
+* **One plain text link, no more:** there is one small link, "Follow the Pro plan", to a waiting list page for a possible future Pro version (in the footer of its own screen and on its row in the Plugins list). The plugin never requests anything for it and sends nothing; it can be hidden with the `ecehc_show_pro_link` filter. Nothing in this free plugin is removed or locked.
 * **Nothing bundled:** no third-party libraries, fonts or scripts, only the plugin's own code.
 
 = What data it touches =
@@ -148,6 +149,8 @@ The "Server IP Blacklists" check sends DNS queries to the public blacklists Dron
 * PSBL: https://psbl.org/ (usage: https://psbl.org/howto)
 
 Spamhaus is intentionally not queried, because its free service is limited to low-volume non-commercial use. Developers can change the lists with the `ecehc_dnsbl_zones` filter.
+
+**Pro waiting list link (outboxhealth.com).** The plugin shows one plain text link, "Follow the Pro plan", to https://outboxhealth.com/waitlist/ in the footer of its own screen and on its row in the Plugins list. The plugin makes no request to that site and sends it no data. outboxhealth.com receives a visit only if you click the link, and is covered by its own privacy policy: https://outboxhealth.com/privacy/. To hide the link, return false from the `ecehc_show_pro_link` filter.
 
 == Upgrade Notice ==
 

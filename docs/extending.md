@@ -93,6 +93,7 @@ do_action( 'ecehc_email_logged', array $row );
 | `ecehc_log_max_rows` | `int $rows` (default 5000, minimum 100) | Maximum rows kept. |
 | `ecehc_alert_min_failures` | `int $failures` (default 3) | Failed emails in 24 hours that trigger the alert. |
 | `ecehc_alert_min_rate` | `int $percent` (default 10) | Failure rate in 24 hours that triggers the alert. |
+| `ecehc_show_pro_link` | `bool $show` (default true) | Show the plain text "Follow the Pro plan" link in the footer of the plugin's own screen and on its Plugins list row. |
 
 ## Writing a check
 

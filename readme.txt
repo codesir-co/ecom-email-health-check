@@ -4,7 +4,7 @@ Tags: woocommerce, email log, deliverability, dkim, dmarc
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.7.0
+Stable tag: 1.8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -154,6 +154,9 @@ Spamhaus is intentionally not queried, because its free service is limited to lo
 
 == Upgrade Notice ==
 
+= 1.8.0 =
+Adds one plain text link, "Follow the Pro plan", on the plugin's own screen and its Plugins-list row. It can be hidden with a filter. No new settings, no new requests and no data leaves your site.
+
 = 1.7.0 =
 Adds a documented function for developers. No change for site owners: no new settings, no new requests and no data leaves your site.
 
@@ -182,6 +185,10 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.8.0 =
+* New: one plain text link, "Follow the Pro plan", to the Pro waiting list in the footer of the plugin's own screen and on its row in the Plugins list. It is a link only: the plugin makes no request and sends nothing, and nothing in the free plugin changes or is locked. A Pro version is only being planned. Developers can hide the link with the `ecehc_show_pro_link` filter (documented in the hooks guide).
+* No new settings, no new requests and no data leaves your site.
 
 = 1.7.0 =
 * New: developers can run the full set of checks from code with `ecehc_run_checks()`, for example from a scheduled job. The function is documented in the hooks guide (docs/extending.md in the GitHub repository). It sends nothing and stores no results; some lookups are cached for up to 12 hours.

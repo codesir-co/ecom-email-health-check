@@ -36,5 +36,8 @@ Plugin header `Version`, the `ECEHC_VERSION` constant, and `readme.txt` `Stable 
 - Learning loop: `ship-issue` ends with a retrospective that proposes lessons for `docs/lessons.md` in a separate PR a person merges (never auto-merged); `wp-plugin-dev` reads that file; repeated lessons get promoted into the agent that enforces them. See `docs/lessons.md`.
 - Release stays manual: `wporg-release` skill, explicit approval for merge to `trunk`, tag and deploy.
 
+## Public API used by the Pro add-on
+`docs/extending.md` lists the hooks and the function `ecehc_run_checks()` that the Pro plugin (private repo `codesir-co/outbox-health-pro`) relies on. They are covered by a stability promise: never rename, remove or change their arguments or array keys without a major version and a deprecation notice. A change to a check's result shape, the `ecehc_checks` filter or `CheckRunner::run_all()` must keep `ecehc_run_checks()` behaving as documented. No Pro code, trial limit or locked feature ever goes into this plugin (WordPress.org guideline); a missing extension point is added here as a generic documented hook first.
+
 ## Known issues
 Tracked as GitHub issues (`gh issue list`). The refactor was behaviour-preserving, so these bugs still exist until fixed individually.

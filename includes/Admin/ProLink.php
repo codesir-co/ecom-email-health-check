@@ -87,7 +87,8 @@ class ProLink {
 	 * @return mixed
 	 */
 	public function footer_text( $text ) {
-		$screen_id = function_exists( 'get_current_screen' ) && get_current_screen() ? get_current_screen()->id : null;
+		$screen    = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		$screen_id = $screen ? $screen->id : null;
 
 		return self::filter_footer( $text, $screen_id );
 	}

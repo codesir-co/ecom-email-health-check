@@ -19,7 +19,8 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 = What it does not do =
 
 * It is **not an SMTP plugin** and does not send your email for you. It works next to whichever plugin or mail service you already use.
-* **No account, no upsell banners, no tracking and no analytics.** It makes no HTTP requests of its own and sends nothing to the plugin's authors; the only outside lookups are the DNS queries described under External services. The only prompt it ever shows is one dismissible request for a review, on its own screens, to administrators only. Apart from that there is one small plain text link, "Follow the Pro plan", to a waiting list page for a possible future Pro version (in the footer of its own screen and on its row in the Plugins list). The plugin never requests anything for it and sends nothing; it can be hidden with the `ecehc_show_pro_link` filter. Nothing in this free plugin is removed or locked.
+* **No account, no upsell banners or nags, no tracking and no analytics.** It makes no HTTP requests of its own and sends nothing to the plugin's authors; the only outside lookups are the DNS queries described under External services. The only prompt it ever shows is one dismissible request for a review, on its own screens, to administrators only.
+* **One plain text link, no more:** there is one small link, "Follow the Pro plan", to a waiting list page for a possible future Pro version (in the footer of its own screen and on its row in the Plugins list). The plugin never requests anything for it and sends nothing; it can be hidden with the `ecehc_show_pro_link` filter. Nothing in this free plugin is removed or locked.
 * **Nothing bundled:** no third-party libraries, fonts or scripts, only the plugin's own code.
 
 = What data it touches =
@@ -181,9 +182,6 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
-
-= 1.8.0 =
-* New: one plain text link, "Follow the Pro plan", to the Pro waiting list in the footer of the plugin's own screen and on its row in the Plugins list. It is a link only: the plugin makes no request and sends nothing. A Pro version is only being planned; nothing in the free plugin changes. Developers can hide the link with the `ecehc_show_pro_link` filter.
 
 = 1.7.0 =
 * New: developers can run the full set of checks from code with `ecehc_run_checks()`, for example from a scheduled job. The function is documented in the hooks guide (docs/extending.md in the GitHub repository). It sends nothing and stores no results; some lookups are cached for up to 12 hours.

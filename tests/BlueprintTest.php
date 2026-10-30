@@ -1,4 +1,8 @@
 <?php
+/**
+ * Playground blueprint: valid JSON, plugin slug, landing page and allowed hosts.
+ */
+
 $ecehc_bp_path = dirname( __DIR__ ) . '/.wordpress-org/blueprints/blueprint.json';
 $ecehc_bp_raw  = is_readable( $ecehc_bp_path ) ? file_get_contents( $ecehc_bp_path ) : '';
 $ecehc_bp      = json_decode( $ecehc_bp_raw, true );

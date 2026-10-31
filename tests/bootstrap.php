@@ -111,6 +111,17 @@ function update_option( $name, $value ) {
 	return true;
 }
 
+// Records deleted transients; UninstallTest also gets them through its own recorder when it is loaded.
+$GLOBALS['ecehc_test_deleted_transients'] = array();
+
+function delete_transient( $name ) {
+	$GLOBALS['ecehc_test_deleted_transients'][] = $name;
+	if ( function_exists( 'ecehc_uninstall_record' ) ) {
+		ecehc_uninstall_record( 'transient:' . $name );
+	}
+	return true;
+}
+
 // A tiny assertion library.
 $GLOBALS['ecehc_test_failures'] = array();
 $GLOBALS['ecehc_test_count']    = 0;

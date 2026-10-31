@@ -249,7 +249,7 @@ $ecehc_base_url = add_query_arg(
 				</p>
 				<p>
 					<label for="ecehc-log-retention"><?php esc_html_e( 'Keep entries for', 'ecom-email-health-check' ); ?></label>
-					<select name="ecehc_log_retention" id="ecehc-log-retention">
+					<select name="ecehc_log_retention" id="ecehc-log-retention" aria-describedby="ecehc-log-retention-desc">
 						<?php foreach ( \CodeSir\EmailHealthCheck\Log\LogSettings::RETENTION_CHOICES as $ecehc_days ) : ?>
 							<option value="<?php echo esc_attr( (string) $ecehc_days ); ?>" <?php selected( $settings['retention_days'], $ecehc_days ); ?>>
 								<?php
@@ -264,6 +264,17 @@ $ecehc_base_url = add_query_arg(
 							</option>
 						<?php endforeach; ?>
 					</select>
+				</p>
+				<p class="description" id="ecehc-log-retention-desc">
+					<?php
+					echo esc_html(
+						sprintf(
+							/* translators: %s: maximum number of log entries, formatted for the locale */
+							__( 'Entries older than this are deleted by a daily cleanup, and when you save these settings. The log is also trimmed to the newest %s entries, so a very busy store does not build up a large table. The trim runs with the same cleanup, so the log can briefly hold more than that.', 'ecom-email-health-check' ),
+							number_format_i18n( \CodeSir\EmailHealthCheck\Log\EmailLog::max_rows() )
+						)
+					);
+					?>
 				</p>
 				<p><input type="submit" name="ecehc_save_log_settings" class="button button-primary" value="<?php esc_attr_e( 'Save settings', 'ecom-email-health-check' ); ?>"></p>
 			</form>

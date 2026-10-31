@@ -64,3 +64,59 @@ jobs:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SLUG: ecom-email-health-check
+
+  # After a successful deploy, publish a GitHub release for the tag, with the
+  # readme.txt changelog entry of that version as its notes. It runs only if the
+  # WordPress.org deploy succeeded, and it does nothing if a release for the tag
+  # already exists (for example after a re-run, or one made by hand).
+  release:
+    name: GitHub release
+    needs: tag
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "A release for $TAG already exists; nothing to do."
+            exit 0
+          fi
+
+          # Older tags used a "v" prefix; the readme.txt headings do not.
+          version="${TAG#v}"
+
+          # The lines of "= <version> =" in the Changelog section, up to the next heading.
+          awk -v v="$version" '
+            /^== Changelog ==/ { in_log = 1; next }
+            in_log && /^= .* =$/ { printing = ($0 == "= " v " =") ; next }
+            in_log && /^== / { printing = 0 }
+            in_log && printing { print }
+          ' readme.txt | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}' > notes-body.md
+
+          {
+            echo "Install or update from WordPress.org: https://wordpress.org/plugins/ecom-email-health-check/"
+            echo
+            if [ -s notes-body.md ]; then
+              cat notes-body.md
+            else
+              echo "No changelog entry was found for $version in readme.txt."
+            fi
+          } > release-notes.md
+
+          # A tag with a suffix (2.0.0-beta) is a prerelease and is not marked as the latest release.
+          case "$version" in
+            *-*) channel="--prerelease" ;;
+            *)   channel="--latest" ;;
+          esac
+
+          gh release create "$TAG" --verify-tag --title "$version" --notes-file release-notes.md "$channel"

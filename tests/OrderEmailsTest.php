@@ -18,6 +18,13 @@ if ( ! class_exists( 'WC_Order' ) ) {
 		}
 	}
 }
+if ( ! class_exists( 'Ecehc_Throwing_Order' ) ) {
+	class Ecehc_Throwing_Order extends WC_Order {
+		public function get_id() {
+			throw new \RuntimeException( 'broken order' );
+		}
+	}
+}
 if ( ! function_exists( 'wp_strip_all_tags' ) ) {
 	function wp_strip_all_tags( $text ) {
 		return strip_tags( (string) $text );
@@ -70,12 +77,15 @@ ecehc_assert_same( 0, EmailLogger::order_id_of( (object) array( 'id' => 'x', 'ob
 ecehc_assert_same( 0, EmailLogger::order_id_of( (object) array( 'id' => 'x' ) ), 'a missing object gives 0' );
 ecehc_assert_same( 0, EmailLogger::order_id_of( null ), 'no email gives 0' );
 ecehc_assert_same( 0, EmailLogger::order_id_of( (object) array( 'object' => new WC_Order( -3 ) ) ), 'a negative id gives 0' );
+ecehc_assert_same( 0, EmailLogger::order_id_of( (object) array( 'id' => 'x', 'object' => new Ecehc_Throwing_Order( 1 ) ) ), 'an order whose get_id() throws gives 0' );
 
 // Carried into the stored row. The source detector needs a real WooCommerce backtrace, so the
 // context it would build is set directly.
 $logger = new EmailLogger();
 $mail   = array( 'to' => 'jane@example.com', 'subject' => 'Hi' );
 $logger->track_wc_email( 'cb', (object) array( 'id' => 'new_order', 'title' => 'New order', 'object' => new WC_Order( 77 ) ) );
+$throwing_logger = new EmailLogger();
+ecehc_assert_same( 'cb', $throwing_logger->track_wc_email( 'cb', (object) array( 'id' => 'new_order', 'title' => 'New order', 'object' => new Ecehc_Throwing_Order( 1 ) ) ), 'track_wc_email returns the callback unchanged when get_id() throws' );
 $wc_prop = new ReflectionProperty( EmailLogger::class, 'wc_email' );
 $wc_prop->setAccessible( true );
 $ctx_prop = new ReflectionProperty( EmailLogger::class, 'context' );

@@ -44,7 +44,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 ### Email log and failure alerts
 
 * **Email Log and statistics:** every email your site sends, with source, WooCommerce email type, status and error; filters; accepted and failed counts for 24 hours and 7 days. Only a partly hidden recipient address is stored, never the message. Retention, switching off and clearing are in the Email Log tab.
-* **Emails for this order** (WooCommerce): a read-only panel on the order screen (classic and High-Performance Order Storage) that lists the emails logged for that order, newest first, with time, email type, partly hidden recipient, status and error. Shown only to administrators while the email log is on. Only emails sent after the panel was added are listed, and only for as long as the log keeps them. It makes no requests and stores nothing extra.
+* **Emails for this order** (WooCommerce): a read-only panel on the order screen (classic and High-Performance Order Storage) that lists the emails logged for that order, newest first, with time, email type, partly hidden recipient, status and error. Shown only to administrators while the email log is on. Only emails sent after the panel was added are listed, and only for as long as the log keeps them. It makes no requests and stores only the order number in the existing log.
 * **Failure alerts in wp-admin:** an "Email Health" dashboard widget and a Site Health test, with no email needed.
 
 ### Fix

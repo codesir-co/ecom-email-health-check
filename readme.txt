@@ -123,7 +123,13 @@ It briefly runs the mail-configuration hooks (`phpmailer_init`) that other plugi
 The Email Log keeps, for a few days (7 by default), the time of each email, which plugin sent it, its WooCommerce email type, whether it was accepted or failed, the recipient's email domain and a partly hidden address such as j***@example.com, and an error message with any addresses hidden. It never stores the message, its subject or a full email address. You can turn logging off, shorten the retention or clear the log in the Email Log tab. A suggestion for your privacy policy is added under Settings > Privacy.
 
 = Does the email log slow down my site? =
-Each email causes one small database insert. Entries are pruned daily and the log is capped, so it stays small.
+Each email causes one small database insert. Entries older than the retention period (7 days by default) are deleted by a daily cleanup, which also trims the log to the newest 5,000 entries (developers can change this with the `ecehc_log_max_rows` filter). Between cleanups the log can briefly be larger. The Health Report opens at once and runs its checks, including the DNS lookups, in the background on the plugin's own screen. The same checks also run when you open Tools > Site Health or use WP-CLI.
+
+= What is removed when I uninstall the plugin? =
+Deleting the plugin from the Plugins screen removes everything it stored: the email log table (`{prefix}ecehc_email_log`), its settings and schema version, the last test email result, the install date, the getting-started checklist flag, the cached lookups (SMTP detection, server IP blacklist, plugin names, log statistics), the daily log cleanup event, and the per-user records of the review request and the checklist. On a multisite network the log table, settings, install date, checklist flag, caches of plugin names and log statistics and the cleanup event are removed for every site; the last test email result and the cached SMTP and blacklist lookups are removed only on the site where the plugin is deleted. The only other leftovers are the short-lived limits for test emails (a transient that expires on its own within 5 minutes). Deactivating the plugin does not remove anything.
+
+= Does the plugin show ads, upsells or notices? =
+No ads, no upsell banners and no tracking. There are exactly two things: one plain text link, "Follow the Pro plan", in the footer of the plugin's own screen and on its row in the Plugins list (hide it by returning false from the `ecehc_show_pro_link` filter), and one dismissible request for a review, shown only to administrators and only on the plugin's own screens. "Maybe later" hides it for 30 days and works at most twice; "Done" hides it for good.
 
 = Can I help translate the plugin? =
 Yes, and thank you. Translations are done by the community on translate.wordpress.org: https://translate.wordpress.org/projects/wp-plugins/ecom-email-health-check/ . The plugin's texts can be translated, except the plain-text support report and the WP-CLI output, which stay in English on purpose. A draft Arabic translation is kept in the plugin's GitHub repository; it still needs a native speaker to review it and a translation editor to import it.
@@ -133,12 +139,12 @@ Please use the plugin's support forum on WordPress.org: https://wordpress.org/su
 
 == Screenshots ==
 
-1. The Health Report: every check with a clear Pass, Warning or Fail status.
-2. A failing check shows a "How to fix this" panel with a copy-paste DNS record and a link to your mail provider's official guide.
-3. The Email Log tab: accepted and failed counts for the last 24 hours and 7 days, broken down by source and WooCommerce email type.
-4. The latest emails, filterable by source, status and WooCommerce email type.
-5. The Email Health dashboard widget warns you inside wp-admin when many emails fail.
-6. The same warning in Tools > Site Health, so a problem shows up without opening the plugin.
+1. The Health Report: each check with a Pass, Warning, Fail or Not checked status and a plain-language message, next to the test email form and the link to WooCommerce's own email preview.
+2. A failing SPF check opened to its "How to fix this" panel, which shows a copy-paste DNS record and a link to your mail provider's official guide where one is documented.
+3. The Email Log tab: accepted and failed counts for the last 24 hours and 7 days, the last failure, and breakdowns by source and by WooCommerce email type.
+4. The latest emails list with time, source, WooCommerce email type, partly hidden recipient, status and error, filterable by source, status and WooCommerce email type.
+5. The "Email Health" dashboard widget showing a "Needs attention" status, the last 24 hours' counts and the last failure, inside wp-admin.
+6. The "Recent email failures" test in Tools > Site Health, so a problem shows up without opening the plugin.
 
 == External services ==
 

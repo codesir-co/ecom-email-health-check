@@ -49,7 +49,7 @@ class OrderEmailsPanel {
 			__( 'Emails for this order', 'ecom-email-health-check' ),
 			array( $this, 'render' ),
 			self::screens(),
-			'side',
+			'normal',
 			'default'
 		);
 	}

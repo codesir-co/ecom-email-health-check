@@ -120,7 +120,7 @@ ecehc_assert_same( 1, count( $boxes ), 'the meta box is registered when all cond
 ecehc_assert_same( OrderEmailsPanel::ID, $boxes[0][0], 'the meta box id' );
 ecehc_assert_same( array( $panel, 'render' ), $boxes[0][2], 'the meta box renders through the panel' );
 ecehc_assert_same( array( 'shop_order', 'woocommerce_page_wc-orders' ), $boxes[0][3], 'the meta box is added to both order screens' );
-ecehc_assert_same( 'side', $boxes[0][4], 'the meta box sits in the side column' );
+ecehc_assert_same( 'normal', $boxes[0][4], 'the meta box sits in the wide main column, so the table fits' );
 
 $GLOBALS['ecehc_test_can'] = false;
 ecehc_assert_same( array(), $register(), 'no meta box without manage_options' );

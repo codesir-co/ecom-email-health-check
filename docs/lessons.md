@@ -12,3 +12,4 @@ Mistakes the review layers or QA caught that the developer agent should avoid. `
 ## Current lessons
 - **Docs claims:** before writing that data is removed, kept or run "on every site", read the code path itself, including multisite loops and what runs outside them, and state only what it does (seen: #151)
 - **Live regions:** before adding a wp.a11y.speak() call, list every other speak() call on the same screen; a later call replaces an earlier one, so combine the messages or test the real async sequence (seen: #155)
+- **Meta boxes:** put a box that holds a multi-column table in the wide 'normal' context, not 'side' (the side column is about 280px); QA the layout before review (seen: #158)

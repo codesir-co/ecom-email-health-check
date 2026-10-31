@@ -31,9 +31,9 @@ $setup = static function ( array $args = array() ) {
 		),
 		$args
 	);
-	$GLOBALS['ecehc_test_can']      = $args['admin'];
-	$GLOBALS['ecehc_rp_meta']        = $args['meta'];
-	$GLOBALS['ecehc_test_options']   = array( ReviewPrompt::OPTION_INSTALLED => time() - $args['age'] );
+	$GLOBALS['ecehc_test_can']     = $args['admin'];
+	$GLOBALS['ecehc_rp_meta']      = $args['meta'];
+	$GLOBALS['ecehc_test_options'] = array( ReviewPrompt::OPTION_INSTALLED => time() - $args['age'] );
 	if ( null !== $args['test'] ) {
 		$GLOBALS['ecehc_test_options']['ecehc_last_test_email'] = array( 'success' => $args['test'], 'time' => time() );
 	}
@@ -91,11 +91,12 @@ ReviewPrompt::note_report( array( 'a' => $row( 'pass' ) ) );
 ecehc_assert_same( 12345, $GLOBALS['ecehc_test_options'][ ReviewPrompt::OPTION_PASSED ], 'keeps the earliest timestamp' );
 
 foreach ( array(
-	'fail'    => array( $row( 'pass' ), $row( 'fail' ) ),
-	'warning' => array( $row( 'pass' ), $row( 'warning' ) ),
-	'empty'   => array(),
-	'junk'    => array( 'x', null, 5 ),
-	'no status' => array( array( 'label' => 'x' ) ),
+	'fail'         => array( $row( 'pass' ), $row( 'fail' ) ),
+	'warning'      => array( $row( 'pass' ), $row( 'warning' ) ),
+	'empty'        => array(),
+	'all unknown'  => array( $row( 'unknown' ), $row( 'unknown' ) ),
+	'junk'         => array( 'x', null, 5 ),
+	'no status'    => array( array( 'label' => 'x' ) ),
 	'array status' => array( array( 'status' => array( 'pass' ) ) ),
 ) as $name => $results ) {
 	$setup();

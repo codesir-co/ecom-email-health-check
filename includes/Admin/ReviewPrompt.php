@@ -4,8 +4,9 @@
  *
  * Shown only on this plugin's own screens, only to administrators, and only
  * after the plugin has helped (a test email went through or a report came back
- * with no failures or warnings), at least a day after activation. It never offers an incentive,
- * can be dismissed for good, and "Maybe later" works at most twice.
+ * with no failures or warnings), at least a day after activation. It never
+ * offers an incentive, can be dismissed for good, and "Maybe later" works at
+ * most twice.
  *
  * @package CodeSir\EmailHealthCheck
  */
@@ -62,7 +63,8 @@ class ReviewPrompt {
 	 * Remember the first time a full Health Report had no failing and no warning check.
 	 *
 	 * Call it only where an administrator completes a report. A no-op for any
-	 * other result set, for junk input and once the time is already stored.
+	 * other result set (including one where every check was "Not checked"), for
+	 * junk input and once the time is already stored.
 	 *
 	 * @param array $results Results from CheckRunner::run_all().
 	 */
@@ -70,6 +72,8 @@ class ReviewPrompt {
 		if ( empty( $results ) || (int) get_option( self::OPTION_PASSED ) > 0 ) {
 			return;
 		}
+
+		$passed = 0;
 
 		foreach ( $results as $result ) {
 			if ( ! is_array( $result ) || ! isset( $result['status'] ) || ! is_string( $result['status'] ) ) {
@@ -79,6 +83,15 @@ class ReviewPrompt {
 			if ( in_array( $result['status'], array( Result::FAIL, Result::WARNING ), true ) ) {
 				return;
 			}
+
+			if ( Result::PASS === $result['status'] ) {
+				++$passed;
+			}
+		}
+
+		// A report where nothing could be checked has not shown that the plugin helped.
+		if ( 0 === $passed ) {
+			return;
 		}
 
 		update_option( self::OPTION_PASSED, time(), false );

@@ -45,3 +45,7 @@ were never run.
 ## WordPress 7.2 and later
 
 Re-run this on each WordPress beta/RC and on every WooCommerce major release, then bump the headers.
+
+## Live preview (WordPress Playground)
+
+`.wordpress-org/blueprints/blueprint.json` powers the "Live Preview" button on the WordPress.org listing. It installs the released plugin from wordpress.org and opens the Email Health Check page. To try a branch's blueprint, open `https://playground.wordpress.net/?blueprint-url=<raw GitHub URL of the file on that branch>`. It always installs the released version, not the branch code. Playground cannot send real mail, so the sending and DNS checks show sandbox results.

@@ -27,9 +27,9 @@ $ecehc_base_url = add_query_arg(
 	<?php include ECEHC_PLUGIN_PATH . 'views/tabs.php'; ?>
 
 	<?php if ( 'saved' === $notice ) : ?>
-		<div class="notice notice-success inline"><p><?php esc_html_e( 'Settings saved.', 'ecom-email-health-check' ); ?></p></div>
+		<div class="notice ecehc-notice notice-success inline"><p><?php esc_html_e( 'Settings saved.', 'ecom-email-health-check' ); ?></p></div>
 	<?php elseif ( 'cleared' === $notice ) : ?>
-		<div class="notice notice-success inline"><p><?php esc_html_e( 'The email log was cleared.', 'ecom-email-health-check' ); ?></p></div>
+		<div class="notice ecehc-notice notice-success inline"><p><?php esc_html_e( 'The email log was cleared.', 'ecom-email-health-check' ); ?></p></div>
 	<?php endif; ?>
 
 	<?php if ( $supported && ! $settings['enabled'] ) : ?>
@@ -74,7 +74,7 @@ $ecehc_base_url = add_query_arg(
 				<div class="card ecehc-stat-card">
 					<h2><?php esc_html_e( 'By source (last 7 days)', 'ecom-email-health-check' ); ?></h2>
 					<table class="widefat striped">
-						<thead><tr><th><?php esc_html_e( 'Source', 'ecom-email-health-check' ); ?></th><th><?php esc_html_e( 'Accepted', 'ecom-email-health-check' ); ?></th><th><?php esc_html_e( 'Failed', 'ecom-email-health-check' ); ?></th></tr></thead>
+						<thead><tr><th scope="col"><?php esc_html_e( 'Source', 'ecom-email-health-check' ); ?></th><th scope="col"><?php esc_html_e( 'Accepted', 'ecom-email-health-check' ); ?></th><th scope="col"><?php esc_html_e( 'Failed', 'ecom-email-health-check' ); ?></th></tr></thead>
 						<tbody>
 						<?php foreach ( $stats7['sources'] as $ecehc_source_key => $ecehc_row ) : ?>
 							<tr>
@@ -91,7 +91,7 @@ $ecehc_base_url = add_query_arg(
 					<div class="card ecehc-stat-card">
 						<h2><?php esc_html_e( 'WooCommerce emails (last 7 days)', 'ecom-email-health-check' ); ?></h2>
 						<table class="widefat striped">
-							<thead><tr><th><?php esc_html_e( 'Email', 'ecom-email-health-check' ); ?></th><th><?php esc_html_e( 'Accepted', 'ecom-email-health-check' ); ?></th><th><?php esc_html_e( 'Failed', 'ecom-email-health-check' ); ?></th></tr></thead>
+							<thead><tr><th scope="col"><?php esc_html_e( 'Email', 'ecom-email-health-check' ); ?></th><th scope="col"><?php esc_html_e( 'Accepted', 'ecom-email-health-check' ); ?></th><th scope="col"><?php esc_html_e( 'Failed', 'ecom-email-health-check' ); ?></th></tr></thead>
 							<tbody>
 							<?php foreach ( $stats7['types'] as $ecehc_type_key => $ecehc_row ) : ?>
 								<tr>
@@ -160,14 +160,15 @@ $ecehc_base_url = add_query_arg(
 		</form>
 
 		<table class="widefat striped ecehc-log-table">
+			<caption class="screen-reader-text"><?php esc_html_e( 'Logged emails, newest first', 'ecom-email-health-check' ); ?></caption>
 			<thead>
 			<tr>
-				<th><?php esc_html_e( 'Time', 'ecom-email-health-check' ); ?></th>
-				<th><?php esc_html_e( 'Source', 'ecom-email-health-check' ); ?></th>
-				<th><?php esc_html_e( 'WooCommerce email', 'ecom-email-health-check' ); ?></th>
-				<th><?php esc_html_e( 'Recipient', 'ecom-email-health-check' ); ?></th>
-				<th><?php esc_html_e( 'Status', 'ecom-email-health-check' ); ?></th>
-				<th><?php esc_html_e( 'Error', 'ecom-email-health-check' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'Time', 'ecom-email-health-check' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'Source', 'ecom-email-health-check' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'WooCommerce email', 'ecom-email-health-check' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'Recipient', 'ecom-email-health-check' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'Status', 'ecom-email-health-check' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'Error', 'ecom-email-health-check' ); ?></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -192,9 +193,9 @@ $ecehc_base_url = add_query_arg(
 					<td><?php echo esc_html( '' !== $ecehc_row['recipient'] ? $ecehc_row['recipient'] : '-' ); ?></td>
 					<td>
 						<?php if ( EmailLog::STATUS_FAILED === $ecehc_row['status'] ) : ?>
-							<span class="ecehc-status ecehc-status-fail">&#10006; <?php esc_html_e( 'Failed', 'ecom-email-health-check' ); ?></span>
+							<span class="ecehc-status ecehc-status-fail"><span aria-hidden="true">&#10006;</span> <?php esc_html_e( 'Failed', 'ecom-email-health-check' ); ?></span>
 						<?php else : ?>
-							<span class="ecehc-status ecehc-status-pass">&#10004; <?php esc_html_e( 'Accepted', 'ecom-email-health-check' ); ?></span>
+							<span class="ecehc-status ecehc-status-pass"><span aria-hidden="true">&#10004;</span> <?php esc_html_e( 'Accepted', 'ecom-email-health-check' ); ?></span>
 						<?php endif; ?>
 					</td>
 					<td><?php echo esc_html( $ecehc_row['error'] ); ?></td>
@@ -205,7 +206,7 @@ $ecehc_base_url = add_query_arg(
 
 		<?php if ( $result['pages'] > 1 ) : ?>
 			<div class="tablenav">
-				<div class="tablenav-pages">
+				<nav class="tablenav-pages" aria-label="<?php esc_attr_e( 'Email log pages', 'ecom-email-health-check' ); ?>">
 					<?php
 					echo wp_kses_post(
 						paginate_links(
@@ -214,13 +215,13 @@ $ecehc_base_url = add_query_arg(
 								'format'    => '',
 								'current'   => $paged,
 								'total'     => $result['pages'],
-								'prev_text' => '&laquo;',
-								'next_text' => '&raquo;',
+								'prev_text' => '<span aria-hidden="true">&laquo;</span><span class="screen-reader-text">' . esc_html__( 'Previous page', 'ecom-email-health-check' ) . '</span>',
+								'next_text' => '<span class="screen-reader-text">' . esc_html__( 'Next page', 'ecom-email-health-check' ) . '</span><span aria-hidden="true">&raquo;</span>',
 							)
 						)
 					);
 					?>
-				</div>
+				</nav>
 			</div>
 		<?php endif; ?>
 

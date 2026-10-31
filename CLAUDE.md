@@ -23,7 +23,7 @@ Namespace `CodeSir\EmailHealthCheck`, PSR-4 autoloaded from `includes/` (autoloa
 - WP coding standards: tabs, Yoda-ish spacing `( $x )`, `array()` syntax, namespaced PSR-4 classes (`ecehc_` prefix for globals/hooks/options).
 - Every PHP file starts with the `ABSPATH` guard. Escape all output (`esc_html`, `esc_url`), i18n all strings with the text domain.
 - Admin actions: check `current_user_can( 'manage_options' )` + nonce.
-- No external promotional links until a new domain exists; add UTM params to any future ones.
+- The only promotional external domain is outboxhealth.com (site repo `codesir-co/outbox-health-site`); every such link is a plain, labelled text link with UTM params (see `includes/Admin/ProLink.php`). No other promotional links.
 - No build step, no composer/npm. Test manually in the Local site (wp-admin → Email Health Check). Pure-logic tests need nothing installed: `php tests/run.php` (stubs in `tests/bootstrap.php`; add a `tests/<Name>Test.php` for new logic and a regression test for every bug fix).
 
 ## Version bump touches 3 places

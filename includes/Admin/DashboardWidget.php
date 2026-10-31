@@ -46,9 +46,9 @@ class DashboardWidget {
 		if ( 0 === $alert['sent'] + $alert['failed'] ) {
 			echo '<p>' . esc_html__( 'No emails have been logged in the last 24 hours.', 'ecom-email-health-check' ) . '</p>';
 		} elseif ( $alert['needs_attention'] ) {
-			echo '<p><span class="ecehc-status ecehc-status-fail">&#10006; ' . esc_html__( 'Needs attention', 'ecom-email-health-check' ) . '</span></p>';
+			echo '<p><span class="ecehc-status ecehc-status-fail"><span aria-hidden="true">&#10006;</span> ' . esc_html__( 'Needs attention', 'ecom-email-health-check' ) . '</span></p>';
 		} else {
-			echo '<p><span class="ecehc-status ecehc-status-pass">&#10004; ' . esc_html__( 'Looks fine', 'ecom-email-health-check' ) . '</span></p>';
+			echo '<p><span class="ecehc-status ecehc-status-pass"><span aria-hidden="true">&#10004;</span> ' . esc_html__( 'Looks fine', 'ecom-email-health-check' ) . '</span></p>';
 		}
 
 		if ( $alert['sent'] + $alert['failed'] > 0 ) {

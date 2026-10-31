@@ -2,7 +2,7 @@
 /**
  * Reads and writes the email log table.
  *
- * Only the minimum is stored: time, status, source, WooCommerce email type, a
+ * Only the minimum is stored: time, status, source, WooCommerce email type and order number, a
  * masked recipient and its domain, and an error message with any email
  * addresses masked. Never the message body, subject, headers or a full address.
  *
@@ -35,6 +35,7 @@ class EmailLog {
 			'recipient'        => '',
 			'recipient_domain' => '',
 			'error'            => '',
+			'order_id'         => 0,
 		);
 
 		/**
@@ -59,10 +60,13 @@ class EmailLog {
 			$value         = is_scalar( $row[ $column ] ) ? (string) $row[ $column ] : '';
 			$row[ $column ] = function_exists( 'mb_substr' ) ? mb_substr( $value, 0, $length ) : substr( $value, 0, $length );
 		}
+		$row['order_id']   = is_numeric( $row['order_id'] ) ? max( 0, (int) $row['order_id'] ) : 0;
 		$row['created_at'] = is_scalar( $row['created_at'] ) ? (string) $row['created_at'] : gmdate( 'Y-m-d H:i:s' );
 
 		$suppress = $wpdb->suppress_errors( true );
-		$written  = false !== $wpdb->insert( Schema::table(), $row, array_fill( 0, count( $row ), '%s' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		$written  = false !== $wpdb->insert( Schema::table(), $row, array_map( static function ( $column ) {
+			return 'order_id' === $column ? '%d' : '%s';
+		}, array_keys( $row ) ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->suppress_errors( $suppress );
 
 		if ( $written ) {
@@ -75,6 +79,29 @@ class EmailLog {
 		}
 
 		return $written;
+	}
+
+	/** Most emails the order screen panel lists. */
+	const ORDER_LIMIT = 20;
+
+	/**
+	 * Logged emails of one WooCommerce order, newest first.
+	 *
+	 * @return array<int, array<string, string>>
+	 */
+	public static function for_order( int $order_id, int $limit = self::ORDER_LIMIT ): array {
+		global $wpdb;
+
+		if ( $order_id < 1 ) {
+			return array();
+		}
+
+		$table = esc_sql( Schema::table() );
+
+		return (array) $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+			$wpdb->prepare( "SELECT * FROM {$table} WHERE order_id = %d ORDER BY id DESC LIMIT %d", $order_id, max( 1, $limit ) ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
+			ARRAY_A
+		);
 	}
 
 	/**
@@ -292,6 +319,18 @@ class EmailLog {
 	}
 
 	/**
+	 * The most rows the log keeps: 5000 by default, never below 100.
+	 */
+	public static function max_rows(): int {
+		/**
+		 * Filters the maximum number of log rows kept.
+		 *
+		 * @param int $rows Rows, default 5000.
+		 */
+		return max( 100, (int) apply_filters( 'ecehc_log_max_rows', 5000 ) );
+	}
+
+	/**
 	 * Deletes rows older than the retention period, then the oldest rows over the cap.
 	 */
 	public static function purge(): void {
@@ -306,12 +345,7 @@ class EmailLog {
 		 */
 		$days = max( 1, (int) apply_filters( 'ecehc_log_retention_days', LogSettings::retention_days() ) );
 
-		/**
-		 * Filters the maximum number of log rows kept.
-		 *
-		 * @param int $rows Rows, default 5000.
-		 */
-		$max_rows = max( 100, (int) apply_filters( 'ecehc_log_max_rows', 5000 ) );
+		$max_rows = self::max_rows();
 
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE created_at < %s", gmdate( 'Y-m-d H:i:s', time() - $days * DAY_IN_SECONDS ) ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 

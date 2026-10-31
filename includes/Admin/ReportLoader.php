@@ -32,6 +32,7 @@ class ReportLoader {
 		ob_start();
 		$results   = ( new CheckRunner() )->run_all();
 		$checklist = Checklist::items( $results );
+		ReviewPrompt::note_report( $results );
 		ob_end_clean();
 
 		ob_start();

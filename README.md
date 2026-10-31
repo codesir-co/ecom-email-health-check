@@ -18,14 +18,15 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 ### What it does not do
 
 * It is **not an SMTP plugin** and does not send your email for you; it works next to whichever plugin or mail service you use.
-* **No account, no upsell banners or nags, no tracking and no analytics.** It makes no HTTP requests of its own and sends nothing to the plugin's authors; the only outside lookups are the DNS queries described under External services. The only prompt it ever shows is one dismissible request for a review, on its own screens, to administrators only.
+* **No account, no upsell banners or nags, no tracking and no analytics.** It makes no HTTP requests of its own and sends nothing to the plugin's authors; the only outside lookups are the DNS queries described under External services. The only prompt it ever shows is one dismissible request for a review, on its own screens, to administrators only, and only after a test email went through or a report came back with at least one passing check and no failures or warnings, at least a day after install.
 * **One plain text link, no more:** there is one small link, "Follow the Pro plan", to a waiting list page for a possible future Pro version (in the footer of its own screen and on its row in the Plugins list). The plugin never requests anything for it and sends nothing; it can be hidden with the `ecehc_show_pro_link` filter. Nothing in this free plugin is removed or locked.
 * **Nothing bundled:** no third-party libraries, fonts or scripts, only the plugin's own code.
 
 ### What data it touches
 
 * **The checks** read your site's own settings and look up the public DNS records of your sending domain through your server's own DNS resolver. The one lookup that involves your server is the IP blacklist check, which runs only when your site sends mail directly from your server (see "External services" in [`readme.txt`](readme.txt)).
-* **The email log** keeps the time, source, status, WooCommerce email type, the recipient's domain, a partly hidden address such as j***@example.com and an error message with addresses hidden. Never the subject or the message. Kept 7 days by default (1, 3 or 7), can be turned off or cleared, and removed on uninstall.
+* **The email log** keeps the time, source, status, WooCommerce email type, the order number for WooCommerce order emails, the recipient's domain, a partly hidden address such as j***@example.com and an error message with addresses hidden. Never the subject or the message. Kept 7 days by default (1, 3 or 7), can be turned off or cleared, and removed on uninstall.
+* **A stored flag** records, as a timestamp in one option, that a report once came back with at least one passing check and no failures or warnings. It is used only to decide when to show the review request and is never sent anywhere.
 * **A test email** goes only to the address you type (or the site admin address if you leave it blank).
 * Nothing is sent to the plugin's authors.
 
@@ -44,6 +45,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 ### Email log and failure alerts
 
 * **Email Log and statistics:** every email your site sends, with source, WooCommerce email type, status and error; filters; accepted and failed counts for 24 hours and 7 days. Only a partly hidden recipient address is stored, never the message. Retention, switching off and clearing are in the Email Log tab.
+* **Emails for this order** (WooCommerce): a read-only panel on the order screen (classic and High-Performance Order Storage) that lists the emails logged for that order, newest first, with time, email type, partly hidden recipient, status and error. Shown only to administrators while the email log is on. Only emails sent after the panel was added are listed, and only for as long as the log keeps them. It makes no requests and stores only the order number in the existing log.
 * **Failure alerts in wp-admin:** an "Email Health" dashboard widget and a Site Health test, with no email needed.
 
 ### Fix
@@ -66,9 +68,21 @@ wp ehc log --stats      # accepted and failed counts for 24 hours and 7 days
 
 | | |
 |---|---|
-| ![Health Report](.wordpress-org/screenshot-1.png) | ![How to fix this](.wordpress-org/screenshot-2.png) |
-| ![Email Log statistics](.wordpress-org/screenshot-3.png) | ![Email Log list](.wordpress-org/screenshot-4.png) |
-| ![Dashboard widget](.wordpress-org/screenshot-5.png) | ![Site Health](.wordpress-org/screenshot-6.png) |
+| ![The Health Report: each check with a Pass, Warning, Fail or Not checked status, next to the test email form](.wordpress-org/screenshot-1.png) | ![A failing SPF check opened to its How to fix this panel with a copy-paste DNS record](.wordpress-org/screenshot-2.png) |
+| ![The Email Log tab: accepted and failed counts for 24 hours and 7 days, by source and WooCommerce email type](.wordpress-org/screenshot-3.png) | ![The latest emails list with partly hidden recipients, status and error, with filters](.wordpress-org/screenshot-4.png) |
+| ![The Email Health dashboard widget showing Needs attention and the last failure](.wordpress-org/screenshot-5.png) | ![The Recent email failures test in Tools > Site Health](.wordpress-org/screenshot-6.png) |
+
+## FAQ
+
+The full FAQ is in [`readme.txt`](readme.txt). Four answers that matter for trust:
+
+**Does the email log slow down my site?** Each email causes one small database insert. Entries older than the retention period (7 days by default) are deleted by a daily cleanup, which also trims the log to the newest 5,000 entries (change with the `ecehc_log_max_rows` filter). Between cleanups the log can briefly be larger. The Health Report opens at once and runs its checks, including the DNS lookups, in the background on the plugin's own screen. The same checks also run when you open Tools > Site Health or use WP-CLI.
+
+**Can the email log stop or change my emails?** Logging only observes. The hooks it uses (the `wp_mail` filter, `pre_wp_mail`, and WooCommerce's mail callback filter) hand back exactly what they receive, so this plugin does not change the subject, recipients, headers or attachments. Each email causes one small database insert, with no extra web request. If writing the log entry fails, the error is swallowed and the email is sent anyway. Mail that another plugin sends through the `pre_wp_mail` short circuit never reaches the log, so it is not logged. These points are covered by the dependency-free tests in `tests/MailSafetyTest.php`.
+
+**What is removed when I uninstall the plugin?** Deleting the plugin removes everything it stored: the email log table (`{prefix}ecehc_email_log`), its settings and schema version, the last test email result, the install date, the flag that a report once passed, the getting-started checklist flag, the cached lookups (SMTP detection, server IP blacklist, plugin names, log statistics), the daily log cleanup event, and the per-user records of the review request and the checklist. On multisite all of this is removed for every site (the per-user records are network-wide). The only other leftovers are the short-lived test email limits (a transient that expires on its own within 5 minutes). Deactivating removes nothing.
+
+**Does the plugin show ads, upsells or notices?** No ads, no upsell banners and no tracking. Exactly two things: one plain text link, "Follow the Pro plan" (footer of its own screen and its Plugins-list row; hide it with the `ecehc_show_pro_link` filter), and one dismissible review request, only for administrators, only on its own screens, and only after a test email went through or a report came back with at least one passing check and no failures or warnings, at least a day after install ("Maybe later" hides it for 30 days, at most twice).
 
 ## Installation
 

@@ -3,19 +3,24 @@
  * A polite, dismissible request for a WordPress.org review.
  *
  * Shown only on this plugin's own screens, only to administrators, and only
- * after the plugin has had time to prove useful. It never offers an incentive,
- * can be dismissed for good, and "Maybe later" works at most twice.
+ * after the plugin has helped (a test email went through or a report came back
+ * with no failures or warnings), at least a day after activation. It never
+ * offers an incentive, can be dismissed for good, and "Maybe later" works at
+ * most twice.
  *
  * @package CodeSir\EmailHealthCheck
  */
 
 namespace CodeSir\EmailHealthCheck\Admin;
 
+use CodeSir\EmailHealthCheck\Checks\Result;
+
 defined( 'ABSPATH' ) || exit;
 
 class ReviewPrompt {
 
 	const OPTION_INSTALLED = 'ecehc_installed_at';
+	const OPTION_PASSED    = 'ecehc_report_passed';
 	const USER_META        = 'ecehc_review_prompt';
 	const REVIEW_URL       = 'https://wordpress.org/support/plugin/ecom-email-health-check/reviews/#new-post';
 
@@ -55,8 +60,47 @@ class ReviewPrompt {
 	}
 
 	/**
-	 * Whether to show the request to the current user now: a day after
-	 * activation if a test email already went through, otherwise after a week.
+	 * Remember the first time a full Health Report had no failing and no warning check.
+	 *
+	 * Call it only where an administrator completes a report. A no-op for any
+	 * other result set (including one where every check was "Not checked"), for
+	 * junk input and once the time is already stored.
+	 *
+	 * @param array $results Results from CheckRunner::run_all().
+	 */
+	public static function note_report( array $results ): void {
+		if ( empty( $results ) || (int) get_option( self::OPTION_PASSED ) > 0 ) {
+			return;
+		}
+
+		$passed = 0;
+
+		foreach ( $results as $result ) {
+			if ( ! is_array( $result ) || ! isset( $result['status'] ) || ! is_string( $result['status'] ) ) {
+				return;
+			}
+
+			if ( in_array( $result['status'], array( Result::FAIL, Result::WARNING ), true ) ) {
+				return;
+			}
+
+			if ( Result::PASS === $result['status'] ) {
+				++$passed;
+			}
+		}
+
+		// A report where nothing could be checked has not shown that the plugin helped.
+		if ( 0 === $passed ) {
+			return;
+		}
+
+		update_option( self::OPTION_PASSED, time(), false );
+	}
+
+	/**
+	 * Whether to show the request to the current user now: only after the plugin
+	 * helped (the last test email went through, or a report once had no failures
+	 * or warnings), and at least a day after activation.
 	 */
 	public static function should_show(): bool {
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -69,11 +113,13 @@ class ReviewPrompt {
 			return false;
 		}
 
-		$age        = time() - self::installed_at();
-		$last_test  = TestEmailHandler::get_last_result();
-		$test_works = null !== $last_test && $last_test['success'];
+		if ( time() - self::installed_at() < DAY_IN_SECONDS ) {
+			return false;
+		}
 
-		return ( $test_works && $age >= DAY_IN_SECONDS ) || $age >= 7 * DAY_IN_SECONDS;
+		$last_test = TestEmailHandler::get_last_result();
+
+		return ( null !== $last_test && $last_test['success'] ) || (int) get_option( self::OPTION_PASSED ) > 0;
 	}
 
 	/**

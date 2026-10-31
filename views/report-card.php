@@ -23,9 +23,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <p>
                             <strong><?php echo esc_html( $ecehc_fix['label'] ); ?></strong>
 							<?php if ( 'warning' === $ecehc_fix['status'] ) : ?>
-                                <span class="ecehc-status ecehc-status-warning">&#9888; <?php esc_html_e( 'Warning', 'ecom-email-health-check' ); ?></span>
+                                <span class="ecehc-status ecehc-status-warning"><span aria-hidden="true">&#9888;</span> <?php esc_html_e( 'Warning', 'ecom-email-health-check' ); ?></span>
 							<?php else : ?>
-                                <span class="ecehc-status ecehc-status-fail">&#10006; <?php esc_html_e( 'Fail', 'ecom-email-health-check' ); ?></span>
+                                <span class="ecehc-status ecehc-status-fail"><span aria-hidden="true">&#10006;</span> <?php esc_html_e( 'Fail', 'ecom-email-health-check' ); ?></span>
 							<?php endif; ?>
                         </p>
                         <p><?php echo esc_html( $ecehc_fix['step'] ); ?></p>
@@ -65,6 +65,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php endif; ?>
 
                 <table class="widefat fixed" cellspacing="0">
+                    <caption class="screen-reader-text"><?php esc_html_e( 'Email health checks and their results', 'ecom-email-health-check' ); ?></caption>
                     <thead>
                     <tr>
                         <th class="manage-column column-columnname" scope="col"><?php esc_html_e( 'Check', 'ecom-email-health-check' ); ?></th>
@@ -75,16 +76,16 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <tbody>
 					<?php foreach ( $results as $ecehc_check_id => $ecehc_result ) : ?>
                         <tr id="ecehc-check-<?php echo esc_attr( (string) $ecehc_check_id ); ?>">
-                            <td class="column-columnname"><strong><?php echo esc_html( $ecehc_result['label'] ); ?></strong></td>
+                            <th scope="row" class="column-columnname"><strong><?php echo esc_html( $ecehc_result['label'] ); ?></strong></th>
                             <td class="column-columnname">
 								<?php if ( 'pass' === $ecehc_result['status'] ) : ?>
-                                    <span class="ecehc-status ecehc-status-pass">&#10004; <?php esc_html_e( 'Pass', 'ecom-email-health-check' ); ?></span>
+                                    <span class="ecehc-status ecehc-status-pass"><span aria-hidden="true">&#10004;</span> <?php esc_html_e( 'Pass', 'ecom-email-health-check' ); ?></span>
 								<?php elseif ( 'warning' === $ecehc_result['status'] ) : ?>
-                                    <span class="ecehc-status ecehc-status-warning">&#9888; <?php esc_html_e( 'Warning', 'ecom-email-health-check' ); ?></span>
+                                    <span class="ecehc-status ecehc-status-warning"><span aria-hidden="true">&#9888;</span> <?php esc_html_e( 'Warning', 'ecom-email-health-check' ); ?></span>
 								<?php elseif ( 'unknown' === $ecehc_result['status'] ) : ?>
-                                    <span class="ecehc-status ecehc-status-unknown">&#63; <?php esc_html_e( 'Not checked', 'ecom-email-health-check' ); ?></span>
+                                    <span class="ecehc-status ecehc-status-unknown"><span aria-hidden="true">&#63;</span> <?php esc_html_e( 'Not checked', 'ecom-email-health-check' ); ?></span>
 								<?php else : ?>
-                                    <span class="ecehc-status ecehc-status-fail">&#10006; <?php esc_html_e( 'Fail', 'ecom-email-health-check' ); ?></span>
+                                    <span class="ecehc-status ecehc-status-fail"><span aria-hidden="true">&#10006;</span> <?php esc_html_e( 'Fail', 'ecom-email-health-check' ); ?></span>
 								<?php endif; ?>
                             </td>
                             <td class="column-columnname">
@@ -101,7 +102,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             </div>
 										<?php endforeach; ?>
 										<?php if ( ! empty( $ecehc_result['guidance']['docs'] ) ) : ?>
-                                            <p><a href="<?php echo esc_url( $ecehc_result['guidance']['docs'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Official setup guide', 'ecom-email-health-check' ); ?></a></p>
+                                            <p><a href="<?php echo esc_url( $ecehc_result['guidance']['docs'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Official setup guide', 'ecom-email-health-check' ); ?><span class="screen-reader-text"> <?php esc_html_e( '(opens in a new tab)', 'ecom-email-health-check' ); ?></span></a></p>
 										<?php endif; ?>
                                     </details>
 								<?php endif; ?>

@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 
 class Schema {
 
-	const DB_VERSION        = '1';
+	const DB_VERSION        = '2';
 	const OPTION_DB_VERSION = 'ecehc_db_version';
 
 	public static function table(): string {
@@ -48,9 +48,11 @@ class Schema {
 				recipient varchar(255) NOT NULL DEFAULT '',
 				recipient_domain varchar(190) NOT NULL DEFAULT '',
 				error varchar(500) NOT NULL DEFAULT '',
+				order_id bigint(20) unsigned NOT NULL DEFAULT 0,
 				PRIMARY KEY  (id),
 				KEY created_at (created_at),
-				KEY source_key (source_key,created_at)
+				KEY source_key (source_key,created_at),
+				KEY order_id (order_id)
 			) {$charset};"
 		);
 

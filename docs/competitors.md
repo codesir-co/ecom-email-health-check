@@ -2,7 +2,7 @@
 
 Used by the `competitor-analyst` agent. Public information only. Update it when the market changes.
 
-Last checked: 2026-10-10 (changes are reported relative to this date; the next `plan-features` run updates it). Candidates not yet checked: `easy-wp-smtp`, `wp-mail-bank`.
+Last checked: 2026-10-30 (changes are reported relative to this date; the next `plan-features` run updates it). `wp-mail-bank` could not be verified through the WordPress.org API; check its page by hand before relying on it. `easy-wp-smtp` was checked (an SMTP product, not a direct rival).
 
 | Plugin (WordPress.org slug) | Why we watch it |
 |---|---|

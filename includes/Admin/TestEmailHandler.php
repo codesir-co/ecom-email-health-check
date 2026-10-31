@@ -165,17 +165,17 @@ class TestEmailHandler {
 		$type = $this->outcome['type'];
 
 		if ( 'invalid' === $type ) {
-			echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'That does not look like a valid email address. No test email was sent.', 'ecom-email-health-check' ) . '</p></div>';
+			echo '<div class="notice ecehc-notice notice-error is-dismissible"><p>' . esc_html__( 'That does not look like a valid email address. No test email was sent.', 'ecom-email-health-check' ) . '</p></div>';
 			return;
 		}
 
 		if ( 'limited' === $type ) {
-			echo '<div class="notice notice-warning is-dismissible"><p>' . esc_html__( 'You have sent several test emails in the last few minutes. Please wait a little before sending another.', 'ecom-email-health-check' ) . '</p></div>';
+			echo '<div class="notice ecehc-notice notice-warning is-dismissible"><p>' . esc_html__( 'You have sent several test emails in the last few minutes. Please wait a little before sending another.', 'ecom-email-health-check' ) . '</p></div>';
 			return;
 		}
 
 		if ( 'success' === $type ) {
-			echo '<div class="notice notice-success is-dismissible"><p><strong>' . esc_html__( 'Test email handed off for sending.', 'ecom-email-health-check' ) . '</strong> ';
+			echo '<div class="notice ecehc-notice notice-success is-dismissible"><p><strong>' . esc_html__( 'Test email handed off for sending.', 'ecom-email-health-check' ) . '</strong> ';
 			echo esc_html(
 				sprintf(
 					/* translators: %s: partly hidden email address the test was sent to */
@@ -199,7 +199,7 @@ class TestEmailHandler {
 			return;
 		}
 
-		echo '<div class="notice notice-error is-dismissible">';
+		echo '<div class="notice ecehc-notice notice-error is-dismissible">';
 		echo '<p><strong>' . esc_html__( 'Test email failed to send.', 'ecom-email-health-check' ) . '</strong> ' . esc_html__( 'This is a common issue with standard hosting providers.', 'ecom-email-health-check' ) . '</p>';
 
 		if ( '' !== $this->outcome['message'] ) {

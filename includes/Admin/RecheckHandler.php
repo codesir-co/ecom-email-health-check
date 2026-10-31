@@ -37,6 +37,6 @@ class RecheckHandler {
 	}
 
 	public function notice(): void {
-		echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Checks refreshed.', 'ecom-email-health-check' ) . '</p></div>';
+		echo '<div class="notice ecehc-notice notice-success is-dismissible"><p>' . esc_html__( 'Checks refreshed.', 'ecom-email-health-check' ) . '</p></div>';
 	}
 }

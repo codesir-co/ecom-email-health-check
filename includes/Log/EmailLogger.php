@@ -18,10 +18,10 @@ class EmailLogger {
 
 	const PURGE_HOOK = 'ecehc_purge_email_log';
 
-	/** @var array{hash: string, source: array{key: string, label: string}, wc: array{id: string, label: string}|null}|null Context of the wp_mail() call in progress. */
+	/** @var array{hash: string, source: array{key: string, label: string}, wc: array{id: string, label: string, order_id: int}|null}|null Context of the wp_mail() call in progress. */
 	private $context = null;
 
-	/** @var array{id: string, label: string}|null WooCommerce email being sent. */
+	/** @var array{id: string, label: string, order_id: int}|null WooCommerce email being sent. */
 	private $wc_email = null;
 
 	/**
@@ -116,12 +116,31 @@ class EmailLogger {
 	public function track_wc_email( $callback, $email ) {
 		if ( is_object( $email ) && isset( $email->id ) ) {
 			$this->wc_email = array(
-				'id'    => (string) $email->id,
-				'label' => isset( $email->title ) ? wp_strip_all_tags( (string) $email->title ) : (string) $email->id,
+				'id'       => (string) $email->id,
+				'label'    => isset( $email->title ) ? wp_strip_all_tags( (string) $email->title ) : (string) $email->id,
+				'order_id' => self::order_id_of( $email ),
 			);
 		}
 
 		return $callback;
+	}
+
+	/**
+	 * The WooCommerce order a WC_Email is about, or 0 for emails not tied to an
+	 * order (new account, reset password) or when WooCommerce is not loaded.
+	 *
+	 * @param mixed $email WC_Email.
+	 */
+	public static function order_id_of( $email ): int {
+		try {
+			if ( is_object( $email ) && isset( $email->object ) && class_exists( 'WC_Order' ) && $email->object instanceof \WC_Order ) {
+				return max( 0, (int) $email->object->get_id() );
+			}
+		} catch ( \Throwable $e ) {
+			unset( $e );
+		}
+
+		return 0;
 	}
 
 	public function forget_wc_email(): void {
@@ -221,6 +240,7 @@ class EmailLogger {
 					'source_label'     => $context['source']['label'],
 					'email_type'       => $context['wc'] ? $context['wc']['id'] : '',
 					'email_type_label' => $context['wc'] ? $context['wc']['label'] : '',
+					'order_id'         => $context['wc'] ? (int) $context['wc']['order_id'] : 0,
 					'recipient'        => $recipient['masked'],
 					'recipient_domain' => $recipient['domain'],
 					'error'            => self::truncate( self::mask_addresses( $error ), 500 ),
@@ -309,7 +329,7 @@ class EmailLogger {
 			'Email Health Check',
 			wp_kses_post(
 				wpautop(
-					__( 'This plugin keeps a short log of the emails your site sends (time, which plugin sent it, WooCommerce email type, whether it was accepted or failed, the recipient\'s email domain and a partly hidden address such as j***@example.com). It does not store message contents or subjects, and email addresses, including those in error messages, are partly hidden. Log entries are deleted automatically after a few days (7 by default, and you can shorten this or clear or turn off the log at any time in the Email Log tab).', 'ecom-email-health-check' )
+					__( 'This plugin keeps a short log of the emails your site sends (time, which plugin sent it, WooCommerce email type, whether it was accepted or failed, the recipient\'s email domain, a partly hidden address such as j***@example.com and, for WooCommerce order emails, the order number). It does not store message contents or subjects, and email addresses, including those in error messages, are partly hidden. Log entries are deleted automatically after a few days (7 by default, and you can shorten this or clear or turn off the log at any time in the Email Log tab).', 'ecom-email-health-check' )
 				)
 			)
 		);

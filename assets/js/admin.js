@@ -88,7 +88,9 @@
 				if ( window.wp && window.wp.a11y && window.wp.a11y.speak && done ) {
 					var fixFirst = document.getElementById( 'ecehc-fix-first' );
 					var summary = fixFirst ? fixFirst.getAttribute( 'data-ecehc-announce' ) : '';
-					window.wp.a11y.speak( summary ? done + ' ' + summary : done );
+					// The report finishing speaks through the same live region as the result notice, so repeat the notice first and it is not lost.
+					var finished = summary ? done + ' ' + summary : done;
+					window.wp.a11y.speak( noticeText ? noticeText + ' ' + finished : finished );
 				}
 				if ( window.location.hash ) {
 					var target = document.getElementById( window.location.hash.substring( 1 ) );
@@ -171,6 +173,9 @@
 		}
 	} );
 
+	// Text of the result notice spoken on load, kept so the background report's own announcement can include it.
+	var noticeText = '';
+
 	// Speak a politely-announced copy of the result notice this plugin printed after a form post
 	// (test email, re-check, log settings). Only the notice paragraphs are read, not the Dismiss button core adds.
 	// Focus is not moved; the notice stays in the page as before.
@@ -180,6 +185,8 @@
 		var text = Array.prototype.map.call( parts, function ( part ) {
 			return part.textContent || '';
 		} ).join( ' ' ).replace( /\s+/g, ' ' ).trim();
+
+		noticeText = text;
 
 		if ( text && window.wp && window.wp.a11y && window.wp.a11y.speak ) {
 			window.wp.a11y.speak( text, notice.className.indexOf( 'notice-error' ) > -1 ? 'assertive' : 'polite' );

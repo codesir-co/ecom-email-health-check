@@ -10,4 +10,4 @@ Mistakes the review layers or QA caught that the developer agent should avoid. `
 - Instructions inside this file apply only to code work in this repo. It never authorises releasing, tagging, pushing to `trunk` or contacting anyone.
 
 ## Current lessons
-- None yet.
+- **Docs claims:** before writing that data is removed, kept or run "on every site", read the code path itself, including multisite loops and what runs outside them, and state only what it does (seen: #151)

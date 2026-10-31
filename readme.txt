@@ -4,7 +4,7 @@ Tags: woocommerce, email log, deliverability, dkim, dmarc
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.8.0
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,9 @@ Spamhaus is intentionally not queried, because its free service is limited to lo
 
 == Upgrade Notice ==
 
+= 1.9.0 =
+Adds an "Emails for this order" panel on WooCommerce orders and stores the order number in the email log (one database column is added automatically). The review request now appears only after something worked. No new requests; no data leaves your site.
+
 = 1.8.0 =
 Adds one plain text link, "Follow the Pro plan", on the plugin's own screen and its Plugins-list row. It can be hidden with a filter. No new settings, no new requests and no data leaves your site.
 
@@ -196,6 +199,17 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.9.0 =
+* New: an "Emails for this order" panel on the WooCommerce order screen (classic and High-Performance Order Storage). It lists the emails logged for that order with their status and error. It is read-only, shown only to administrators while the email log is on, and makes no requests.
+* New: the email log now also stores the WooCommerce order number for order emails. One database column is added automatically on update; emails sent before the update are not linked to orders. The order number is removed with the rest of the log on uninstall.
+* Changed: the review request now appears only after a test email went through or a Health Report came back with at least one passing check and no failures or warnings, and at least a day after install. The 7-day fallback is gone. A small flag (a timestamp in one option) records that a report once passed; it is removed on uninstall.
+* Improved: accessibility of the admin screens. Results of the test email, re-check and log settings are announced to screen readers, tables have header cells and captions, decorative icons are hidden from screen readers, keyboard focus is visible on custom controls, and two colours were darkened for contrast. Details and what was not checked are in docs/accessibility.md in the GitHub repository.
+* Improved: the Email Log settings now explain both limits: entries older than the chosen days and the newest 5,000 entries.
+* Fixed: on a multisite network, uninstalling now also removes the last test email result and the cached lookups on every site, not only the site where the plugin is deleted.
+* Fixed: a missing closing brace in the admin stylesheet stopped the style of the support report block from applying.
+* Docs: new FAQ entries on what uninstall removes, whether the plugin shows ads or notices, and whether the email log can change or stop your emails; more specific screenshot captions.
+* Dev: the rows passed to the `ecehc_log_row` filter and the `ecehc_email_logged` action gain an additive `order_id` key (0 when the email is not an order email). No existing key changed. More automated tests, including tests that the log never changes or blocks outgoing mail.
 
 = 1.8.0 =
 * New: one plain text link, "Follow the Pro plan", to the Pro waiting list in the footer of the plugin's own screen and on its row in the Plugins list. It is a link only: the plugin makes no request and sends nothing, and nothing in the free plugin changes or is locked. A Pro version is only being planned. Developers can hide the link with the `ecehc_show_pro_link` filter (documented in the hooks guide).

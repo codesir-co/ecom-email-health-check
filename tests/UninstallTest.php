@@ -35,9 +35,6 @@ if ( ! function_exists( 'ecehc_uninstall_record' ) ) {
 	function delete_option( $name ) {
 		ecehc_uninstall_record( 'option:' . $name );
 	}
-	function delete_transient( $name ) {
-		ecehc_uninstall_record( 'transient:' . $name );
-	}
 	function wp_clear_scheduled_hook( $hook ) {
 		ecehc_uninstall_record( 'cron:' . $hook );
 	}

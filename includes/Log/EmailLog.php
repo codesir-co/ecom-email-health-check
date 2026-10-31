@@ -319,6 +319,18 @@ class EmailLog {
 	}
 
 	/**
+	 * The most rows the log keeps: 5000 by default, never below 100.
+	 */
+	public static function max_rows(): int {
+		/**
+		 * Filters the maximum number of log rows kept.
+		 *
+		 * @param int $rows Rows, default 5000.
+		 */
+		return max( 100, (int) apply_filters( 'ecehc_log_max_rows', 5000 ) );
+	}
+
+	/**
 	 * Deletes rows older than the retention period, then the oldest rows over the cap.
 	 */
 	public static function purge(): void {
@@ -333,12 +345,7 @@ class EmailLog {
 		 */
 		$days = max( 1, (int) apply_filters( 'ecehc_log_retention_days', LogSettings::retention_days() ) );
 
-		/**
-		 * Filters the maximum number of log rows kept.
-		 *
-		 * @param int $rows Rows, default 5000.
-		 */
-		$max_rows = max( 100, (int) apply_filters( 'ecehc_log_max_rows', 5000 ) );
+		$max_rows = self::max_rows();
 
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE created_at < %s", gmdate( 'Y-m-d H:i:s', time() - $days * DAY_IN_SECONDS ) ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 

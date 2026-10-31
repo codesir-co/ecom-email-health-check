@@ -172,10 +172,14 @@
 	} );
 
 	// Speak a politely-announced copy of the result notice this plugin printed after a form post
-	// (test email, re-check, log settings). Focus is not moved; the notice stays in the page as before.
+	// (test email, re-check, log settings). Only the notice paragraphs are read, not the Dismiss button core adds.
+	// Focus is not moved; the notice stays in the page as before.
 	function announceNotice() {
 		var notice = document.querySelector( '.ecehc-notice' );
-		var text = notice ? ( notice.textContent || '' ).replace( /\s+/g, ' ' ).trim() : '';
+		var parts = notice ? notice.querySelectorAll( 'p' ) : [];
+		var text = Array.prototype.map.call( parts, function ( part ) {
+			return part.textContent || '';
+		} ).join( ' ' ).replace( /\s+/g, ' ' ).trim();
 
 		if ( text && window.wp && window.wp.a11y && window.wp.a11y.speak ) {
 			window.wp.a11y.speak( text, notice.className.indexOf( 'notice-error' ) > -1 ? 'assertive' : 'polite' );

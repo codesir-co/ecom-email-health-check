@@ -41,6 +41,8 @@ This records what was reviewed on the plugin's admin screens, how, what changed 
 | Fix-first border, not checked | #8a5a00 | 5.93 | | | ok |
 | Woo panel border | #2271b1 | 5.17 | | | ok |
 
+The fix-first borders and the warning text sit on white cards; on the `#f0f0f1` admin body `#00a32a` would measure 2.94, which is below 3:1.
+
 The one text failure was the Fail colour on the striped log table (4.40, needs 4.5), fixed by `#b32d2e`, which is also used on the dashboard widget and cards. The fix-first borders are an accent only; the state is also given in words.
 
 `#ecehc-cta-card` (`border-left` `#1e87f0`, 3.63 on white) has no matching element in the plugin and was left as it is.

@@ -270,7 +270,7 @@ $ecehc_base_url = add_query_arg(
 					echo esc_html(
 						sprintf(
 							/* translators: %s: maximum number of log entries, formatted for the locale */
-							__( 'Entries older than this are deleted by a daily cleanup. The log is also trimmed to the newest %s entries, so a very busy store does not build up a large table. The trim runs with the daily cleanup, so the log can briefly hold more than that.', 'ecom-email-health-check' ),
+							__( 'Entries older than this are deleted by a daily cleanup, and when you save these settings. The log is also trimmed to the newest %s entries, so a very busy store does not build up a large table. The trim runs with the same cleanup, so the log can briefly hold more than that.', 'ecom-email-health-check' ),
 							number_format_i18n( \CodeSir\EmailHealthCheck\Log\EmailLog::max_rows() )
 						)
 					);

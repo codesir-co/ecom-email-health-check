@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Email Health Check & Log for WooCommerce – SPF, DKIM, DMARC & Alerts 1.5.1\n"
+"Project-Id-Version: Email Health Check & Log for WooCommerce – SPF, DKIM, DMARC & Alerts 1.9.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ecom-email-health-check\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-10T06:31:01+00:00\n"
+"POT-Creation-Date: 2026-10-31T18:27:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ecom-email-health-check\n"
@@ -102,6 +102,18 @@ msgstr ""
 msgid "View the email log"
 msgstr ""
 
+#: includes/Admin/OrderEmailsPanel.php:49
+msgid "Emails for this order"
+msgstr ""
+
+#: includes/Admin/ProLink.php:78
+msgid "A Pro version is being planned. Free to ignore."
+msgstr ""
+
+#: includes/Admin/ProLink.php:79
+msgid "Follow the Pro plan"
+msgstr ""
+
 #: includes/Admin/RecheckHandler.php:40
 msgid "Checks refreshed."
 msgstr ""
@@ -129,6 +141,7 @@ msgstr ""
 #: includes/Admin/SiteHealth.php:75
 #: includes/Admin/SiteHealth.php:156
 #: views/email-log.php:94
+#: views/order-emails.php:39
 msgid "Email"
 msgstr ""
 
@@ -153,22 +166,24 @@ msgid "Your email deliverability checks look healthy"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:168
-#: views/report-card.php:34
+#: views/report-card.php:82
 msgid "Pass"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:170
-#: views/report-card.php:36
+#: views/report-card.php:26
+#: views/report-card.php:84
 msgid "Warning"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:172
-#: views/report-card.php:40
+#: views/report-card.php:28
+#: views/report-card.php:88
 msgid "Fail"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:174
-#: views/report-card.php:38
+#: views/report-card.php:86
 msgid "Not checked"
 msgstr ""
 
@@ -282,13 +297,13 @@ msgid "Your server IP address %1$s is not listed on %2$s. Only these free lists 
 msgstr ""
 
 #. translators: %s: check id
-#: includes/Checks/CheckRunner.php:64
+#: includes/Checks/CheckRunner.php:74
 #, php-format
 msgid "Duplicate diagnostic check id \"%s\" was skipped."
 msgstr ""
 
 #. translators: %s: domain of the From address
-#: includes/Checks/CheckRunner.php:79
+#: includes/Checks/CheckRunner.php:89
 #, php-format
 msgid "(Checked for %s, the domain of your From address.)"
 msgstr ""
@@ -484,14 +499,14 @@ msgstr ""
 msgid "The key WooCommerce emails (new order, processing and completed) are on, the new order recipient and the From address are set, and no outdated email template overrides were found."
 msgstr ""
 
-#: includes/Log/EmailLogger.php:211
+#: includes/Log/EmailLogger.php:230
 #: includes/Log/SourceDetector.php:56
 #: includes/Log/SourceDetector.php:91
 msgid "Unknown"
 msgstr ""
 
-#: includes/Log/EmailLogger.php:312
-msgid "This plugin keeps a short log of the emails your site sends (time, which plugin sent it, WooCommerce email type, whether it was accepted or failed, the recipient's email domain and a partly hidden address such as j***@example.com). It does not store message contents or subjects, and email addresses, including those in error messages, are partly hidden. Log entries are deleted automatically after a few days (7 by default, and you can shorten this or clear or turn off the log at any time in the Email Log tab)."
+#: includes/Log/EmailLogger.php:332
+msgid "This plugin keeps a short log of the emails your site sends (time, which plugin sent it, WooCommerce email type, whether it was accepted or failed, the recipient's email domain, a partly hidden address such as j***@example.com and, for WooCommerce order emails, the order number). It does not store message contents or subjects, and email addresses, including those in error messages, are partly hidden. Log entries are deleted automatically after a few days (7 by default, and you can shorten this or clear or turn off the log at any time in the Email Log tab)."
 msgstr ""
 
 #: includes/Log/FailureAlert.php:60
@@ -512,7 +527,7 @@ msgstr ""
 msgid "WordPress"
 msgstr ""
 
-#: includes/Plugin.php:72
+#: includes/Plugin.php:76
 msgid "Health Check"
 msgstr ""
 
@@ -520,6 +535,56 @@ msgstr ""
 #: includes/Support/Domain.php:89
 #, php-format
 msgid "Your emails are sent from an address at %s, a domain you cannot publish DNS records for, so there is nothing to check here. Use an address at your own domain instead."
+msgstr ""
+
+#: includes/Support/FixFirst.php:114
+msgid "Make sure your site can send email at all: ask your host, or set up an SMTP plugin, then send a test email."
+msgstr ""
+
+#: includes/Support/FixFirst.php:116
+msgid "Connect an SMTP plugin or a transactional email service, so your email is sent with authentication instead of plain PHP mail."
+msgstr ""
+
+#: includes/Support/FixFirst.php:118
+msgid "Change the From address to an address at your own domain."
+msgstr ""
+
+#: includes/Support/FixFirst.php:120
+msgid "Add an SPF record for your sending domain in your DNS settings."
+msgstr ""
+
+#: includes/Support/FixFirst.php:122
+msgid "Turn on DKIM signing with your mail provider and add the DNS record it gives you."
+msgstr ""
+
+#: includes/Support/FixFirst.php:124
+msgid "Add a DMARC record for your sending domain in your DNS settings."
+msgstr ""
+
+#: includes/Support/FixFirst.php:126
+msgid "Ask your host to move you to a clean sending address, or send through an SMTP service instead."
+msgstr ""
+
+#: includes/Support/FixFirst.php:128
+msgid "Open WooCommerce > Settings > Emails and fix what this check lists."
+msgstr ""
+
+#: includes/Support/FixFirst.php:130
+msgid "Look at your payment gateway: orders stuck in \"Pending payment\" or \"Failed\" send no order emails."
+msgstr ""
+
+#. translators: 1: name of a check, 2: what to do next
+#: includes/Support/FixFirst.php:143
+#, php-format
+msgid "Fix this first: %1$s. %2$s"
+msgstr ""
+
+#: includes/Support/FixFirst.php:150
+msgid "Nothing to fix: every check that ran passed."
+msgstr ""
+
+#: includes/Support/FixFirst.php:153
+msgid "No problem was found, but the checks could not reach a conclusion."
 msgstr ""
 
 #. translators: 1: mail provider name
@@ -570,6 +635,110 @@ msgstr ""
 #: includes/Support/ProviderGuidance.php:177
 #, php-format
 msgid "Copy the DKIM records from your %s dashboard (its domain authentication or verification section), because the values are generated for your account."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:77
+msgid "None of the checks points to a clear cause."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:78
+msgid "Send a test email to an address you can read, and send a test copy of a WooCommerce email from WooCommerce > Settings > Emails. If neither arrives, ask your host or mail service. If they do arrive, a missing email may come from one order or one customer address."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:90
+msgid "Most likely, a WooCommerce email setting is wrong: an email that should go out has no valid recipient."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:91
+msgid "Open WooCommerce > Settings > Emails and fix the setting the check below describes."
+msgstr ""
+
+#. translators: %d: number of failed WooCommerce emails
+#: includes/Support/WooDiagnosis.php:100
+#, php-format
+msgid "Most likely, your mail system refused a WooCommerce email: %d failed in the last 7 days."
+msgid_plural "Most likely, your mail system refused some WooCommerce emails: %d failed in the last 7 days."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Support/WooDiagnosis.php:108
+msgid "Open the Email Log, filtered to failed emails, and read the error. It usually says what to change (a wrong password, a blocked sender address and so on)."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:115
+msgid "Most likely, some WooCommerce emails are turned off, or a WooCommerce email setting needs attention."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:116
+msgid "Open WooCommerce > Settings > Emails and check the emails the check below lists. Turned-off emails are fine if you meant to turn them off."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:123
+msgid "Most likely, this is not an email problem: many orders are stuck as unpaid, and WooCommerce sends no order emails for unpaid orders."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:124
+msgid "Look at your payment gateway and its logs first."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:131
+msgid "Most likely, your site sends through your host's plain PHP mail, which is often filtered as spam or silently dropped."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:132
+msgid "Connect an SMTP plugin or a transactional email service, then send a test email."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:139
+msgid "Most likely, the From address is the problem: it is at a public mailbox domain such as Gmail, so receivers may reject or filter mail your site sends as that address."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:140
+msgid "Use a From address at your own domain (WooCommerce > Settings > Emails)."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:149
+msgid "Most likely, your emails are going to spam or being rejected because the sending domain is missing a DNS record that receivers look for."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:150
+msgid "Add the missing record described below in your DNS settings."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:162
+msgid "Most likely, your server's address is on an email blacklist, so receivers refuse its mail."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:163
+msgid "Ask your host for a clean sending address, or send through an SMTP service instead."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:172
+msgid "Possibly, the From address is at a different domain than your site. That is fine if you control that domain and your mail service is set up for it; if not, receivers may filter your mail."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:173
+msgid "Check that your mail service is set up for the domain of your From address, or use an address at your site's own domain."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:182
+msgid "No WooCommerce emails were logged in the last 7 days. If you expected some, WooCommerce may not be sending them, or the log was only turned on recently."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:183
+msgid "Send a test copy of a WooCommerce email from WooCommerce > Settings > Emails and see whether it shows up in the Email Log."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:198
+msgid "The email log is off, so recent failed emails could not be taken into account. Turn it on in the Email Log tab to include them."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:202
+msgid "The email log is not available on this site, so recent failed emails could not be taken into account."
+msgstr ""
+
+#: includes/Support/WooDiagnosis.php:205
+msgid "This is based on the checks below and the last 7 days of the Email Log. \"Accepted\" in the log means your mail system took the email, not that it reached the inbox."
 msgstr ""
 
 #: views/admin-page.php:7
@@ -630,6 +799,7 @@ msgid "Recent WooCommerce versions can preview each email and send you a test co
 msgstr ""
 
 #: views/admin-page.php:73
+#: views/woo-diagnosis.php:24
 msgid "Open WooCommerce email settings"
 msgstr ""
 
@@ -701,21 +871,23 @@ msgstr ""
 
 #: views/email-log.php:77
 #: views/email-log.php:131
-#: views/email-log.php:166
+#: views/email-log.php:167
 msgid "Source"
 msgstr ""
 
 #: views/email-log.php:77
 #: views/email-log.php:94
 #: views/email-log.php:142
-#: views/email-log.php:197
+#: views/email-log.php:198
+#: views/order-emails.php:57
 msgid "Accepted"
 msgstr ""
 
 #: views/email-log.php:77
 #: views/email-log.php:94
 #: views/email-log.php:143
-#: views/email-log.php:195
+#: views/email-log.php:196
+#: views/order-emails.php:52
 msgid "Failed"
 msgstr ""
 
@@ -738,8 +910,9 @@ msgid "All sources"
 msgstr ""
 
 #: views/email-log.php:139
-#: views/email-log.php:169
-#: views/report-card.php:24
+#: views/email-log.php:170
+#: views/order-emails.php:41
+#: views/report-card.php:72
 msgid "Status"
 msgstr ""
 
@@ -763,118 +936,205 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: views/email-log.php:165
+#: views/email-log.php:163
+msgid "Logged emails, newest first"
+msgstr ""
+
+#: views/email-log.php:166
+#: views/order-emails.php:38
 msgid "Time"
 msgstr ""
 
-#: views/email-log.php:167
+#: views/email-log.php:168
 msgid "WooCommerce email"
 msgstr ""
 
-#: views/email-log.php:168
+#: views/email-log.php:169
+#: views/order-emails.php:40
 msgid "Recipient"
 msgstr ""
 
-#: views/email-log.php:170
+#: views/email-log.php:171
 msgid "Error"
 msgstr ""
 
-#: views/email-log.php:180
+#: views/email-log.php:181
 msgid "No emails match these filters."
 msgstr ""
 
-#: views/email-log.php:181
+#: views/email-log.php:182
 msgid "No emails have been logged yet. The log starts recording as soon as your site sends its next email."
 msgstr ""
 
+#: views/email-log.php:209
+msgid "Email log pages"
+msgstr ""
+
+#: views/email-log.php:218
+msgid "Previous page"
+msgstr ""
+
+#: views/email-log.php:219
+msgid "Next page"
+msgstr ""
+
 #. translators: %d: number of emails shown at most
-#: views/email-log.php:232
+#: views/email-log.php:233
+#: views/order-emails.php:70
 #, php-format
 msgid "The newest %d emails are shown."
 msgstr ""
 
-#: views/email-log.php:240
+#: views/email-log.php:241
 msgid "Log settings"
 msgstr ""
 
-#: views/email-log.php:246
+#: views/email-log.php:247
 msgid "Record the emails this site sends"
 msgstr ""
 
-#: views/email-log.php:250
+#: views/email-log.php:251
 msgid "Keep entries for"
 msgstr ""
 
 #. translators: %d: number of days
-#: views/email-log.php:258
+#: views/email-log.php:259
 #, php-format
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/email-log.php:267
+#. translators: %s: maximum number of log entries, formatted for the locale
+#: views/email-log.php:273
+#, php-format
+msgid "Entries older than this are deleted by a daily cleanup, and when you save these settings. The log is also trimmed to the newest %s entries, so a very busy store does not build up a large table. The trim runs with the same cleanup, so the log can briefly hold more than that."
+msgstr ""
+
+#: views/email-log.php:279
 msgid "Save settings"
 msgstr ""
 
-#: views/email-log.php:273
+#: views/email-log.php:285
 msgid "Clear log now"
 msgstr ""
 
-#: views/email-log.php:273
+#: views/email-log.php:285
 msgid "Delete all logged emails? This cannot be undone."
 msgstr ""
 
-#: views/report-card.php:17
+#. translators: %d: number of days log entries are kept
+#: views/order-emails.php:22
+#, php-format
+msgid "No emails are logged for this order. Only emails sent after this feature was added are recorded, and entries are kept for %d day."
+msgid_plural "No emails are logged for this order. Only emails sent after this feature was added are recorded, and entries are kept for %d days."
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/order-emails.php:35
+msgid "Emails logged for this order, newest first"
+msgstr ""
+
+#: views/order-emails.php:78
+msgid "View in Email Log"
+msgstr ""
+
+#: views/report-card.php:22
+msgid "Fix this first"
+msgstr ""
+
+#: views/report-card.php:34
+msgid "Show how to fix this"
+msgstr ""
+
+#: views/report-card.php:34
+#: views/woo-diagnosis.php:20
+msgid "Go to this check"
+msgstr ""
+
+#: views/report-card.php:38
+msgid "Nothing to fix"
+msgstr ""
+
+#: views/report-card.php:39
+msgid "Every check that ran passed."
+msgstr ""
+
+#: views/report-card.php:41
+msgid "No problem found yet"
+msgstr ""
+
+#: views/report-card.php:42
+msgid "The checks could not reach a conclusion. See the results below."
+msgstr ""
+
+#. translators: %d: number of checks
+#: views/report-card.php:50
+#, php-format
+msgid "%d check shows \"Not checked\": it could not reach a conclusion."
+msgid_plural "%d checks show \"Not checked\": they could not reach a conclusion."
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/report-card.php:60
 msgid "The following checks will help you identify common issues that prevent emails from being delivered successfully."
 msgstr ""
 
-#: views/report-card.php:23
+#: views/report-card.php:68
+msgid "Email health checks and their results"
+msgstr ""
+
+#: views/report-card.php:71
 msgid "Check"
 msgstr ""
 
-#: views/report-card.php:25
+#: views/report-card.php:73
 msgid "Message"
 msgstr ""
 
-#: views/report-card.php:47
+#: views/report-card.php:95
 msgid "How to fix this"
 msgstr ""
 
-#: views/report-card.php:53
-#: views/report-card.php:75
+#: views/report-card.php:101
+#: views/report-card.php:123
 msgid "Copied"
 msgstr ""
 
-#: views/report-card.php:53
+#: views/report-card.php:101
 msgid "Copy"
 msgstr ""
 
-#: views/report-card.php:57
+#: views/report-card.php:105
 msgid "Official setup guide"
 msgstr ""
 
-#: views/report-card.php:69
+#: views/report-card.php:105
+#: views/review-notice.php:25
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: views/report-card.php:117
 msgid "Re-check"
 msgstr ""
 
-#: views/report-card.php:70
+#: views/report-card.php:118
 msgid "The mail service detection and blacklist lookups are saved for up to 12 hours. Re-check to refresh them."
 msgstr ""
 
-#: views/report-card.php:75
+#: views/report-card.php:123
 msgid "Copy support report"
 msgstr ""
 
-#: views/report-card.php:76
+#: views/report-card.php:124
 msgid "A plain-text summary to paste into a support ticket. It has your site and mail domains, versions, check results, the plugin that handles your email and, if the blacklist check ran, your server IP address, but no passwords, message contents or full email addresses. Remove anything you would rather not share publicly."
 msgstr ""
 
-#: views/report-card.php:78
+#: views/report-card.php:126
 msgid "Preview the report"
 msgstr ""
 
-#: views/report-card.php:79
+#: views/report-card.php:127
 msgid "Support report"
 msgstr ""
 
@@ -888,10 +1148,6 @@ msgstr ""
 
 #: views/review-notice.php:25
 msgid "Leave a review"
-msgstr ""
-
-#: views/review-notice.php:25
-msgid "(opens in a new tab)"
 msgstr ""
 
 #: views/review-notice.php:26
@@ -914,10 +1170,10 @@ msgstr ""
 msgid "Email Health Check sections"
 msgstr ""
 
-#: includes/Admin/ProLink.php:78
-msgid "A Pro version is being planned. Free to ignore."
+#: views/woo-diagnosis.php:34
+msgid "Open the failed emails in the Email Log"
 msgstr ""
 
-#: includes/Admin/ProLink.php:79
-msgid "Follow the Pro plan"
+#: views/woo-diagnosis.php:38
+msgid "WooCommerce emails not arriving?"
 msgstr ""

@@ -48,6 +48,11 @@ class AdminPage {
 		$sync      = isset( $_GET['ecehc_sync'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$results   = $sync ? ( new CheckRunner() )->run_all() : null;
 		$checklist = $sync ? Checklist::items( $results ) : array();
+
+		if ( $sync ) {
+			ReviewPrompt::note_report( $results );
+		}
+
 		include ECEHC_PLUGIN_PATH . 'views/admin-page.php';
 	}
 

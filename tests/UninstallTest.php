@@ -88,6 +88,7 @@ $per_site = array(
 	'option:ecehc_db_version',
 	'option:ecehc_log_settings',
 	'option:ecehc_installed_at',
+	'option:ecehc_report_passed',
 	'option:ecehc_show_checklist',
 	'transient:ecehc_plugin_names',
 	'transient:ecehc_log_stats_86400',

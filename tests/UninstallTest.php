@@ -44,6 +44,8 @@ if ( ! function_exists( 'ecehc_uninstall_record' ) ) {
 	function delete_metadata( $type, $id, $key ) {
 		ecehc_uninstall_record( 'meta:' . $key );
 	}
+}
+if ( ! function_exists( 'esc_sql' ) ) {
 	function esc_sql( $text ) {
 		return $text;
 	}

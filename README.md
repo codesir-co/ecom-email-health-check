@@ -25,7 +25,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 ### What data it touches
 
 * **The checks** read your site's own settings and look up the public DNS records of your sending domain through your server's own DNS resolver. The one lookup that involves your server is the IP blacklist check, which runs only when your site sends mail directly from your server (see "External services" in [`readme.txt`](readme.txt)).
-* **The email log** keeps the time, source, status, WooCommerce email type, the recipient's domain, a partly hidden address such as j***@example.com and an error message with addresses hidden. Never the subject or the message. Kept 7 days by default (1, 3 or 7), can be turned off or cleared, and removed on uninstall.
+* **The email log** keeps the time, source, status, WooCommerce email type, the order number for WooCommerce order emails, the recipient's domain, a partly hidden address such as j***@example.com and an error message with addresses hidden. Never the subject or the message. Kept 7 days by default (1, 3 or 7), can be turned off or cleared, and removed on uninstall.
 * **A test email** goes only to the address you type (or the site admin address if you leave it blank).
 * Nothing is sent to the plugin's authors.
 
@@ -44,6 +44,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 ### Email log and failure alerts
 
 * **Email Log and statistics:** every email your site sends, with source, WooCommerce email type, status and error; filters; accepted and failed counts for 24 hours and 7 days. Only a partly hidden recipient address is stored, never the message. Retention, switching off and clearing are in the Email Log tab.
+* **Emails for this order** (WooCommerce): a read-only panel on the order screen (classic and High-Performance Order Storage) that lists the emails logged for that order, newest first, with time, email type, partly hidden recipient, status and error. Shown only to administrators while the email log is on. Only emails sent after the panel was added are listed, and only for as long as the log keeps them. It makes no requests and stores only the order number in the existing log.
 * **Failure alerts in wp-admin:** an "Email Health" dashboard widget and a Site Health test, with no email needed.
 
 ### Fix

@@ -26,7 +26,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 = What data it touches =
 
 * **The checks** read your site's own settings and look up the public DNS records of your sending domain through your server's own DNS resolver. The one lookup that involves your server is the IP blacklist check, which runs only when your site sends mail directly from your server (see External services).
-* **The email log** keeps the time, source, status, WooCommerce email type, the recipient's domain, a partly hidden address such as j***@example.com and an error message with addresses hidden. Never the subject or the message. It is kept for 7 days by default (choose 1, 3 or 7), can be turned off or cleared, and is removed when you uninstall the plugin.
+* **The email log** keeps the time, source, status, WooCommerce email type, the order number for WooCommerce order emails, the recipient's domain, a partly hidden address such as j***@example.com and an error message with addresses hidden. Never the subject or the message. It is kept for 7 days by default (choose 1, 3 or 7), can be turned off or cleared, and is removed when you uninstall the plugin.
 * **A test email** goes only to the address you type (or the site admin address if you leave it blank).
 * Nothing is sent to the plugin's authors.
 
@@ -47,6 +47,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 = Email log and failure alerts =
 
 * **Email Log and statistics:** every email your site sends (WooCommerce, other plugins and WordPress itself) with its source, WooCommerce email type, status and error. Filter by source, status and WooCommerce email type, and see accepted and failed counts for the last 24 hours and 7 days. Only a partly hidden recipient address is stored, never the message. You can shorten the retention, turn logging off or clear the log.
+* **Emails for this order (WooCommerce):** a read-only panel on the order screen (classic and High-Performance Order Storage) that lists the emails logged for that order, newest first, with time, email type, partly hidden recipient, status and error. Shown only to administrators while the email log is on. Only emails sent after the panel was added are listed, and only for as long as the log keeps them. It makes no requests and stores only the order number in the existing log.
 * **Failure alerts in wp-admin:** an "Email Health" dashboard widget and a Site Health test warn you when many emails fail, without needing email to work.
 * **Site Health integration:** the same checks appear under Tools > Site Health.
 
@@ -120,7 +121,7 @@ Recent versions of WooCommerce have this built in: go to WooCommerce > Settings 
 It briefly runs the mail-configuration hooks (`phpmailer_init`) that other plugins register, on a temporary object that never sends anything, to see which ones switch WordPress to SMTP. This stays on your site: no data is sent to any external service. The result is saved for up to 12 hours, and the "Re-check" button refreshes it.
 
 = Does the plugin store personal data? =
-The Email Log keeps, for a few days (7 by default), the time of each email, which plugin sent it, its WooCommerce email type, whether it was accepted or failed, the recipient's email domain and a partly hidden address such as j***@example.com, and an error message with any addresses hidden. It never stores the message, its subject or a full email address. You can turn logging off, shorten the retention or clear the log in the Email Log tab. A suggestion for your privacy policy is added under Settings > Privacy.
+The Email Log keeps, for a few days (7 by default), the time of each email, which plugin sent it, its WooCommerce email type, the order number for WooCommerce order emails, whether it was accepted or failed, the recipient's email domain and a partly hidden address such as j***@example.com, and an error message with any addresses hidden. The order number is shown only to administrators, in the Emails for this order panel on the order screen. It never stores the message, its subject or a full email address. You can turn logging off, shorten the retention or clear the log in the Email Log tab. A suggestion for your privacy policy is added under Settings > Privacy.
 
 = Does the email log slow down my site? =
 Each email causes one small database insert. Entries older than the retention period (7 days by default) are deleted by a daily cleanup, which also trims the log to the newest 5,000 entries (developers can change this with the `ecehc_log_max_rows` filter). Between cleanups the log can briefly be larger. The Health Report opens at once and runs its checks, including the DNS lookups, in the background on the plugin's own screen. The same checks also run when you open Tools > Site Health or use WP-CLI.

@@ -55,7 +55,7 @@
 }
 
 .ecehc-status-fail {
-	color: #d63638;
+	color: #b32d2e; /* 4.4:1 on the striped log rows with the old #d63638; see docs/accessibility.md */
 }
 
 .ecehc-status-unknown {
@@ -82,6 +82,15 @@
 }
 .ecehc-record {
     margin: 8px 0;
+}
+.ecehc-guidance summary:focus-visible,
+.ecehc-checklist .button-link:focus-visible,
+.ecehc-review-notice .button-link:focus-visible,
+.ecehc-fix-first-link:focus-visible,
+.ecehc-woo-diagnosis a:focus-visible,
+.ecehc-log-filters a:focus-visible {
+    outline: 2px solid #2271b1;
+    outline-offset: 2px;
 }
 .ecehc-record-meta {
     display: block;
@@ -152,6 +161,7 @@
 .ecehc-checklist li > span[aria-hidden] {
     display: inline-block;
     width: 22px;
+}
 .ecehc-support-report {
     margin-top: 15px;
 }
@@ -190,7 +200,7 @@
 	border-left-color: #d63638;
 }
 .ecehc-fix-first-warning {
-	border-left-color: #dba617;
+	border-left-color: #996800;
 }
 .ecehc-fix-first-ok {
 	border-left-color: #00a32a;

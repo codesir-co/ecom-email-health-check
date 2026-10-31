@@ -144,6 +144,9 @@
 
 		var value = button.getAttribute( 'data-ecehc-copy' );
 		var done = function () {
+			if ( window.wp && window.wp.a11y && window.wp.a11y.speak ) {
+				window.wp.a11y.speak( button.getAttribute( 'data-copied' ) );
+			}
 			if ( ! button.hasAttribute( 'data-label' ) ) {
 				button.setAttribute( 'data-label', button.textContent );
 			}
@@ -168,8 +171,24 @@
 		}
 	} );
 
+	// Speak a politely-announced copy of the result notice this plugin printed after a form post
+	// (test email, re-check, log settings). Focus is not moved; the notice stays in the page as before.
+	function announceNotice() {
+		var notice = document.querySelector( '.ecehc-notice' );
+		var text = notice ? ( notice.textContent || '' ).replace( /\s+/g, ' ' ).trim() : '';
+
+		if ( text && window.wp && window.wp.a11y && window.wp.a11y.speak ) {
+			window.wp.a11y.speak( text, notice.className.indexOf( 'notice-error' ) > -1 ? 'assertive' : 'polite' );
+		}
+	}
+
 	// Last, so a problem here can never stop the handlers above from being registered.
 	try {
+		if ( 'loading' === document.readyState ) {
+			document.addEventListener( 'DOMContentLoaded', announceNotice );
+		} else {
+			announceNotice();
+		}
 		if ( 'loading' === document.readyState ) {
 			document.addEventListener( 'DOMContentLoaded', loadReport );
 		} else {

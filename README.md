@@ -66,9 +66,19 @@ wp ehc log --stats      # accepted and failed counts for 24 hours and 7 days
 
 | | |
 |---|---|
-| ![Health Report](.wordpress-org/screenshot-1.png) | ![How to fix this](.wordpress-org/screenshot-2.png) |
-| ![Email Log statistics](.wordpress-org/screenshot-3.png) | ![Email Log list](.wordpress-org/screenshot-4.png) |
-| ![Dashboard widget](.wordpress-org/screenshot-5.png) | ![Site Health](.wordpress-org/screenshot-6.png) |
+| ![The Health Report: each check with a Pass, Warning, Fail or Not checked status, next to the test email form](.wordpress-org/screenshot-1.png) | ![A failing SPF check opened to its How to fix this panel with a copy-paste DNS record](.wordpress-org/screenshot-2.png) |
+| ![The Email Log tab: accepted and failed counts for 24 hours and 7 days, by source and WooCommerce email type](.wordpress-org/screenshot-3.png) | ![The latest emails list with partly hidden recipients, status and error, with filters](.wordpress-org/screenshot-4.png) |
+| ![The Email Health dashboard widget showing Needs attention and the last failure](.wordpress-org/screenshot-5.png) | ![The Recent email failures test in Tools > Site Health](.wordpress-org/screenshot-6.png) |
+
+## FAQ
+
+The full FAQ is in [`readme.txt`](readme.txt). Three answers that matter for trust:
+
+**Does the email log slow down my site?** Each email causes one small database insert. Entries older than the retention period (7 days by default) are deleted by a daily cleanup, which also trims the log to the newest 5,000 entries (change with the `ecehc_log_max_rows` filter). Between cleanups the log can briefly be larger. The Health Report opens at once and runs its checks, including the DNS lookups, in the background on the plugin's own screen. The same checks also run when you open Tools > Site Health or use WP-CLI.
+
+**What is removed when I uninstall the plugin?** Deleting the plugin removes everything it stored: the email log table (`{prefix}ecehc_email_log`), its settings and schema version, the last test email result, the install date, the getting-started checklist flag, the cached lookups (SMTP detection, server IP blacklist, plugin names, log statistics), the daily log cleanup event, and the per-user records of the review request and the checklist. On multisite this is done for every site. The only leftovers are the short-lived test email limits (a transient that expires on its own within 5 minutes). Deactivating removes nothing.
+
+**Does the plugin show ads, upsells or notices?** No ads, no upsell banners and no tracking. Exactly two things: one plain text link, "Follow the Pro plan" (footer of its own screen and its Plugins-list row; hide it with the `ecehc_show_pro_link` filter), and one dismissible review request, only for administrators and only on its own screens ("Maybe later" hides it for 30 days, at most twice).
 
 ## Installation
 

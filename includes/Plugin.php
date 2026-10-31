@@ -11,6 +11,7 @@ use CodeSir\EmailHealthCheck\Admin\AdminPage;
 use CodeSir\EmailHealthCheck\Admin\ChecklistHandler;
 use CodeSir\EmailHealthCheck\Admin\DashboardWidget;
 use CodeSir\EmailHealthCheck\Admin\LogSettingsHandler;
+use CodeSir\EmailHealthCheck\Admin\OrderEmailsPanel;
 use CodeSir\EmailHealthCheck\Admin\ProLink;
 use CodeSir\EmailHealthCheck\Admin\RecheckHandler;
 use CodeSir\EmailHealthCheck\Admin\ReportLoader;
@@ -56,6 +57,7 @@ class Plugin {
 		( new ProLink() )->register();
 		SmtpDetector::register();
 		( new EmailLogger() )->register();
+		( new OrderEmailsPanel() )->register();
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			\WP_CLI::add_command( 'ehc', Cli\Command::class );

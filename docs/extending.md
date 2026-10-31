@@ -74,7 +74,7 @@ Fires after an email was written to the email log (not when logging is off, and 
 do_action( 'ecehc_email_logged', array $row );
 ```
 
-`$row` is exactly what was stored (after `ecehc_log_row`), with these keys: `created_at` (UTC `Y-m-d H:i:s`), `status` (`sent` or `failed`), `source_key`, `source_label`, `email_type`, `email_type_label`, `recipient` (partly hidden address), `recipient_domain` and `error` (addresses hidden). The subject and message are never stored or passed.
+`$row` is exactly what was stored (after `ecehc_log_row`), with these keys: `created_at` (UTC `Y-m-d H:i:s`), `status` (`sent` or `failed`), `source_key`, `source_label`, `email_type`, `email_type_label`, `recipient` (partly hidden address), `recipient_domain`, `error` (addresses hidden) and `order_id`. `order_id` (int, 0 when the email is not a WooCommerce order email) was added in a later version; it is additive, so treat the key as optional when you also support older versions. The subject and message are never stored or passed.
 
 ## Filters
 

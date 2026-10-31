@@ -79,6 +79,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Create the GitHub release
         env:
@@ -111,4 +113,10 @@ jobs:
             fi
           } > release-notes.md
 
-          gh release create "$TAG" --verify-tag --title "$version" --notes-file release-notes.md --latest
+          # A tag with a suffix (2.0.0-beta) is a prerelease and is not marked as the latest release.
+          case "$version" in
+            *-*) channel="--prerelease" ;;
+            *)   channel="--latest" ;;
+          esac
+
+          gh release create "$TAG" --verify-tag --title "$version" --notes-file release-notes.md "$channel"

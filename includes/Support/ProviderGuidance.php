@@ -138,7 +138,7 @@ class ProviderGuidance {
 
 			case 'dmarc_record':
 				return array(
-					'text'    => __( 'DMARC works only once SPF or DKIM passes for your sending service. Start in monitoring mode, then tighten the policy once your reports look clean. If you already have a DMARC record, edit it instead of adding a second one.', 'ecom-email-health-check' ),
+					'text'    => __( 'DMARC works only once SPF or DKIM passes for your sending service. Start in monitoring mode, then tighten the policy once your reports look clean. If you already have a DMARC record, edit it instead of adding a second one. Gmail and Yahoo ask senders of bulk email (for Gmail, more than 5,000 messages a day) to have SPF and DKIM, a DMARC record of at least p=none, and a From domain that matches the domain SPF or DKIM passes for. They also look at your spam rate, TLS and one-click unsubscribe, which this plugin cannot see.', 'ecom-email-health-check' ),
 					'records' => array(
 						array(
 							'type'  => 'TXT',
@@ -147,6 +147,13 @@ class ProviderGuidance {
 						),
 					),
 					'docs'    => $docs,
+				);
+
+			case 'ptr_record':
+				return array(
+					'text'    => __( 'Gmail and Yahoo expect the IP address your mail is sent from to have a reverse DNS (PTR) record, set to a hostname that resolves back to the same IP address. Only your host can set it: ask them to set the reverse DNS of your server\'s IP address to a hostname on your domain, and make sure that hostname has an A record pointing to the same IP address. This does not apply when you send through a mail service, because receivers then see the service\'s servers instead of yours.', 'ecom-email-health-check' ),
+					'records' => array(),
+					'docs'    => '',
 				);
 		}
 

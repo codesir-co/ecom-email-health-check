@@ -13,7 +13,7 @@ WooCommerce emails not sending, or landing in spam? Many hosts have poor email s
 
 ## What it does
 
-Email Health Check looks at how your WordPress or WooCommerce site sends email and tells you what is wrong in plain language: SPF, DKIM and DMARC problems, mail sent through plain PHP mail, a blacklisted server IP, order emails that are switched off or stuck behind unpaid orders, and more. It also keeps an email log of what your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is a server IP blacklist check that runs only when your site sends mail directly from your server (see "External services" in [`readme.txt`](readme.txt)).
+Email Health Check looks at how your WordPress or WooCommerce site sends email and tells you what is wrong in plain language: SPF, DKIM and DMARC problems, mail sent through plain PHP mail, a blacklisted server IP, missing reverse DNS, order emails that are switched off or stuck behind unpaid orders, and more. It also keeps an email log of what your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookups involving your server are a server IP blacklist check and a reverse DNS (PTR) check of its IP address, which run only when your site sends mail directly from your server (see "External services" in [`readme.txt`](readme.txt)).
 
 ### What it does not do
 
@@ -24,7 +24,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 
 ### What data it touches
 
-* **The checks** read your site's own settings and look up the public DNS records of your sending domain through your server's own DNS resolver. The one lookup that involves your server is the IP blacklist check, which runs only when your site sends mail directly from your server (see "External services" in [`readme.txt`](readme.txt)).
+* **The checks** read your site's own settings and look up the public DNS records of your sending domain through your server's own DNS resolver. The lookups that involve your server are the IP blacklist check and the reverse DNS (PTR) check of its IP address, which run only when your site sends mail directly from your server (see "External services" in [`readme.txt`](readme.txt)).
 * **The email log** keeps the time, source, status, WooCommerce email type, the order number for WooCommerce order emails, the recipient's domain, a partly hidden address such as j***@example.com and an error message with addresses hidden. Never the subject or the message. Kept 7 days by default (1, 3 or 7), can be turned off or cleared, and removed on uninstall.
 * **A stored flag** records, as a timestamp in one option, that a report once came back with at least one passing check and no failures or warnings. It is used only to decide when to show the review request and is never sent anywhere.
 * **A test email** goes only to the address you type (or the site admin address if you leave it blank).
@@ -39,6 +39,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 * **SMTP / mail service:** warns when mail goes out through plain PHP mail, and names the plugin that handles your outgoing email.
 * **Sender address, SPF, DKIM and DMARC**, checked for the domain you actually send from.
 * **Server IP blacklists** (DroneBL and PSBL) when you send straight from your server.
+* **Reverse DNS (PTR)** of your server's IP address, which should resolve back to the same address, when you send straight from your server.
 * **"WooCommerce emails not arriving?" panel** (WooCommerce only): combines the results and the last 7 days of the Email Log into the most likely cause and one next step. It makes no requests of its own and stores nothing.
 * **WooCommerce email setup** (turned-off emails, recipient, From address, outdated theme overrides) and **unpaid orders** (WooCommerce sends no order email for "Pending payment" or "Failed" orders).
 

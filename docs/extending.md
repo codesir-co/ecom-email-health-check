@@ -85,7 +85,7 @@ do_action( 'ecehc_email_logged', array $row );
 | `ecehc_free_mailbox_domains` | `string[] $domains` | Public mailbox domains that cannot be authenticated. |
 | `ecehc_dkim_selectors` | `string[] $selectors` | DKIM selector names that are tried. |
 | `ecehc_dnsbl_zones` | `array<string,string> $zones` (zone => name) | Blacklist zones that are queried. Only add lists whose terms allow queries from any site. |
-| `ecehc_server_ip` | `string $ip` | IPv4 address the blacklist check looks up. |
+| `ecehc_server_ip` | `string $ip` | IPv4 address the blacklist and reverse DNS (PTR) checks look up. |
 | `ecehc_pending_orders_minimum` | `int $minimum` (default 5) | Unpaid orders needed for the WooCommerce warning. |
 | `ecehc_enable_email_log` | `bool $enabled` | Switch the email log feature on or off for the whole site. |
 | `ecehc_log_row` | `array $row` (same keys as `ecehc_email_logged`) | Change a row before it is written. Unknown keys are dropped. |

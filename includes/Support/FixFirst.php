@@ -33,6 +33,7 @@ class FixFirst {
 		'dkim_record',
 		'dmarc_record',
 		'ip_blacklist',
+		'ptr_record',
 		'wc_email_setup',
 		'pending_orders',
 	);
@@ -124,6 +125,8 @@ class FixFirst {
 				return __( 'Add a DMARC record for your sending domain in your DNS settings.', 'ecom-email-health-check' );
 			case 'ip_blacklist':
 				return __( 'Ask your host to move you to a clean sending address, or send through an SMTP service instead.', 'ecom-email-health-check' );
+			case 'ptr_record':
+				return __( 'Ask your host to set the reverse DNS (PTR) of your server\'s IP address to a meaningful hostname, ideally on your domain, or send through an SMTP service instead.', 'ecom-email-health-check' );
 			case 'wc_email_setup':
 				return __( 'Open WooCommerce > Settings > Emails and fix what this check lists.', 'ecom-email-health-check' );
 			case 'pending_orders':

@@ -59,7 +59,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 
 = WP-CLI =
 
-* `wp ehc check` runs all checks (add `--format=json` for scripts). It exits with status 1 when any check fails. The server IP blacklist and reverse DNS checks need a web request, so from the command line it is skipped unless you set the IP with the `ecehc_server_ip` filter.
+* `wp ehc check` runs all checks (add `--format=json` for scripts). It exits with status 1 when any check fails. The server IP blacklist and reverse DNS checks need a web request, so from the command line they are skipped unless you set the IP with the `ecehc_server_ip` filter.
 * `wp ehc log` lists recent logged emails (`--source`, `--status`, `--type`, `--limit`), and `wp ehc log --stats` shows accepted and failed counts for the last 24 hours and 7 days.
 
 = For developers =
@@ -156,13 +156,13 @@ Please use the plugin's support forum on WordPress.org: https://wordpress.org/su
 
 The "Server IP Blacklists" check sends DNS queries to the public blacklists DroneBL and PSBL. This happens only when your site does not send email through an SMTP plugin or mail service, and only when you open the plugin's report or Tools > Site Health. The answer is saved for about 12 hours (about 1 hour after a failed lookup; the Re-check button and a changed IP address also trigger a new lookup). The queries go through your server's own DNS resolver.
 
-The "Reverse DNS (PTR)" check asks your server's own DNS resolver for the reverse DNS record of your server's IP address, and then for the address of the host name it returns. Nothing is sent to the plugin's authors or to a service of ours, and nothing is saved. It runs under the same conditions as the blacklist check.
-
 * What is sent: a DNS query for your web server's public IPv4 address (written in reverse, for example `4.3.2.1.dnsbl.dronebl.org`). The lists' operators can see that address and the address of your DNS resolver. No other data is sent.
 * DroneBL: https://dronebl.org/ (terms: https://dronebl.org/docs/howtouse)
 * PSBL: https://psbl.org/ (usage: https://psbl.org/howto)
 
 Spamhaus is intentionally not queried, because its free service is limited to low-volume non-commercial use. Developers can change the lists with the `ecehc_dnsbl_zones` filter.
+
+The "Reverse DNS (PTR)" check asks your server's own DNS resolver for the reverse DNS record of your server's IP address, and then for the address of up to three host names it returns. This happens under the same conditions as the blacklist check, and nothing is saved. The queries go to ordinary DNS servers, not to a service of ours: whoever runs the reverse DNS zone for your IP (normally your host) and the DNS servers of the returned host name can see the queried address and the address of your DNS resolver. No other data is sent.
 
 **Pro waiting list link (outboxhealth.com).** The plugin shows one plain text link, "Follow the Pro plan", to https://outboxhealth.com/waitlist/ in the footer of its own screen and on its row in the Plugins list. The plugin makes no request to that site and sends it no data. outboxhealth.com receives a visit only if you click the link, and is covered by its own privacy policy: https://outboxhealth.com/privacy/. To hide the link, return false from the `ecehc_show_pro_link` filter.
 

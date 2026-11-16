@@ -92,8 +92,11 @@ class Dns {
 
 		$hosts = array();
 		foreach ( $records as $record ) {
-			if ( isset( $record['target'] ) && '' !== trim( (string) $record['target'] ) ) {
-				$hosts[] = strtolower( rtrim( trim( (string) $record['target'] ), '.' ) );
+			$host = isset( $record['target'] ) ? strtolower( rtrim( trim( (string) $record['target'] ), '.' ) ) : '';
+
+			// PTR data is controlled by whoever runs the reverse zone: keep only plausible host names.
+			if ( '' !== $host && strlen( $host ) <= 253 && preg_match( '/^[a-z0-9_]([a-z0-9_.-]*[a-z0-9_])?$/', $host ) ) {
+				$hosts[] = $host;
 			}
 		}
 

@@ -81,11 +81,14 @@ class PtrCheck implements CheckInterface {
 		$confirmed  = null;
 		$generic    = null;
 		$unresolved = null;
+		$failed     = false;
 
 		foreach ( $ptr_hosts as $host ) {
 			$ips = $forward_ips_by_host[ $host ] ?? null;
 
 			if ( null === $ips ) {
+				// Only a lookup that was made and failed counts; hosts that were not looked up are ignored.
+				$failed = $failed || array_key_exists( $host, $forward_ips_by_host );
 				continue;
 			}
 
@@ -115,11 +118,16 @@ class PtrCheck implements CheckInterface {
 			);
 		}
 
+		// A failed lookup might have been the confirming one, so do not report a problem from the others.
+		if ( $failed ) {
+			return Result::unknown( __( 'The DNS lookup failed, so the reverse DNS of your server\'s IP address could not be checked. Try again later.', 'ecom-email-health-check' ) );
+		}
+
 		if ( null !== $generic ) {
 			return Result::warning(
 				sprintf(
 					/* translators: 1: server IP address, 2: host name */
-					__( 'The reverse DNS of your server IP address %1$s is %2$s, a generic name that contains the IP address. Gmail and Yahoo expect a meaningful name that reflects your domain. Ask your host to change it, or send through an SMTP service instead.', 'ecom-email-health-check' ),
+					__( 'The reverse DNS of your server IP address %1$s is %2$s, a generic name that contains the IP address. Yahoo recommends a meaningful name that reflects your domain, and generic names are often treated as a sign of a home or dynamic connection. Ask your host to change it, or send through an SMTP service instead.', 'ecom-email-health-check' ),
 					$ip,
 					$generic
 				)

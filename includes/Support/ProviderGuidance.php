@@ -151,7 +151,7 @@ class ProviderGuidance {
 
 			case 'ptr_record':
 				return array(
-					'text'    => __( 'Gmail and Yahoo expect the IP address your mail is sent from to have a reverse DNS (PTR) record, set to a hostname that resolves back to the same IP address. Only your host can set it: ask them to set the reverse DNS of your server\'s IP address to a hostname on your domain, and make sure that hostname has an A record pointing to the same IP address. This does not apply when you send through a mail service, because receivers then see the service\'s servers instead of yours.', 'ecom-email-health-check' ),
+					'text'    => __( 'Gmail and Yahoo expect the IP address your mail is sent from to have a reverse DNS (PTR) record, set to a hostname that resolves back to the same IP address. Only your host can set it: ask them to set the reverse DNS of your server\'s IP address to a meaningful hostname (Yahoo recommends one that reflects your domain), and make sure that hostname has an A record pointing to the same IP address. This does not apply when you send through a mail service, because receivers then see the service\'s servers instead of yours.', 'ecom-email-health-check' ),
 					'records' => array(),
 					'docs'    => '',
 				);

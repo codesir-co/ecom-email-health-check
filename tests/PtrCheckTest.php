@@ -33,6 +33,14 @@ ecehc_assert_same( 'fail', $r->get_status(), 'no PTR record fails' );
 $r = PtrCheck::evaluate( $ip, array( 'mail.example.com' ), array( 'mail.example.com' => null ) );
 ecehc_assert_same( 'unknown', $r->get_status(), 'a failed forward lookup is Not checked, never a verdict' );
 
+// Regression (review of #170): a failed forward lookup must not be hidden by a problem found on another PTR host.
+$r = PtrCheck::evaluate( $ip, array( 'good.example.com', 'old.example.net' ), array( 'good.example.com' => null, 'old.example.net' => array( '198.51.100.1' ) ) );
+ecehc_assert_same( 'unknown', $r->get_status(), 'a failed lookup on one PTR host plus a mismatch on another is Not checked' );
+$r = PtrCheck::evaluate( $ip, array( 'good.example.com', 'old.example.net' ), array( 'good.example.com' => array( $ip ), 'old.example.net' => null ) );
+ecehc_assert_same( 'pass', $r->get_status(), 'a confirmed host still passes when another lookup failed' );
+$r = PtrCheck::evaluate( $ip, array( 'a.example.net', 'b.example.net', 'c.example.net', 'd.example.net' ), array( 'a.example.net' => array( '198.51.100.1' ), 'b.example.net' => array( '198.51.100.2' ), 'c.example.net' => array( '198.51.100.3' ) ) );
+ecehc_assert_same( 'warning', $r->get_status(), 'hosts that were never looked up do not turn a mismatch into Not checked' );
+
 // Server IP helper (shared with the blacklist check).
 unset( $_SERVER['SERVER_ADDR'] );
 ecehc_assert_same( '', ServerIp::detect(), 'no SERVER_ADDR gives no IP' );

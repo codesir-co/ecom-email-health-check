@@ -36,6 +36,14 @@ function _n( $single, $plural, $number ) {
 	return 1 === (int) $number ? $single : $plural;
 }
 
+function sanitize_text_field( $text ) {
+	return trim( strip_tags( (string) $text ) );
+}
+
+function wp_unslash( $value ) {
+	return is_string( $value ) ? stripslashes( $value ) : $value;
+}
+
 function esc_html( $text ) {
 	return htmlspecialchars( (string) $text, ENT_QUOTES );
 }

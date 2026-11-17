@@ -94,6 +94,7 @@ do_action( 'ecehc_email_logged', array $row );
 | `ecehc_alert_min_failures` | `int $failures` (default 3) | Failed emails in 24 hours that trigger the alert. |
 | `ecehc_alert_min_rate` | `int $percent` (default 10) | Failure rate in 24 hours that triggers the alert. |
 | `ecehc_show_pro_link` | `bool $show` (default true) | Show the plain text "Follow the Pro plan" link in the footer of the plugin's own screen and on its Plugins list row. |
+| `ecehc_show_guide_links` | `bool $show` (default true) | Show the plain text "Plain-language guide (outboxhealth.com)" link in the "How to fix this" panel of a failing or warning SPF, DKIM or DMARC check. The plugin makes no request for it. |
 
 ## Writing a check
 

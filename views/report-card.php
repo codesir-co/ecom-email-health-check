@@ -104,6 +104,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<?php if ( ! empty( $ecehc_result['guidance']['docs'] ) ) : ?>
                                             <p><a href="<?php echo esc_url( $ecehc_result['guidance']['docs'] ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Official setup guide', 'ecom-email-health-check' ); ?><span class="screen-reader-text"> <?php esc_html_e( '(opens in a new tab)', 'ecom-email-health-check' ); ?></span></a></p>
 										<?php endif; ?>
+											<?php
+											$ecehc_guide = '';
+											if ( array_key_exists( $ecehc_check_id, \CodeSir\EmailHealthCheck\Admin\GuideLink::CHECK_GUIDES ) ) {
+												$ecehc_provider = \CodeSir\EmailHealthCheck\Support\MailProvider::detect();
+												$ecehc_guide    = \CodeSir\EmailHealthCheck\Admin\GuideLink::html_for( $ecehc_check_id, $ecehc_result['status'], $ecehc_provider ? $ecehc_provider['name'] : null );
+											}
+											?>
+											<?php if ( '' !== $ecehc_guide ) : ?>
+                                            <p><?php echo $ecehc_guide; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Built and escaped in GuideLink::link_html(). ?></p>
+											<?php endif; ?>
                                     </details>
 								<?php endif; ?>
                             </td>

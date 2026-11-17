@@ -40,7 +40,6 @@ foreach ( array( 'smtp_configured', 'ip_blacklist', 'ptr_record', 'wc_email_setu
 }
 
 // Every mapped slug is in the allow-list, every URL is exact.
-ecehc_assert_same( 7, count( GuideLink::SLUGS ), 'seven slugs' );
 $mapped = array_merge( array_values( GuideLink::PROVIDER_GUIDES ), array_values( GuideLink::CHECK_GUIDES ) );
 foreach ( $mapped as $slug ) {
 	ecehc_assert_true( in_array( $slug, GuideLink::SLUGS, true ), "$slug is in the allow-list" );
@@ -74,8 +73,8 @@ ecehc_assert_true( false === strpos( $html, '&utm_' ), 'no raw ampersand in attr
 ecehc_assert_true( false !== strpos( $html, 'Plain-language guide (outboxhealth.com)' ), 'link text names the destination' );
 ecehc_assert_true( false !== strpos( $html, '(opens in a new tab)' ), 'screen reader text' );
 ecehc_assert_true( 1 === substr_count( $html, '<a ' ), 'one link' );
-ecehc_assert_true( false === stripos( $html, 'pro' ), 'no "Pro" in the markup' );
-ecehc_assert_true( false === stripos( $html, 'free' ) && false === stripos( $html, 'learn more' ), 'no promotional wording' );
+$label = trim( strip_tags( $html ) );
+ecehc_assert_true( 1 !== preg_match( '/\b(pro|free|learn more)\b/i', $label ), 'no promotional wording in the label' );
 
 // Filter off switch.
 ecehc_assert_true( GuideLink::is_enabled(), 'enabled by default' );

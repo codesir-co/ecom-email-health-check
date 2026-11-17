@@ -74,6 +74,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </tr>
                     </thead>
                     <tbody>
+					<?php $ecehc_provider_name = null; // Detected once for the guide links, not once per row. ?>
 					<?php foreach ( $results as $ecehc_check_id => $ecehc_result ) : ?>
                         <tr id="ecehc-check-<?php echo esc_attr( (string) $ecehc_check_id ); ?>">
                             <th scope="row" class="column-columnname"><strong><?php echo esc_html( $ecehc_result['label'] ); ?></strong></th>
@@ -107,8 +108,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<?php
 											$ecehc_guide = '';
 											if ( array_key_exists( $ecehc_check_id, \CodeSir\EmailHealthCheck\Admin\GuideLink::CHECK_GUIDES ) ) {
-												$ecehc_provider = \CodeSir\EmailHealthCheck\Support\MailProvider::detect();
-												$ecehc_guide    = \CodeSir\EmailHealthCheck\Admin\GuideLink::html_for( $ecehc_check_id, $ecehc_result['status'], $ecehc_provider ? $ecehc_provider['name'] : null );
+												if ( null === $ecehc_provider_name ) {
+													$ecehc_provider      = \CodeSir\EmailHealthCheck\Support\MailProvider::detect();
+													$ecehc_provider_name = $ecehc_provider ? (string) $ecehc_provider['name'] : '';
+												}
+												$ecehc_guide = \CodeSir\EmailHealthCheck\Admin\GuideLink::html_for( $ecehc_check_id, $ecehc_result['status'] ?? '', '' !== $ecehc_provider_name ? $ecehc_provider_name : null );
 											}
 											?>
 											<?php if ( '' !== $ecehc_guide ) : ?>

@@ -73,6 +73,37 @@ class Dns {
 	}
 
 	/**
+	 * Host names the PTR (reverse DNS) record of an IPv4 address points to.
+	 *
+	 * @param string $ip IPv4 address.
+	 * @return string[]|null Host names (empty when there is no PTR record), or null if DNS lookups are unavailable, failed or the address is invalid.
+	 */
+	public static function ptr_records( string $ip ): ?array {
+		if ( ! function_exists( 'dns_get_record' ) || ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+			return null;
+		}
+
+		$records = @dns_get_record( implode( '.', array_reverse( explode( '.', $ip ) ) ) . '.in-addr.arpa', DNS_PTR ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+
+		if ( false === $records ) {
+			// Same ambiguity as txt_records(): false also means the name does not exist.
+			return self::lookups_work() ? array() : null;
+		}
+
+		$hosts = array();
+		foreach ( $records as $record ) {
+			$host = isset( $record['target'] ) ? strtolower( rtrim( trim( (string) $record['target'] ), '.' ) ) : '';
+
+			// PTR data is controlled by whoever runs the reverse zone: keep only plausible host names.
+			if ( '' !== $host && strlen( $host ) <= 253 && preg_match( '/^[a-z0-9_]([a-z0-9_.-]*[a-z0-9_])?$/', $host ) ) {
+				$hosts[] = $host;
+			}
+		}
+
+		return $hosts;
+	}
+
+	/**
 	 * Whether DNS lookups work at all, probed once per request against the site's own domain.
 	 */
 	private static function lookups_work(): bool {

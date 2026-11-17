@@ -27,6 +27,7 @@ class CheckRunner {
 			new DkimCheck(),
 			new DmarcCheck(),
 			new BlacklistCheck(),
+			new PtrCheck(),
 		);
 
 		if ( class_exists( 'WooCommerce' ) ) {

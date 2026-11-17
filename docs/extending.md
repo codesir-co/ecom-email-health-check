@@ -85,7 +85,7 @@ do_action( 'ecehc_email_logged', array $row );
 | `ecehc_free_mailbox_domains` | `string[] $domains` | Public mailbox domains that cannot be authenticated. |
 | `ecehc_dkim_selectors` | `string[] $selectors` | DKIM selector names that are tried. |
 | `ecehc_dnsbl_zones` | `array<string,string> $zones` (zone => name) | Blacklist zones that are queried. Only add lists whose terms allow queries from any site. |
-| `ecehc_server_ip` | `string $ip` | IPv4 address the blacklist check looks up. |
+| `ecehc_server_ip` | `string $ip` | IPv4 address the blacklist and reverse DNS (PTR) checks look up. |
 | `ecehc_pending_orders_minimum` | `int $minimum` (default 5) | Unpaid orders needed for the WooCommerce warning. |
 | `ecehc_enable_email_log` | `bool $enabled` | Switch the email log feature on or off for the whole site. |
 | `ecehc_log_row` | `array $row` (same keys as `ecehc_email_logged`) | Change a row before it is written. Unknown keys are dropped. |
@@ -94,6 +94,7 @@ do_action( 'ecehc_email_logged', array $row );
 | `ecehc_alert_min_failures` | `int $failures` (default 3) | Failed emails in 24 hours that trigger the alert. |
 | `ecehc_alert_min_rate` | `int $percent` (default 10) | Failure rate in 24 hours that triggers the alert. |
 | `ecehc_show_pro_link` | `bool $show` (default true) | Show the plain text "Follow the Pro plan" link in the footer of the plugin's own screen and on its Plugins list row. |
+| `ecehc_show_guide_links` | `bool $show` (default true) | Show the plain text "Plain-language guide (outboxhealth.com)" link in the "How to fix this" panel of a failing or warning SPF, DKIM or DMARC check. The plugin makes no request for it. |
 
 ## Writing a check
 

@@ -13,18 +13,18 @@ WooCommerce emails not sending, or landing in spam? Many hosts have poor email s
 
 ## What it does
 
-Email Health Check looks at how your WordPress or WooCommerce site sends email and tells you what is wrong in plain language: SPF, DKIM and DMARC problems, mail sent through plain PHP mail, a blacklisted server IP, order emails that are switched off or stuck behind unpaid orders, and more. It also keeps an email log of what your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is a server IP blacklist check that runs only when your site sends mail directly from your server (see "External services" in [`readme.txt`](readme.txt)).
+Email Health Check looks at how your WordPress or WooCommerce site sends email and tells you what is wrong in plain language: SPF, DKIM and DMARC problems, mail sent through plain PHP mail, a blacklisted server IP, missing reverse DNS, order emails that are switched off or stuck behind unpaid orders, and more. It also keeps an email log of what your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookups involving your server are a server IP blacklist check and a reverse DNS (PTR) check of its IP address, which run only when your site sends mail directly from your server (see "External services" in [`readme.txt`](readme.txt)).
 
 ### What it does not do
 
 * It is **not an SMTP plugin** and does not send your email for you; it works next to whichever plugin or mail service you use.
 * **No account, no upsell banners or nags, no tracking and no analytics.** It makes no HTTP requests of its own and sends nothing to the plugin's authors; the only outside lookups are the DNS queries described under External services. The only prompt it ever shows is one dismissible request for a review, on its own screens, to administrators only, and only after a test email went through or a report came back with at least one passing check and no failures or warnings, at least a day after install.
-* **One plain text link, no more:** there is one small link, "Follow the Pro plan", to a waiting list page for a possible future Pro version (in the footer of its own screen and on its row in the Plugins list). The plugin never requests anything for it and sends nothing; it can be hidden with the `ecehc_show_pro_link` filter. Nothing in this free plugin is removed or locked.
+* **Only plain text links, and only two kinds:** one small link, "Follow the Pro plan", to a waiting list page for a possible future Pro version (in the footer of its own screen and on its row in the Plugins list), and a plain text link to a guide on outboxhealth.com in the "How to fix this" panel of a failing SPF, DKIM or DMARC check. The plugin never requests anything for them and sends nothing; they can be hidden with the `ecehc_show_pro_link` and `ecehc_show_guide_links` filters. Nothing in this free plugin is removed or locked.
 * **Nothing bundled:** no third-party libraries, fonts or scripts, only the plugin's own code.
 
 ### What data it touches
 
-* **The checks** read your site's own settings and look up the public DNS records of your sending domain through your server's own DNS resolver. The one lookup that involves your server is the IP blacklist check, which runs only when your site sends mail directly from your server (see "External services" in [`readme.txt`](readme.txt)).
+* **The checks** read your site's own settings and look up the public DNS records of your sending domain through your server's own DNS resolver. The lookups that involve your server are the IP blacklist check and the reverse DNS (PTR) check of its IP address, which run only when your site sends mail directly from your server (see "External services" in [`readme.txt`](readme.txt)).
 * **The email log** keeps the time, source, status, WooCommerce email type, the order number for WooCommerce order emails, the recipient's domain, a partly hidden address such as j***@example.com and an error message with addresses hidden. Never the subject or the message. Kept 7 days by default (1, 3 or 7), can be turned off or cleared, and removed on uninstall.
 * **A stored flag** records, as a timestamp in one option, that a report once came back with at least one passing check and no failures or warnings. It is used only to decide when to show the review request and is never sent anywhere.
 * **A test email** goes only to the address you type (or the site admin address if you leave it blank).
@@ -39,6 +39,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 * **SMTP / mail service:** warns when mail goes out through plain PHP mail, and names the plugin that handles your outgoing email.
 * **Sender address, SPF, DKIM and DMARC**, checked for the domain you actually send from.
 * **Server IP blacklists** (DroneBL and PSBL) when you send straight from your server.
+* **Reverse DNS (PTR)** of your server's IP address, which should resolve back to the same address, when you send straight from your server.
 * **"WooCommerce emails not arriving?" panel** (WooCommerce only): combines the results and the last 7 days of the Email Log into the most likely cause and one next step. It makes no requests of its own and stores nothing.
 * **WooCommerce email setup** (turned-off emails, recipient, From address, outdated theme overrides) and **unpaid orders** (WooCommerce sends no order email for "Pending payment" or "Failed" orders).
 
@@ -82,7 +83,7 @@ The full FAQ is in [`readme.txt`](readme.txt). Four answers that matter for trus
 
 **What is removed when I uninstall the plugin?** Deleting the plugin removes everything it stored: the email log table (`{prefix}ecehc_email_log`), its settings and schema version, the last test email result, the install date, the flag that a report once passed, the getting-started checklist flag, the cached lookups (SMTP detection, server IP blacklist, plugin names, log statistics), the daily log cleanup event, and the per-user records of the review request and the checklist. On multisite all of this is removed for every site (the per-user records are network-wide). The only other leftovers are the short-lived test email limits (a transient that expires on its own within 5 minutes). Deactivating removes nothing.
 
-**Does the plugin show ads, upsells or notices?** No ads, no upsell banners and no tracking. Exactly two things: one plain text link, "Follow the Pro plan" (footer of its own screen and its Plugins-list row; hide it with the `ecehc_show_pro_link` filter), and one dismissible review request, only for administrators, only on its own screens, and only after a test email went through or a report came back with at least one passing check and no failures or warnings, at least a day after install ("Maybe later" hides it for 30 days, at most twice).
+**Does the plugin show ads, upsells or notices?** No ads, no upsell banners and no tracking. Exactly three things: one plain text link, "Follow the Pro plan" (footer of its own screen and its Plugins-list row; hide it with the `ecehc_show_pro_link` filter), plain text guide links in the "How to fix this" panel of a failing SPF, DKIM or DMARC check (hide them with the `ecehc_show_guide_links` filter), and one dismissible review request, only for administrators, only on its own screens, and only after a test email went through or a report came back with at least one passing check and no failures or warnings, at least a day after install ("Maybe later" hides it for 30 days, at most twice).
 
 ## Installation
 

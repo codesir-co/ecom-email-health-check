@@ -16,6 +16,7 @@
 namespace CodeSir\EmailHealthCheck\Checks;
 
 use CodeSir\EmailHealthCheck\Support\Dns;
+use CodeSir\EmailHealthCheck\Support\ServerIp;
 use CodeSir\EmailHealthCheck\Support\SmtpDetector;
 
 defined( 'ABSPATH' ) || exit;
@@ -66,33 +67,12 @@ class BlacklistCheck implements CheckInterface {
 		return $valid;
 	}
 
-	/**
-	 * The IPv4 address mail leaves from, assumed to be the web server's address.
-	 */
-	private function server_ip(): string {
-		$ip = isset( $_SERVER['SERVER_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_ADDR'] ) ) : '';
-
-		if ( ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
-			$ip = '';
-		}
-
-		/**
-		 * Filters the IPv4 address that is looked up, for servers whose outgoing
-		 * mail address differs from the web server's.
-		 *
-		 * @param string $ip Address, empty if none was found.
-		 */
-		$ip = (string) apply_filters( 'ecehc_server_ip', $ip );
-
-		return filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ? $ip : '';
-	}
-
 	public function run(): Result {
 		if ( SmtpDetector::is_configured() ) {
 			return Result::unknown( __( 'Skipped: your email is sent through an SMTP plugin or mail service, so your web server\'s own IP address is not what receivers see.', 'ecom-email-health-check' ) );
 		}
 
-		$ip = $this->server_ip();
+		$ip = ServerIp::detect();
 
 		if ( '' === $ip && 'cli' === PHP_SAPI ) {
 			return Result::unknown( __( 'Skipped on the command line, where the web server\'s IP address is not available. Set it with the ecehc_server_ip filter to check it here.', 'ecom-email-health-check' ) );

@@ -4,7 +4,7 @@ Tags: woocommerce, email log, deliverability, dkim, dmarc
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.9.0
+Stable tag: 1.10.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,18 +14,18 @@ Email log, SPF/DKIM/DMARC checks and failure alerts. Find out why WooCommerce or
 
 **WooCommerce emails not sending, or going to spam? Find out why, and fix it.**
 
-Email Health Check looks at how your WordPress or WooCommerce site sends email and tells you what is wrong in plain language: SPF, DKIM and DMARC problems, mail sent through plain PHP mail, a blacklisted server IP, order emails that are switched off or stuck behind unpaid orders, and more. It also keeps an email log of what your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookup is a server IP blacklist check that runs only when your site sends mail directly from your server (see External services).
+Email Health Check looks at how your WordPress or WooCommerce site sends email and tells you what is wrong in plain language: SPF, DKIM and DMARC problems, mail sent through plain PHP mail, a blacklisted server IP, missing reverse DNS, order emails that are switched off or stuck behind unpaid orders, and more. It also keeps an email log of what your site sends. It is free, needs no account, and sends no email content or personal data to any service. The only outside lookups involving your server are a server IP blacklist check and a reverse DNS (PTR) check of its IP address, which run only when your site sends mail directly from your server (see External services).
 
 = What it does not do =
 
 * It is **not an SMTP plugin** and does not send your email for you. It works next to whichever plugin or mail service you already use.
 * **No account, no upsell banners or nags, no tracking and no analytics.** It makes no HTTP requests of its own and sends nothing to the plugin's authors; the only outside lookups are the DNS queries described under External services. The only prompt it ever shows is one dismissible request for a review, on its own screens, to administrators only, and only after a test email went through or a report came back with at least one passing check and no failures or warnings, at least a day after install.
-* **One plain text link, no more:** there is one small link, "Follow the Pro plan", to a waiting list page for a possible future Pro version (in the footer of its own screen and on its row in the Plugins list). The plugin never requests anything for it and sends nothing; it can be hidden with the `ecehc_show_pro_link` filter. Nothing in this free plugin is removed or locked.
+* **Only plain text links, and only two kinds:** one small link, "Follow the Pro plan", to a waiting list page for a possible future Pro version (in the footer of its own screen and on its row in the Plugins list), and a plain text link to a guide on outboxhealth.com in the "How to fix this" panel of a failing SPF, DKIM or DMARC check. The plugin never requests anything for them and sends nothing; they can be hidden with the `ecehc_show_pro_link` and `ecehc_show_guide_links` filters. Nothing in this free plugin is removed or locked.
 * **Nothing bundled:** no third-party libraries, fonts or scripts, only the plugin's own code.
 
 = What data it touches =
 
-* **The checks** read your site's own settings and look up the public DNS records of your sending domain through your server's own DNS resolver. The one lookup that involves your server is the IP blacklist check, which runs only when your site sends mail directly from your server (see External services).
+* **The checks** read your site's own settings and look up the public DNS records of your sending domain through your server's own DNS resolver. The lookups that involve your server are the IP blacklist check and the reverse DNS (PTR) check of its IP address, which run only when your site sends mail directly from your server (see External services).
 * **The email log** keeps the time, source, status, WooCommerce email type, the order number for WooCommerce order emails, the recipient's domain, a partly hidden address such as j***@example.com and an error message with addresses hidden. Never the subject or the message. It is kept for 7 days by default (choose 1, 3 or 7), can be turned off or cleared, and is removed when you uninstall the plugin.
 * **A stored flag** records, as a timestamp in one option, that a report once came back with at least one passing check and no failures or warnings. It is used only to decide when to show the review request and is never sent anywhere.
 * **A test email** goes only to the address you type (or the site admin address if you leave it blank).
@@ -41,6 +41,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 * **SMTP / mail service:** warns when mail goes out through plain PHP mail, and names the plugin that handles your outgoing email when it finds one.
 * **Sender address, SPF, DKIM and DMARC:** checked for the domain you actually send from, since that is what receivers verify.
 * **Server IP blacklists:** when you send straight from your server (no SMTP service), your IP is looked up on the free DroneBL and PSBL lists.
+* **Reverse DNS (PTR):** when you send straight from your server, its IP address needs a reverse DNS record that resolves back to the same address, which Gmail and Yahoo expect. Your server's own DNS resolver is asked for it; only your host can change it.
 * **WooCommerce email setup:** flags turned-off key emails, a missing new-order recipient, an invalid From address and outdated theme overrides of WooCommerce email templates. It only reads your settings.
 * **"WooCommerce emails not arriving?" panel (WooCommerce):** combines the results below and the last 7 days of the Email Log into the most likely cause and one next step: a broken WooCommerce email setting, recent failed WooCommerce emails, turned-off emails, unpaid orders, no mail service, a From address problem, missing DNS records or a blacklisted server. It says "most likely" because the checks cannot see inside a mailbox. It makes no requests of its own and stores nothing.
 * **Unpaid orders (WooCommerce):** warns when many orders are stuck in "Pending payment" or "Failed". WooCommerce sends no order emails for those, so the real problem may be your payment gateway. Only order counts are read.
@@ -58,7 +59,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 
 = WP-CLI =
 
-* `wp ehc check` runs all checks (add `--format=json` for scripts). It exits with status 1 when any check fails. The server IP blacklist check needs a web request, so from the command line it is skipped unless you set the IP with the `ecehc_server_ip` filter.
+* `wp ehc check` runs all checks (add `--format=json` for scripts). It exits with status 1 when any check fails. The server IP blacklist and reverse DNS checks need a web request, so from the command line they are skipped unless you set the IP with the `ecehc_server_ip` filter.
 * `wp ehc log` lists recent logged emails (`--source`, `--status`, `--type`, `--limit`), and `wp ehc log --stats` shows accepted and failed counts for the last 24 hours and 7 days.
 
 = For developers =
@@ -134,7 +135,7 @@ Logging only observes. The hooks it uses (the `wp_mail` filter, `pre_wp_mail`, a
 Deleting the plugin from the Plugins screen removes everything it stored: the email log table (`{prefix}ecehc_email_log`), its settings and schema version, the last test email result, the install date, the flag that a report once passed, the getting-started checklist flag, the cached lookups (SMTP detection, server IP blacklist, plugin names, log statistics), the daily log cleanup event, and the per-user records of the review request and the checklist. On a multisite network all of this is removed for every site (the per-user records are network-wide). The only other leftovers are the short-lived limits for test emails (a transient that expires on its own within 5 minutes). Deactivating the plugin does not remove anything.
 
 = Does the plugin show ads, upsells or notices? =
-No ads, no upsell banners and no tracking. There are exactly two things: one plain text link, "Follow the Pro plan", in the footer of the plugin's own screen and on its row in the Plugins list (hide it by returning false from the `ecehc_show_pro_link` filter), and one dismissible request for a review, shown only to administrators, only on the plugin's own screens, and only after a test email went through or a report came back with at least one passing check and no failures or warnings, at least a day after install. "Maybe later" hides it for 30 days and works at most twice; "Done" hides it for good.
+No ads, no upsell banners and no tracking. There are exactly three things: one plain text link, "Follow the Pro plan", in the footer of the plugin's own screen and on its row in the Plugins list (hide it by returning false from the `ecehc_show_pro_link` filter), a plain text guide link in the "How to fix this" panel of a failing SPF, DKIM or DMARC check (hide it by returning false from the `ecehc_show_guide_links` filter), and one dismissible request for a review, shown only to administrators, only on the plugin's own screens, and only after a test email went through or a report came back with at least one passing check and no failures or warnings, at least a day after install. "Maybe later" hides it for 30 days and works at most twice; "Done" hides it for good.
 
 = Can I help translate the plugin? =
 Yes, and thank you. Translations are done by the community on translate.wordpress.org: https://translate.wordpress.org/projects/wp-plugins/ecom-email-health-check/ . The plugin's texts can be translated, except the plain-text support report and the WP-CLI output, which stay in English on purpose. A draft Arabic translation is kept in the plugin's GitHub repository; it still needs a native speaker to review it and a translation editor to import it.
@@ -161,9 +162,16 @@ The "Server IP Blacklists" check sends DNS queries to the public blacklists Dron
 
 Spamhaus is intentionally not queried, because its free service is limited to low-volume non-commercial use. Developers can change the lists with the `ecehc_dnsbl_zones` filter.
 
+The "Reverse DNS (PTR)" check asks your server's own DNS resolver for the reverse DNS record of your server's IP address, and then for the address of up to three host names it returns. This happens under the same conditions as the blacklist check, and nothing is saved. The queries go to ordinary DNS servers, not to a service of ours: whoever runs the reverse DNS zone for your IP (normally your host) and the DNS servers of the returned host name can see the queried address and the address of your DNS resolver. No other data is sent.
+
 **Pro waiting list link (outboxhealth.com).** The plugin shows one plain text link, "Follow the Pro plan", to https://outboxhealth.com/waitlist/ in the footer of its own screen and on its row in the Plugins list. The plugin makes no request to that site and sends it no data. outboxhealth.com receives a visit only if you click the link, and is covered by its own privacy policy: https://outboxhealth.com/privacy/. To hide the link, return false from the `ecehc_show_pro_link` filter.
 
+**Guide links (outboxhealth.com).** The "How to fix this" panel of a failing or warning SPF, DKIM or DMARC check shows a plain text link, "Plain-language guide (outboxhealth.com)", to a guide under https://outboxhealth.com/guides/. The plugin makes no request to that site and sends it no data. outboxhealth.com receives a visit only if you click the link, and is covered by its own privacy policy: https://outboxhealth.com/privacy/. To hide these links, return false from the `ecehc_show_guide_links` filter.
+
 == Upgrade Notice ==
+
+= 1.10.0 =
+Adds a Reverse DNS (PTR) check, one extra DNS lookup of your server's IP when you send straight from your server, and plain text guide links in the fix panel of failing SPF, DKIM and DMARC checks. The plugin requests nothing for the links; hide them with a filter.
 
 = 1.9.0 =
 Adds an "Emails for this order" panel on WooCommerce orders and stores the order number in the email log (one database column is added automatically). The review request now appears only after something worked. No new requests; no data leaves your site.
@@ -199,6 +207,14 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.10.0 =
+* New: a "Reverse DNS (PTR)" check. When your site sends email straight from your server, Gmail and Yahoo expect the server's IP address to have a reverse DNS record that resolves back to the same address. The check says Pass, Warning (a generic name that contains the IP, or a name that does not resolve back) or Fail (no record), and "Not checked" when you use an SMTP plugin or mail service, when the IP cannot be determined, or when DNS is unavailable. It asks your server's own DNS resolver for the PTR record of the server IP and the address of up to three host names it returns; nothing is saved or sent to us.
+* New: a plain text link to a plain-language guide on outboxhealth.com in the "How to fix this" panel of a failing or warning SPF, DKIM or DMARC check, after the provider's own setup link. The plugin makes no request for it; the site is visited only if you click. Hide it with the `ecehc_show_guide_links` filter.
+* Improved: the DMARC "How to fix this" panel now says what Gmail and Yahoo ask of senders of bulk email, and that spam rate, TLS and one-click unsubscribe are outside what this plugin can see.
+* Improved: the copy support report now replaces your site's root folder and wp-content folder with [site] and [content] in check messages and labels, and is covered by automated tests of what it does and does not contain. Other folders in a message are not replaced, so review the text before sharing it.
+* Changed: the readme and FAQ now describe both plain text links (the Pro waiting list link and the guide link) and the new DNS lookup under External services.
+* Dev: new filter `ecehc_show_guide_links`; the `ecehc_server_ip` filter now applies to the reverse DNS check as well as the blacklist check; `ecehc_run_checks()` and the `ecehc_checks_completed` results gain one more entry, `ptr_record`, in the same shape. No existing hook, key or argument changed. More automated tests.
 
 = 1.9.0 =
 * New: an "Emails for this order" panel on the WooCommerce order screen (classic and High-Performance Order Storage). It lists the emails logged for that order with their status and error. It is read-only, shown only to administrators while the email log is on, and makes no requests.

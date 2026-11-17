@@ -14,3 +14,4 @@ Mistakes the review layers or QA caught that the developer agent should avoid. `
 - **Live regions:** before adding a wp.a11y.speak() call, list every other speak() call on the same screen; a later call replaces an earlier one, so combine the messages or test the real async sequence (seen: #155)
 - **Meta boxes:** put a box that holds a multi-column table in the wide 'normal' context, not 'side' (the side column is about 280px); QA the layout before review (seen: #158)
 - **Success rules:** when a rule needs "all good", require at least one positive result as well as no failures; an empty or all-"Not checked" set is not a success (seen: #161)
+- **Prefix replacement:** when replacing a path, domain or other prefix inside free text, require a boundary after it and add a test with a sibling that only shares the prefix (e.g. /site vs /site2) (seen: #171)

@@ -4,7 +4,7 @@ Tags: woocommerce, email log, deliverability, dkim, dmarc
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.9.0
+Stable tag: 1.10.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -170,6 +170,9 @@ The "Reverse DNS (PTR)" check asks your server's own DNS resolver for the revers
 
 == Upgrade Notice ==
 
+= 1.10.0 =
+Adds a Reverse DNS (PTR) check, one extra DNS lookup of your server's IP when you send straight from your server, and plain text guide links in the fix panel of failing SPF, DKIM and DMARC checks. The plugin requests nothing for the links; hide them with a filter.
+
 = 1.9.0 =
 Adds an "Emails for this order" panel on WooCommerce orders and stores the order number in the email log (one database column is added automatically). The review request now appears only after something worked. No new requests; no data leaves your site.
 
@@ -204,6 +207,14 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= 1.10.0 =
+* New: a "Reverse DNS (PTR)" check. When your site sends email straight from your server, Gmail and Yahoo expect the server's IP address to have a reverse DNS record that resolves back to the same address. The check says Pass, Warning (a generic name that contains the IP, or a name that does not resolve back) or Fail (no record), and "Not checked" when you use an SMTP plugin or mail service, when the IP cannot be determined, or when DNS is unavailable. It asks your server's own DNS resolver for the PTR record of the server IP and the address of up to three host names it returns; nothing is saved or sent to us.
+* New: a plain text link to a plain-language guide on outboxhealth.com in the "How to fix this" panel of a failing or warning SPF, DKIM or DMARC check, after the provider's own setup link. The plugin makes no request for it; the site is visited only if you click. Hide it with the `ecehc_show_guide_links` filter.
+* Improved: the DMARC "How to fix this" panel now says what Gmail and Yahoo ask of senders of bulk email, and that spam rate, TLS and one-click unsubscribe are outside what this plugin can see.
+* Improved: the copy support report now replaces your site's root folder and wp-content folder with [site] and [content] in check messages and labels, and is covered by automated tests of what it does and does not contain. Other folders in a message are not replaced, so review the text before sharing it.
+* Changed: the readme and FAQ now describe both plain text links (the Pro waiting list link and the guide link) and the new DNS lookup under External services.
+* Dev: new filter `ecehc_show_guide_links`; the `ecehc_server_ip` filter now applies to the reverse DNS check as well as the blacklist check; `ecehc_run_checks()` and the `ecehc_checks_completed` results gain one more entry, `ptr_record`, in the same shape. No existing hook, key or argument changed. More automated tests.
 
 = 1.9.0 =
 * New: an "Emails for this order" panel on the WooCommerce order screen (classic and High-Performance Order Storage). It lists the emails logged for that order with their status and error. It is read-only, shown only to administrators while the email log is on, and makes no requests.

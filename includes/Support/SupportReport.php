@@ -58,7 +58,7 @@ class SupportReport {
 	}
 
 	/**
-	 * Builds the text from already collected values. Pure: it reads nothing from the site.
+	 * Builds the text from already collected values. It reads no site data besides the ABSPATH and WP_CONTENT_DIR constants (and realpath() of them) for path redaction.
 	 *
 	 * Only the keys below are used, so nothing else passed in can reach the text.
 	 * $data keys: plugin_version, wp_version, php_version, wc_version (string or null),
@@ -94,7 +94,7 @@ class SupportReport {
 			$lines[] = sprintf(
 				'- [%1$s] %2$s: %3$s',
 				strtoupper( $result['status'] ),
-				$result['label'],
+				self::redact_paths( EmailLogger::mask_addresses( (string) preg_replace( '/\s+/', ' ', $result['label'] ) ) ),
 				self::redact_paths( EmailLogger::mask_addresses( (string) preg_replace( '/\s+/', ' ', $result['message'] ) ) )
 			);
 		}
@@ -154,7 +154,8 @@ class SupportReport {
 		);
 
 		foreach ( $candidates as $base => $placeholder ) {
-			$text = str_replace( $base, $placeholder, $text );
+			// Not when more path characters follow: /var/www/site2 is a different directory from /var/www/site.
+			$text = (string) preg_replace( '#' . preg_quote( $base, '#' ) . '(?![A-Za-z0-9_-]|\.[A-Za-z0-9])#', $placeholder, $text );
 		}
 
 		return $text;

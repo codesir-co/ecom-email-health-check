@@ -92,3 +92,9 @@ ecehc_assert_true( false !== strpos( $text, ' - [PASS] Fake: all good and ' ), '
 ecehc_assert_same( '[site]/index.php failed', SupportReport::redact_paths( $root . '/index.php failed' ), 'the site root is replaced' );
 ecehc_assert_same( 'in [site] only', SupportReport::redact_paths( 'in ' . $root . ' only' ), 'the root without a trailing slash is replaced' );
 ecehc_assert_same( 'no paths here /var/other/file.php', SupportReport::redact_paths( 'no paths here /var/other/file.php' ), 'other paths are left alone (only the site and content directories are known)' );
+ecehc_assert_same( 'see ' . $root . '2/x.php', SupportReport::redact_paths( 'see ' . $root . '2/x.php' ), 'a sibling directory that only shares the prefix is not changed' );
+ecehc_assert_same( 'see ' . $root . '-backup/x', SupportReport::redact_paths( 'see ' . $root . '-backup/x' ), 'a dashed sibling directory is not changed' );
+ecehc_assert_same( 'in [site].', SupportReport::redact_paths( 'in ' . $root . '.' ), 'a sentence-ending full stop does not stop the replacement' );
+
+$labelled = SupportReport::format( $data, array( 'x' => array( 'label' => 'Check for john@example.com at ' . $root . '/f', 'status' => 'pass', 'message' => 'ok' ) ) );
+ecehc_assert_true( false === strpos( $labelled, 'john@example.com' ) && false === strpos( $labelled, $root ), 'a label is masked and redacted like a message' );

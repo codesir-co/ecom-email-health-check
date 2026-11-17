@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Email Health Check & Log for WooCommerce – SPF, DKIM, DMARC & Alerts 1.9.0\n"
+"Project-Id-Version: Email Health Check & Log for WooCommerce – SPF, DKIM, DMARC & Alerts 1.10.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ecom-email-health-check\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-31T18:27:49+00:00\n"
+"POT-Creation-Date: 2026-11-17T08:51:36+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ecom-email-health-check\n"
@@ -102,6 +102,16 @@ msgstr ""
 msgid "View the email log"
 msgstr ""
 
+#: includes/Admin/GuideLink.php:118
+msgid "Plain-language guide (outboxhealth.com)"
+msgstr ""
+
+#: includes/Admin/GuideLink.php:119
+#: views/report-card.php:106
+#: views/review-notice.php:25
+msgid "(opens in a new tab)"
+msgstr ""
+
 #: includes/Admin/OrderEmailsPanel.php:49
 msgid "Emails for this order"
 msgstr ""
@@ -166,24 +176,24 @@ msgid "Your email deliverability checks look healthy"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:168
-#: views/report-card.php:82
+#: views/report-card.php:83
 msgid "Pass"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:170
 #: views/report-card.php:26
-#: views/report-card.php:84
+#: views/report-card.php:85
 msgid "Warning"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:172
 #: views/report-card.php:28
-#: views/report-card.php:88
+#: views/report-card.php:89
 msgid "Fail"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:174
-#: views/report-card.php:86
+#: views/report-card.php:87
 msgid "Not checked"
 msgstr ""
 
@@ -264,46 +274,48 @@ msgstr ""
 msgid "The last test email failed to send. Your hosting provider may be blocking emails."
 msgstr ""
 
-#: includes/Checks/BlacklistCheck.php:32
+#: includes/Checks/BlacklistCheck.php:33
 msgid "Server IP Blacklists"
 msgstr ""
 
-#: includes/Checks/BlacklistCheck.php:92
+#: includes/Checks/BlacklistCheck.php:72
+#: includes/Checks/PtrCheck.php:35
 msgid "Skipped: your email is sent through an SMTP plugin or mail service, so your web server's own IP address is not what receivers see."
 msgstr ""
 
-#: includes/Checks/BlacklistCheck.php:98
+#: includes/Checks/BlacklistCheck.php:78
+#: includes/Checks/PtrCheck.php:41
 msgid "Skipped on the command line, where the web server's IP address is not available. Set it with the ecehc_server_ip filter to check it here."
 msgstr ""
 
-#: includes/Checks/BlacklistCheck.php:102
+#: includes/Checks/BlacklistCheck.php:82
 msgid "Your server's public IPv4 address could not be determined (it may be IPv6, private, or behind a proxy), so blacklists were not checked."
 msgstr ""
 
 #. translators: 1: server IP address, 2: list names
-#: includes/Checks/BlacklistCheck.php:170
+#: includes/Checks/BlacklistCheck.php:150
 #, php-format
 msgid "Your server IP address %1$s is listed on: %2$s. Mail sent straight from this server is likely to be rejected or sent to spam. Ask your host to resolve it, or send through an SMTP service instead."
 msgstr ""
 
-#: includes/Checks/BlacklistCheck.php:178
+#: includes/Checks/BlacklistCheck.php:158
 msgid "The DNS lookups to the blacklists failed, so your server IP address could not be checked. Try again later."
 msgstr ""
 
 #. translators: 1: server IP address, 2: list names
-#: includes/Checks/BlacklistCheck.php:185
+#: includes/Checks/BlacklistCheck.php:165
 #, php-format
 msgid "Your server IP address %1$s is not listed on %2$s. Only these free lists are checked: major lists such as Spamhaus cannot be queried by a plugin under their terms, so a clean result here does not guarantee a clean reputation."
 msgstr ""
 
 #. translators: %s: check id
-#: includes/Checks/CheckRunner.php:74
+#: includes/Checks/CheckRunner.php:75
 #, php-format
 msgid "Duplicate diagnostic check id \"%s\" was skipped."
 msgstr ""
 
 #. translators: %s: domain of the From address
-#: includes/Checks/CheckRunner.php:89
+#: includes/Checks/CheckRunner.php:90
 #, php-format
 msgid "(Checked for %s, the domain of your From address.)"
 msgstr ""
@@ -365,6 +377,44 @@ msgstr ""
 #: includes/Checks/PendingOrdersCheck.php:69
 #, php-format
 msgid "In the last 7 days, %1$d orders are \"Pending payment\" or \"Failed\" and %2$d went through (processing, completed or on hold). WooCommerce sends no order emails for unpaid orders, so a few are normal (abandoned checkouts)."
+msgstr ""
+
+#: includes/Checks/PtrCheck.php:30
+msgid "Reverse DNS (PTR)"
+msgstr ""
+
+#: includes/Checks/PtrCheck.php:45
+msgid "Your server's public IPv4 address could not be determined (it may be IPv6, private, or behind a proxy), so reverse DNS was not checked."
+msgstr ""
+
+#: includes/Checks/PtrCheck.php:51
+#: includes/Checks/PtrCheck.php:123
+#: includes/Checks/PtrCheck.php:148
+msgid "The DNS lookup failed, so the reverse DNS of your server's IP address could not be checked. Try again later."
+msgstr ""
+
+#. translators: %s: server IP address
+#: includes/Checks/PtrCheck.php:75
+#, php-format
+msgid "Your server IP address %s has no reverse DNS (PTR) record. Gmail and Yahoo expect one when mail is sent straight from a server. Ask your host to set it, or send through an SMTP service instead."
+msgstr ""
+
+#. translators: 1: server IP address, 2: host name
+#: includes/Checks/PtrCheck.php:114
+#, php-format
+msgid "Your server IP address %1$s has reverse DNS (%2$s), and that name resolves back to the same address."
+msgstr ""
+
+#. translators: 1: server IP address, 2: host name
+#: includes/Checks/PtrCheck.php:130
+#, php-format
+msgid "The reverse DNS of your server IP address %1$s is %2$s, a generic name that contains the IP address. Yahoo recommends a meaningful name that reflects your domain, and generic names are often treated as a sign of a home or dynamic connection. Ask your host to change it, or send through an SMTP service instead."
+msgstr ""
+
+#. translators: 1: server IP address, 2: host name
+#: includes/Checks/PtrCheck.php:141
+#, php-format
+msgid "The reverse DNS of your server IP address %1$s is %2$s, but that name does not resolve back to the same address. Gmail and Yahoo expect both to match. Ask your host to fix it, or send through an SMTP service instead."
 msgstr ""
 
 #: includes/Checks/SenderAddressCheck.php:16
@@ -537,53 +587,57 @@ msgstr ""
 msgid "Your emails are sent from an address at %s, a domain you cannot publish DNS records for, so there is nothing to check here. Use an address at your own domain instead."
 msgstr ""
 
-#: includes/Support/FixFirst.php:114
+#: includes/Support/FixFirst.php:115
 msgid "Make sure your site can send email at all: ask your host, or set up an SMTP plugin, then send a test email."
 msgstr ""
 
-#: includes/Support/FixFirst.php:116
+#: includes/Support/FixFirst.php:117
 msgid "Connect an SMTP plugin or a transactional email service, so your email is sent with authentication instead of plain PHP mail."
 msgstr ""
 
-#: includes/Support/FixFirst.php:118
+#: includes/Support/FixFirst.php:119
 msgid "Change the From address to an address at your own domain."
 msgstr ""
 
-#: includes/Support/FixFirst.php:120
+#: includes/Support/FixFirst.php:121
 msgid "Add an SPF record for your sending domain in your DNS settings."
 msgstr ""
 
-#: includes/Support/FixFirst.php:122
+#: includes/Support/FixFirst.php:123
 msgid "Turn on DKIM signing with your mail provider and add the DNS record it gives you."
 msgstr ""
 
-#: includes/Support/FixFirst.php:124
+#: includes/Support/FixFirst.php:125
 msgid "Add a DMARC record for your sending domain in your DNS settings."
 msgstr ""
 
-#: includes/Support/FixFirst.php:126
+#: includes/Support/FixFirst.php:127
 msgid "Ask your host to move you to a clean sending address, or send through an SMTP service instead."
 msgstr ""
 
-#: includes/Support/FixFirst.php:128
+#: includes/Support/FixFirst.php:129
+msgid "Ask your host to set the reverse DNS (PTR) of your server's IP address to a meaningful hostname, ideally on your domain, or send through an SMTP service instead."
+msgstr ""
+
+#: includes/Support/FixFirst.php:131
 msgid "Open WooCommerce > Settings > Emails and fix what this check lists."
 msgstr ""
 
-#: includes/Support/FixFirst.php:130
+#: includes/Support/FixFirst.php:133
 msgid "Look at your payment gateway: orders stuck in \"Pending payment\" or \"Failed\" send no order emails."
 msgstr ""
 
 #. translators: 1: name of a check, 2: what to do next
-#: includes/Support/FixFirst.php:143
+#: includes/Support/FixFirst.php:146
 #, php-format
 msgid "Fix this first: %1$s. %2$s"
 msgstr ""
 
-#: includes/Support/FixFirst.php:150
+#: includes/Support/FixFirst.php:153
 msgid "Nothing to fix: every check that ran passed."
 msgstr ""
 
-#: includes/Support/FixFirst.php:153
+#: includes/Support/FixFirst.php:156
 msgid "No problem was found, but the checks could not reach a conclusion."
 msgstr ""
 
@@ -600,39 +654,43 @@ msgid "If you have no SPF record, publish this one. If you already have one, add
 msgstr ""
 
 #: includes/Support/ProviderGuidance.php:141
-msgid "DMARC works only once SPF or DKIM passes for your sending service. Start in monitoring mode, then tighten the policy once your reports look clean. If you already have a DMARC record, edit it instead of adding a second one."
+msgid "DMARC works only once SPF or DKIM passes for your sending service. Start in monitoring mode, then tighten the policy once your reports look clean. If you already have a DMARC record, edit it instead of adding a second one. Gmail and Yahoo ask senders of bulk email (for Gmail, more than 5,000 messages a day) to have SPF and DKIM, a DMARC record of at least p=none, and a From domain that matches the domain SPF or DKIM passes for. They also look at your spam rate, TLS and one-click unsubscribe, which this plugin cannot see."
 msgstr ""
 
-#: includes/Support/ProviderGuidance.php:162
+#: includes/Support/ProviderGuidance.php:154
+msgid "Gmail and Yahoo expect the IP address your mail is sent from to have a reverse DNS (PTR) record, set to a hostname that resolves back to the same IP address. Only your host can set it: ask them to set the reverse DNS of your server's IP address to a meaningful hostname (Yahoo recommends one that reflects your domain), and make sure that hostname has an A record pointing to the same IP address. This does not apply when you send through a mail service, because receivers then see the service's servers instead of yours."
+msgstr ""
+
+#: includes/Support/ProviderGuidance.php:169
 msgid "In the Google Admin console go to Apps, Google Workspace, Gmail, Authenticate email, generate the record (the default host is google._domainkey), publish it as a TXT record and then turn DKIM on."
 msgstr ""
 
-#: includes/Support/ProviderGuidance.php:164
+#: includes/Support/ProviderGuidance.php:171
 msgid "Microsoft 365 uses two CNAME records, selector1._domainkey and selector2._domainkey, whose targets are specific to your tenant. Publish them, then enable DKIM signing for your domain."
 msgstr ""
 
-#: includes/Support/ProviderGuidance.php:166
+#: includes/Support/ProviderGuidance.php:173
 msgid "Amazon SES gives you three CNAME records (token._domainkey) for Easy DKIM. Copy them from your SES identity, because the values are specific to it."
 msgstr ""
 
-#: includes/Support/ProviderGuidance.php:168
+#: includes/Support/ProviderGuidance.php:175
 msgid "Copy the DKIM TXT record from the \"Domain Verification & DNS\" section of your Mailgun domain."
 msgstr ""
 
-#: includes/Support/ProviderGuidance.php:170
+#: includes/Support/ProviderGuidance.php:177
 msgid "Brevo shows either one DKIM TXT record or two CNAME records for your domain. Copy them from Brevo, because the values are generated for your account."
 msgstr ""
 
-#: includes/Support/ProviderGuidance.php:172
+#: includes/Support/ProviderGuidance.php:179
 msgid "SendGrid gives you CNAME records (or TXT records if Automated Security is off) when you authenticate your domain. Copy them from SendGrid, because the values are specific to your account."
 msgstr ""
 
-#: includes/Support/ProviderGuidance.php:174
+#: includes/Support/ProviderGuidance.php:181
 msgid "Postmark issues a unique DKIM TXT record for each domain you add. Copy it from your Postmark domain settings."
 msgstr ""
 
 #. translators: %s: mail provider name
-#: includes/Support/ProviderGuidance.php:177
+#: includes/Support/ProviderGuidance.php:184
 #, php-format
 msgid "Copy the DKIM records from your %s dashboard (its domain authentication or verification section), because the values are generated for your account."
 msgstr ""
@@ -1092,49 +1150,44 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: views/report-card.php:95
+#: views/report-card.php:96
 msgid "How to fix this"
 msgstr ""
 
-#: views/report-card.php:101
-#: views/report-card.php:123
+#: views/report-card.php:102
+#: views/report-card.php:137
 msgid "Copied"
 msgstr ""
 
-#: views/report-card.php:101
+#: views/report-card.php:102
 msgid "Copy"
 msgstr ""
 
-#: views/report-card.php:105
+#: views/report-card.php:106
 msgid "Official setup guide"
 msgstr ""
 
-#: views/report-card.php:105
-#: views/review-notice.php:25
-msgid "(opens in a new tab)"
-msgstr ""
-
-#: views/report-card.php:117
+#: views/report-card.php:131
 msgid "Re-check"
 msgstr ""
 
-#: views/report-card.php:118
+#: views/report-card.php:132
 msgid "The mail service detection and blacklist lookups are saved for up to 12 hours. Re-check to refresh them."
 msgstr ""
 
-#: views/report-card.php:123
+#: views/report-card.php:137
 msgid "Copy support report"
 msgstr ""
 
-#: views/report-card.php:124
+#: views/report-card.php:138
 msgid "A plain-text summary to paste into a support ticket. It has your site and mail domains, versions, check results, the plugin that handles your email and, if the blacklist check ran, your server IP address, but no passwords, message contents or full email addresses. Remove anything you would rather not share publicly."
 msgstr ""
 
-#: views/report-card.php:126
+#: views/report-card.php:140
 msgid "Preview the report"
 msgstr ""
 
-#: views/report-card.php:127
+#: views/report-card.php:141
 msgid "Support report"
 msgstr ""
 

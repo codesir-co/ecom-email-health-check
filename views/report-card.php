@@ -74,7 +74,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </tr>
                     </thead>
                     <tbody>
-					<?php $ecehc_provider_name = null; // Detected once for the guide links, not once per row. ?>
+					<?php
+					$ecehc_provider_name  = null; // Detected once for the guide links, not once per row.
+					$ecehc_host           = \CodeSir\EmailHealthCheck\Support\HostDetector::detect(); // Once for every panel.
+					$ecehc_host_guidance  = $ecehc_host ? \CodeSir\EmailHealthCheck\Support\HostGuidance::for_host( $ecehc_host['slug'] ) : null;
+					?>
 					<?php foreach ( $results as $ecehc_check_id => $ecehc_result ) : ?>
                         <tr id="ecehc-check-<?php echo esc_attr( (string) $ecehc_check_id ); ?>">
                             <th scope="row" class="column-columnname"><strong><?php echo esc_html( $ecehc_result['label'] ); ?></strong></th>
@@ -94,6 +98,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<?php if ( ! empty( $ecehc_result['guidance'] ) ) : ?>
                                     <details class="ecehc-guidance">
                                         <summary><?php esc_html_e( 'How to fix this', 'ecom-email-health-check' ); ?></summary>
+										<?php if ( $ecehc_host ) : ?>
+                                            <div class="ecehc-host">
+                                                <p><strong><?php esc_html_e( 'Detected hosting:', 'ecom-email-health-check' ); ?></strong> <?php echo esc_html( $ecehc_host['name'] ); ?><?php echo 'high' === $ecehc_host['confidence'] ? '' : ' ' . esc_html__( '(a best guess)', 'ecom-email-health-check' ); ?></p>
+												<?php if ( $ecehc_host_guidance ) : ?>
+                                                    <details open>
+                                                        <summary><?php esc_html_e( 'Not your host? Hide these host notes', 'ecom-email-health-check' ); ?></summary>
+                                                        <p><?php echo esc_html( $ecehc_host_guidance['mail'] ); ?></p>
+                                                        <p><?php echo esc_html( $ecehc_host_guidance['dns'] ); ?></p>
+														<?php if ( '' !== $ecehc_host_guidance['docs'] ) : ?>
+                                                            <p><a href="<?php echo esc_url( $ecehc_host_guidance['docs'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( sprintf( /* translators: %s: web host name */ __( '%s documentation', 'ecom-email-health-check' ), $ecehc_host['name'] ) ); ?><span class="screen-reader-text"> <?php esc_html_e( '(opens in a new tab)', 'ecom-email-health-check' ); ?></span></a></p>
+														<?php endif; ?>
+                                                    </details>
+												<?php endif; ?>
+                                            </div>
+										<?php endif; ?>
                                         <p><?php echo esc_html( $ecehc_result['guidance']['text'] ); ?></p>
 										<?php foreach ( $ecehc_result['guidance']['records'] as $ecehc_record ) : ?>
                                             <div class="ecehc-record">

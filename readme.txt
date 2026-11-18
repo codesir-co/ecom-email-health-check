@@ -56,6 +56,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 = Fix =
 
 * **"How to fix this" panels:** failing SPF, DKIM and DMARC checks show a copy-paste DNS record where your provider documents one, and a link to the provider's official setup guide.
+* **Detected hosting:** the panel names your web host when it recognises it (WP Engine, Kinsta, SiteGround, Pantheon, Flywheel, Cloudways, GoDaddy, WordPress.com) and adds a short note on sending mail and editing DNS there. The note can be hidden if it is not your host.
 
 = WP-CLI =
 
@@ -162,7 +163,7 @@ The "Server IP Blacklists" check sends DNS queries to the public blacklists Dron
 
 Spamhaus is intentionally not queried, because its free service is limited to low-volume non-commercial use. Developers can change the lists with the `ecehc_dnsbl_zones` filter.
 
-The "Reverse DNS (PTR)" check asks your server's own DNS resolver for the reverse DNS record of your server's IP address, and then for the address of up to three host names it returns. This happens under the same conditions as the blacklist check, and nothing is saved. The queries go to ordinary DNS servers, not to a service of ours: whoever runs the reverse DNS zone for your IP (normally your host) and the DNS servers of the returned host name can see the queried address and the address of your DNS resolver. No other data is sent.
+The "Reverse DNS (PTR)" check asks your server's own DNS resolver for the reverse DNS record of your server's IP address, and then for the address of up to three host names it returns. This happens under the same conditions as the blacklist check, and nothing is saved by that check. The "Detected hosting" note in the fix panel makes the same reverse DNS lookup of your server's IP address once to recognise your host, and saves the first host name it returns for a few hours (a WordPress transient, removed on uninstall and when you click Re-check). The queries go to ordinary DNS servers, not to a service of ours: whoever runs the reverse DNS zone for your IP (normally your host) and the DNS servers of the returned host name can see the queried address and the address of your DNS resolver. No other data is sent.
 
 **Pro waiting list link (outboxhealth.com).** The plugin shows one plain text link, "Follow the Pro plan", to https://outboxhealth.com/waitlist/ in the footer of its own screen and on its row in the Plugins list. The plugin makes no request to that site and sends it no data. outboxhealth.com receives a visit only if you click the link, and is covered by its own privacy policy: https://outboxhealth.com/privacy/. To hide the link, return false from the `ecehc_show_pro_link` filter.
 
@@ -207,6 +208,10 @@ Adds DKIM and DMARC checks and smarter SPF validation. Removes links to a discon
 The health report no longer sends an email each time it loads. Send a test email to see the "Basic Email Functionality" result. Requires PHP 7.4+.
 
 == Changelog ==
+
+= Unreleased =
+
+* New: the "How to fix this" panel names your web host when it recognises it (from the host's own constants, or the reverse DNS name of your server's IP address) and adds a short note on sending mail and editing DNS there, which you can hide. The reverse DNS name is saved for a few hours. New filter `ecehc_detected_host`.
 
 = 1.10.0 =
 * New: a "Reverse DNS (PTR)" check. When your site sends email straight from your server, Gmail and Yahoo expect the server's IP address to have a reverse DNS record that resolves back to the same address. The check says Pass, Warning (a generic name that contains the IP, or a name that does not resolve back) or Fail (no record), and "Not checked" when you use an SMTP plugin or mail service, when the IP cannot be determined, or when DNS is unavailable. It asks your server's own DNS resolver for the PTR record of the server IP and the address of up to three host names it returns; nothing is saved or sent to us.

@@ -139,7 +139,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 										$ecehc_dns_combined  = $ecehc_same_company && $ecehc_host_guidance;
 										$ecehc_dns_docs_only = $ecehc_dns_combined && '' === $ecehc_host_guidance['docs'] && $ecehc_dns_guidance && '' !== $ecehc_dns_guidance['docs'];
 										?>
-										<?php if ( $ecehc_dns_provider && ( ! $ecehc_dns_combined || $ecehc_dns_docs_only ) ) : ?>
+										<?php
+										// Skip the box when it would be empty (same company, so no label, and no guidance).
+										$ecehc_dns_show = $ecehc_dns_provider && ( ! $ecehc_dns_combined || $ecehc_dns_docs_only ) && ( ! $ecehc_same_company || $ecehc_dns_guidance );
+										// Do not repeat a docs link the host block above already shows.
+										$ecehc_dns_link = $ecehc_dns_guidance && '' !== $ecehc_dns_guidance['docs'] && ! ( $ecehc_host_guidance && $ecehc_host_guidance['docs'] === $ecehc_dns_guidance['docs'] );
+										?>
+										<?php if ( $ecehc_dns_show ) : ?>
                                             <div class="ecehc-host ecehc-dns-provider">
 												<?php if ( ! $ecehc_same_company ) : ?>
                                                     <p><strong><?php esc_html_e( 'DNS hosted at:', 'ecom-email-health-check' ); ?></strong> <?php echo esc_html( $ecehc_dns_provider['name'] ); ?></p>
@@ -148,7 +154,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 													<?php if ( ! $ecehc_dns_docs_only ) : ?>
                                                     <p><?php echo esc_html( $ecehc_dns_guidance['note'] ); ?></p>
 													<?php endif; ?>
-													<?php if ( '' !== $ecehc_dns_guidance['docs'] ) : ?>
+													<?php if ( $ecehc_dns_link ) : ?>
 														<?php
 														/* translators: %s: DNS provider name */
 														$ecehc_dns_docs_label = sprintf( __( '%s documentation', 'ecom-email-health-check' ), $ecehc_dns_provider['name'] );

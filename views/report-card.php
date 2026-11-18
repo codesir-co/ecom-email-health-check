@@ -79,6 +79,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 					$ecehc_host           = null; // Detected lazily, at the first panel, so no lookup happens when none is shown.
 					$ecehc_host_guidance  = null;
 					$ecehc_host_detected  = false;
+					$ecehc_dns_provider   = null; // Detected at the same moment as the host, once per render.
+					$ecehc_dns_guidance   = null;
+					$ecehc_same_company   = false;
 					?>
 					<?php foreach ( $results as $ecehc_check_id => $ecehc_result ) : ?>
                         <tr id="ecehc-check-<?php echo esc_attr( (string) $ecehc_check_id ); ?>">
@@ -102,13 +105,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 										$ecehc_host_detected = true;
 										$ecehc_host          = \CodeSir\EmailHealthCheck\Support\HostDetector::detect();
 										$ecehc_host_guidance = $ecehc_host ? \CodeSir\EmailHealthCheck\Support\HostGuidance::for_host( $ecehc_host['slug'] ) : null;
+										$ecehc_dns_provider  = \CodeSir\EmailHealthCheck\Support\DnsProviderDetector::detect();
+										$ecehc_dns_guidance  = $ecehc_dns_provider ? \CodeSir\EmailHealthCheck\Support\DnsProviderGuidance::for_provider( $ecehc_dns_provider['slug'] ) : null;
+										$ecehc_same_company  = \CodeSir\EmailHealthCheck\Support\DnsProviderGuidance::is_same_company( $ecehc_dns_provider, $ecehc_host );
 									}
 									?>
                                     <details class="ecehc-guidance">
                                         <summary><?php esc_html_e( 'How to fix this', 'ecom-email-health-check' ); ?></summary>
 										<?php if ( $ecehc_host ) : ?>
                                             <div class="ecehc-host">
-                                                <p><strong><?php esc_html_e( 'Detected hosting:', 'ecom-email-health-check' ); ?></strong> <?php
+                                                <p><strong><?php echo $ecehc_same_company ? esc_html__( 'Hosting and DNS:', 'ecom-email-health-check' ) : esc_html__( 'Detected hosting:', 'ecom-email-health-check' ); ?></strong> <?php
 												if ( 'high' === $ecehc_host['confidence'] ) {
 													echo esc_html( $ecehc_host['name'] );
 												} else {
@@ -125,6 +131,23 @@ if ( ! defined( 'ABSPATH' ) ) {
                                                             <p><a href="<?php echo esc_url( $ecehc_host_guidance['docs'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( sprintf( /* translators: %s: web host name */ __( '%s documentation', 'ecom-email-health-check' ), $ecehc_host['name'] ) ); ?><span class="screen-reader-text"> <?php esc_html_e( '(opens in a new tab)', 'ecom-email-health-check' ); ?></span></a></p>
 														<?php endif; ?>
                                                     </details>
+												<?php endif; ?>
+                                            </div>
+										<?php endif; ?>
+										<?php if ( $ecehc_dns_provider && ( ! $ecehc_same_company || ! $ecehc_host_guidance ) ) : ?>
+                                            <div class="ecehc-host ecehc-dns-provider">
+												<?php if ( ! $ecehc_same_company ) : ?>
+                                                    <p><strong><?php esc_html_e( 'DNS hosted at:', 'ecom-email-health-check' ); ?></strong> <?php echo esc_html( $ecehc_dns_provider['name'] ); ?></p>
+												<?php endif; ?>
+												<?php if ( $ecehc_dns_guidance ) : ?>
+                                                    <p><?php echo esc_html( $ecehc_dns_guidance['note'] ); ?></p>
+													<?php if ( '' !== $ecehc_dns_guidance['docs'] ) : ?>
+														<?php
+														/* translators: %s: DNS provider name */
+														$ecehc_dns_docs_label = sprintf( __( '%s documentation', 'ecom-email-health-check' ), $ecehc_dns_provider['name'] );
+														?>
+                                                        <p><a href="<?php echo esc_url( $ecehc_dns_guidance['docs'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $ecehc_dns_docs_label ); ?><span class="screen-reader-text"> <?php esc_html_e( '(opens in a new tab)', 'ecom-email-health-check' ); ?></span></a></p>
+													<?php endif; ?>
 												<?php endif; ?>
                                             </div>
 										<?php endif; ?>

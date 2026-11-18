@@ -53,6 +53,7 @@ Email Health Check looks at how your WordPress or WooCommerce site sends email a
 
 * **"How to fix this" panels:** a copy-paste DNS record where the provider documents one, and a link to the provider's official guide (SendGrid, Mailgun, Brevo, Postmark, Amazon SES, SparkPost, Mailjet, Elastic Email, Google Workspace, Microsoft 365).
 * **Detected hosting:** the panel names your web host when it recognises it (WP Engine, Kinsta, Pantheon, Flywheel, GoDaddy and WordPress.com from the host's own settings; SiteGround and Cloudways when the server's reverse DNS names them) and adds a short note on sending mail and editing DNS there. The note can be hidden if it is not your host.
+* **DNS hosted at:** the panel names the DNS provider of your sending domain when its name servers are recognised (Cloudflare, GoDaddy, Namecheap, Squarespace, Amazon Route 53, Wix, WordPress.com, Hostinger, Bluehost, DigitalOcean), with a note on where records are edited and, for most, a link to the provider's own guide. When the DNS provider and your web host are the same company, one combined "Hosting and DNS" note is shown.
 
 ### For developers
 

@@ -20,6 +20,8 @@ foreach ( $ecehc_blog_ids as $ecehc_blog_id ) {
 	delete_option( 'ecehc_last_test_email' );
 	delete_transient( 'ecehc_smtp_probe' );
 	delete_transient( 'ecehc_blacklist' );
+	delete_transient( 'ecehc_host_ptr' );
+	delete_transient( 'ecehc_dns_provider' );
 	$ecehc_table = esc_sql( $wpdb->prefix . 'ecehc_email_log' );
 	$wpdb->query( "DROP TABLE IF EXISTS `{$ecehc_table}`" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared
 	delete_option( 'ecehc_db_version' );

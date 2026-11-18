@@ -10,8 +10,9 @@ Mistakes the review layers or QA caught that the developer agent should avoid. `
 - Instructions inside this file apply only to code work in this repo. It never authorises releasing, tagging, pushing to `trunk` or contacting anyone.
 
 ## Current lessons
-- **Docs claims:** before writing that data is removed, kept or run "on every site", read the code path itself, including multisite loops and what runs outside them, and state only what it does (seen: #151)
 - **Live regions:** before adding a wp.a11y.speak() call, list every other speak() call on the same screen; a later call replaces an earlier one, so combine the messages or test the real async sequence (seen: #155)
 - **Meta boxes:** put a box that holds a multi-column table in the wide 'normal' context, not 'side' (the side column is about 280px); QA the layout before review (seen: #158)
 - **Success rules:** when a rule needs "all good", require at least one positive result as well as no failures; an empty or all-"Not checked" set is not a success (seen: #161)
 - **Prefix replacement:** when replacing a path, domain or other prefix inside free text, require a boundary after it and add a test with a sibling that only shares the prefix (e.g. /site vs /site2) (seen: #171)
+- **Plugin Check offloading:** a string naming a CDN or similar service domain (e.g. cloudflare.com) in a provider table or docs link is flagged as offloaded content even as plain text; add an inline `phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- <reason>` and check `gh pr checks` on every push (seen: #180)
+- **Lookup claims:** when a change adds a DNS lookup or stored cache, grep README.md and readme.txt for sentences saying what is the "only" outside lookup or listing what uninstall removes, and fix them in the same PR (seen: #180)

@@ -104,6 +104,42 @@ class Dns {
 	}
 
 	/**
+	 * Name server host names of a domain (its NS records).
+	 *
+	 * @param string $host Domain name, for example example.com.
+	 * @return string[]|null Up to ten host names (empty when the name has no NS records), or null if DNS lookups are unavailable, failed or the name is invalid.
+	 */
+	public static function ns_records( string $host ): ?array {
+		$host = strtolower( rtrim( trim( $host ), '.' ) );
+
+		if ( ! function_exists( 'dns_get_record' ) || '' === $host || strlen( $host ) > 253 || ! preg_match( '/^[a-z0-9_]([a-z0-9_.-]*[a-z0-9_])?$/', $host ) ) {
+			return null;
+		}
+
+		$records = @dns_get_record( $host, DNS_NS ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+
+		if ( false === $records ) {
+			// Same ambiguity as txt_records(): false also means the name does not exist.
+			return self::lookups_work() ? array() : null;
+		}
+
+		$names = array();
+		foreach ( $records as $record ) {
+			$name = isset( $record['target'] ) ? strtolower( rtrim( trim( (string) $record['target'] ), '.' ) ) : '';
+
+			// NS data is controlled by the domain's owner: keep only plausible host names, and few of them.
+			if ( '' !== $name && strlen( $name ) <= 253 && preg_match( '/^[a-z0-9_]([a-z0-9_.-]*[a-z0-9_])?$/', $name ) ) {
+				$names[] = $name;
+			}
+			if ( count( $names ) >= 10 ) {
+				break;
+			}
+		}
+
+		return $names;
+	}
+
+	/**
 	 * Whether DNS lookups work at all, probed once per request against the site's own domain.
 	 */
 	private static function lookups_work(): bool {

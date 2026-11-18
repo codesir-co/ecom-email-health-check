@@ -128,6 +128,7 @@ function get_transient( $name ) {
 
 function set_transient( $name, $value, $expiration = 0 ) {
 	$GLOBALS['ecehc_test_transients'][ $name ] = $value;
+	$GLOBALS['ecehc_test_transient_ttl'][ $name ] = $expiration;
 	return true;
 }
 

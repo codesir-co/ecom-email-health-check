@@ -68,22 +68,85 @@ ecehc_assert_same( null, HostDetector::detect(), 'filter returning garbage gives
 $GLOBALS['ecehc_test_hooks'] = array();
 
 // No server IP: no lookup (nothing is cached) and, with no constants, no host.
-if ( ! defined( 'WPE_APIKEY' ) && ! defined( 'PANTHEON_ENVIRONMENT' ) && ! defined( 'KINSTAMU_VERSION' ) && ! defined( 'IS_ATOMIC' ) ) {
+$ecehc_no_host_constants = ! defined( 'WPE_APIKEY' ) && ! defined( 'PANTHEON_ENVIRONMENT' ) && ! defined( 'KINSTAMU_VERSION' ) && ! defined( 'IS_ATOMIC' );
+if ( $ecehc_no_host_constants ) {
 	ecehc_assert_same( null, HostDetector::detect(), 'no signals and no server IP is null' );
 	ecehc_assert_same( false, get_transient( 'ecehc_host_ptr' ), 'no server IP means nothing cached' );
 }
+ecehc_assert_true( $ecehc_no_host_constants, 'test environment defines no host constants, so the guarded assertions ran' );
 
 // A cached PTR name is used without a lookup.
 $_SERVER['SERVER_ADDR'] = '8.8.4.4';
 set_transient( 'ecehc_host_ptr', array( 'ip' => '8.8.4.4', 'host' => 'srv1.kinsta.cloud' ) );
-if ( ! defined( 'WPE_APIKEY' ) && ! defined( 'PANTHEON_ENVIRONMENT' ) && ! defined( 'KINSTAMU_VERSION' ) && ! defined( 'IS_ATOMIC' ) ) {
+$ecehc_no_host_constants = ! defined( 'WPE_APIKEY' ) && ! defined( 'PANTHEON_ENVIRONMENT' ) && ! defined( 'KINSTAMU_VERSION' ) && ! defined( 'IS_ATOMIC' );
+if ( $ecehc_no_host_constants ) {
 	$host = HostDetector::detect();
 	ecehc_assert_same( 'kinsta', $host['slug'] ?? null, 'cached PTR name is used' );
 	ecehc_assert_same( 'medium', $host['confidence'] ?? null, 'cached PTR match is medium' );
 }
+ecehc_assert_true( $ecehc_no_host_constants, 'guarded cached-PTR assertions ran' );
 HostDetector::clear_cache();
 ecehc_assert_same( false, get_transient( 'ecehc_host_ptr' ), 'clear_cache removes the transient' );
 unset( $_SERVER['SERVER_ADDR'] );
+
+// hostname_for_ip(): caching rules, with an injected resolver.
+$calls  = 0;
+$lookup = static function ( $result ) use ( &$calls ) {
+	return static function ( $ip ) use ( $result, &$calls ) {
+		$calls++;
+		return $result;
+	};
+};
+$ttl = static function () {
+	return $GLOBALS['ecehc_test_transient_ttl']['ecehc_host_ptr'] ?? null;
+};
+
+HostDetector::clear_cache();
+ecehc_assert_same( '', HostDetector::hostname_for_ip( '', $lookup( array( 'a.example' ) ) ), 'empty IP gives empty name' );
+ecehc_assert_same( 0, $calls, 'empty IP makes no lookup' );
+
+set_transient( 'ecehc_host_ptr', array( 'ip' => '1.1.1.1', 'host' => 'old.kinsta.cloud' ) );
+ecehc_assert_same( 'new.wpengine.com', HostDetector::hostname_for_ip( '2.2.2.2', $lookup( array( 'new.wpengine.com', 'other.example' ) ) ), 'cached name for a different IP triggers a fresh lookup' );
+ecehc_assert_same( 1, $calls, 'one lookup for the mismatched IP' );
+ecehc_assert_same( array( 'ip' => '2.2.2.2', 'host' => 'new.wpengine.com' ), get_transient( 'ecehc_host_ptr' ), 'first name and the new IP are cached' );
+ecehc_assert_same( HostDetector::CACHE_TTL, $ttl(), 'a successful lookup is cached for the full TTL' );
+HostDetector::hostname_for_ip( '2.2.2.2', $lookup( array( 'x.example' ) ) );
+ecehc_assert_same( 1, $calls, 'a matching cache entry makes no lookup' );
+
+HostDetector::clear_cache();
+ecehc_assert_same( '', HostDetector::hostname_for_ip( '3.3.3.3', $lookup( array() ) ), 'no PTR record gives empty name' );
+ecehc_assert_same( array( 'ip' => '3.3.3.3', 'host' => '' ), get_transient( 'ecehc_host_ptr' ), 'an empty PTR result is cached as an empty host' );
+ecehc_assert_same( HostDetector::CACHE_TTL, $ttl(), 'an empty PTR result is cached for the full TTL' );
+$before = $calls;
+HostDetector::hostname_for_ip( '3.3.3.3', $lookup( array( 'x.example' ) ) );
+ecehc_assert_same( $before, $calls, 'the cached empty host is not looked up again' );
+
+HostDetector::clear_cache();
+ecehc_assert_same( '', HostDetector::hostname_for_ip( '4.4.4.4', $lookup( null ) ), 'a failed lookup gives empty name' );
+ecehc_assert_same( array( 'ip' => '4.4.4.4', 'host' => '' ), get_transient( 'ecehc_host_ptr' ), 'a failed lookup is cached' );
+ecehc_assert_same( 10 * MINUTE_IN_SECONDS, $ttl(), 'a failed lookup is cached for ten minutes only' );
+$before = $calls;
+HostDetector::hostname_for_ip( '4.4.4.4', $lookup( array( 'x.example' ) ) );
+ecehc_assert_same( $before, $calls, 'a failed lookup is not retried while cached' );
+HostDetector::clear_cache();
+ecehc_assert_same( 'x.example', HostDetector::hostname_for_ip( '4.4.4.4', $lookup( array( 'x.example' ) ) ), 'clearing the cache allows a new lookup' );
+HostDetector::clear_cache();
+
+// Signal order: the first host in the documented list wins when two signals are present.
+$both = static function ( $name ) {
+	return in_array( $name, array( 'WPE_APIKEY', 'KINSTAMU_VERSION', 'IS_ATOMIC' ), true );
+};
+ecehc_assert_same( 'wp-engine', HostDetector::from_environment( $both, $none )['slug'] ?? null, 'WP Engine wins over Kinsta and WordPress.com' );
+$later = static function ( $name ) {
+	return in_array( $name, array( 'IS_ATOMIC', 'PANTHEON_ENVIRONMENT' ), true );
+};
+ecehc_assert_same( 'pantheon', HostDetector::from_environment( $later, $none )['slug'] ?? null, 'Pantheon wins over WordPress.com' );
+$class_and_constant = HostDetector::from_environment( $only_constant( 'KINSTAMU_VERSION' ), $only_constant( 'WpeCommon' ) );
+ecehc_assert_same( 'wp-engine', $class_and_constant['slug'] ?? null, 'hosts are checked in list order, constant or class' );
+
+// Filter confidence normalisation.
+ecehc_assert_same( 'medium', HostDetector::validate( array( 'slug' => 'a', 'name' => 'A', 'confidence' => 'certain' ) )['confidence'] ?? null, 'unknown confidence becomes medium' );
+ecehc_assert_same( 'high', HostDetector::validate( array( 'slug' => 'a', 'name' => 'A', 'confidence' => 'high' ) )['confidence'] ?? null, 'high confidence is kept' );
 
 // Guidance.
 foreach ( array( 'wp-engine', 'kinsta', 'siteground', 'pantheon', 'flywheel', 'cloudways', 'godaddy', 'wordpress-com' ) as $slug ) {

@@ -76,8 +76,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <tbody>
 					<?php
 					$ecehc_provider_name  = null; // Detected once for the guide links, not once per row.
-					$ecehc_host           = \CodeSir\EmailHealthCheck\Support\HostDetector::detect(); // Once for every panel.
-					$ecehc_host_guidance  = $ecehc_host ? \CodeSir\EmailHealthCheck\Support\HostGuidance::for_host( $ecehc_host['slug'] ) : null;
+					$ecehc_host           = null; // Detected lazily, at the first panel, so no lookup happens when none is shown.
+					$ecehc_host_guidance  = null;
+					$ecehc_host_detected  = false;
 					?>
 					<?php foreach ( $results as $ecehc_check_id => $ecehc_result ) : ?>
                         <tr id="ecehc-check-<?php echo esc_attr( (string) $ecehc_check_id ); ?>">
@@ -96,14 +97,28 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <td class="column-columnname">
 								<?php echo esc_html( $ecehc_result['message'] ); ?>
 								<?php if ( ! empty( $ecehc_result['guidance'] ) ) : ?>
+									<?php
+									if ( ! $ecehc_host_detected ) {
+										$ecehc_host_detected = true;
+										$ecehc_host          = \CodeSir\EmailHealthCheck\Support\HostDetector::detect();
+										$ecehc_host_guidance = $ecehc_host ? \CodeSir\EmailHealthCheck\Support\HostGuidance::for_host( $ecehc_host['slug'] ) : null;
+									}
+									?>
                                     <details class="ecehc-guidance">
                                         <summary><?php esc_html_e( 'How to fix this', 'ecom-email-health-check' ); ?></summary>
 										<?php if ( $ecehc_host ) : ?>
                                             <div class="ecehc-host">
-                                                <p><strong><?php esc_html_e( 'Detected hosting:', 'ecom-email-health-check' ); ?></strong> <?php echo esc_html( $ecehc_host['name'] ); ?><?php echo 'high' === $ecehc_host['confidence'] ? '' : ' ' . esc_html__( '(a best guess)', 'ecom-email-health-check' ); ?></p>
+                                                <p><strong><?php esc_html_e( 'Detected hosting:', 'ecom-email-health-check' ); ?></strong> <?php
+												if ( 'high' === $ecehc_host['confidence'] ) {
+													echo esc_html( $ecehc_host['name'] );
+												} else {
+													/* translators: %s: web host name */
+													echo esc_html( sprintf( __( '%s (a best guess)', 'ecom-email-health-check' ), $ecehc_host['name'] ) );
+												}
+												?></p>
 												<?php if ( $ecehc_host_guidance ) : ?>
                                                     <details open>
-                                                        <summary><?php esc_html_e( 'Not your host? Hide these host notes', 'ecom-email-health-check' ); ?></summary>
+                                                        <summary><?php echo esc_html( sprintf( /* translators: %s: web host name */ __( 'Notes for %s (not your host? collapse this)', 'ecom-email-health-check' ), $ecehc_host['name'] ) ); ?></summary>
                                                         <p><?php echo esc_html( $ecehc_host_guidance['mail'] ); ?></p>
                                                         <p><?php echo esc_html( $ecehc_host_guidance['dns'] ); ?></p>
 														<?php if ( '' !== $ecehc_host_guidance['docs'] ) : ?>

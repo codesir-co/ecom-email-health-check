@@ -17,6 +17,7 @@ class HostDetector {
 
 	const TRANSIENT = 'ecehc_host_ptr';
 	const CACHE_TTL = 6 * HOUR_IN_SECONDS;
+	const FAILURE_TTL = 10 * MINUTE_IN_SECONDS;
 
 	/**
 	 * Known hosts: display name, constants and classes that give the host away
@@ -101,7 +102,14 @@ class HostDetector {
 		);
 
 		if ( null === $host ) {
-			$host = self::from_hostname( self::server_hostname() );
+			$host = self::from_hostname(
+				self::hostname_for_ip(
+					ServerIp::detect(),
+					static function ( string $ip ): ?array {
+						return Dns::ptr_records( $ip );
+					}
+				)
+			);
 		}
 
 		/**
@@ -190,12 +198,14 @@ class HostDetector {
 	}
 
 	/**
-	 * First reverse DNS name of the server's IP address, cached. Empty when the address is
-	 * unknown, has no PTR record or the lookup failed (failures are not cached).
+	 * First reverse DNS name of an IP address, cached. Empty when the address is unknown or has
+	 * no PTR record. A failed lookup is also cached, but only for ten minutes, so a slow or
+	 * broken resolver is not retried on every render. Re-check clears the cache.
+	 *
+	 * @param string   $ip     IPv4 address, may be empty.
+	 * @param callable $lookup Receives the IP, returns host names, an empty array (no record) or null (failed).
 	 */
-	private static function server_hostname(): string {
-		$ip = ServerIp::detect();
-
+	public static function hostname_for_ip( string $ip, callable $lookup ): string {
 		if ( '' === $ip ) {
 			return '';
 		}
@@ -205,9 +215,10 @@ class HostDetector {
 			return $cached['host'];
 		}
 
-		$hosts = Dns::ptr_records( $ip );
+		$hosts = $lookup( $ip );
 
 		if ( null === $hosts ) {
+			set_transient( self::TRANSIENT, array( 'ip' => $ip, 'host' => '' ), self::FAILURE_TTL );
 			return '';
 		}
 

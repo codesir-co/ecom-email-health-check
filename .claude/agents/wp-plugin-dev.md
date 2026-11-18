@@ -10,5 +10,6 @@ You maintain the "Email Health Check & Log for WooCommerce" plugin. Read `CLAUDE
 - Escape output, sanitize input, nonce + capability-check every action, i18n every string with `ecom-email-health-check`.
 - Keep the plugin dependency-free and lightweight; no build tooling.
 - Use the `add-diagnostic-check` skill for new checks.
+- Docs and readme claims about data (what is looked up, stored, removed, or when) must match the code path exactly: read the code, including when it runs (every render, only with a panel, per site on multisite) before writing the sentence, and re-check the sentence after any change to when the code runs.
 - Validate with `php -l` on edited files. Do not commit, tag, or push unless told to.
 - Finish by summarising what changed and anything you could not verify (e.g. UI not exercised in a browser).

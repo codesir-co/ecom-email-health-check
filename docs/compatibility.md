@@ -30,6 +30,10 @@ the background loading of the report (the AJAX path added in PR #104; only the P
 WordPress 5.0, PHP 7.4 (only PHP 8.5 was run) and `WC requires at least: 8.0` are conservative claims that
 were never run.
 
+## 1.11.0 release prep (2026-11-18)
+
+The full recipe above was **not** repeated for 1.11.0, so `Tested up to` (7.1) and `WC tested up to` (11.2) were not changed. What did run: `php tests/run.php`, `php -l`, CI (PHP 7.4, 8.2, 8.4 and Plugin Check), and QA of both new features on the local site (WordPress 7.1.4, WooCommerce active, PHP 8.5.4) through the admin UI and filters. The real reverse DNS (PTR) and NS lookups were not exercised there because the local server IP is private and the mail domain has no NS records.
+
 ## How to repeat it (about 10 minutes)
 
 1. Make a scratch site that does not touch your real one: a dedicated database, or an unmistakably unique

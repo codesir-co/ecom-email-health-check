@@ -4,7 +4,7 @@ Tags: woocommerce, email log, deliverability, dkim, dmarc
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.10.0
+Stable tag: 1.11.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -172,6 +172,9 @@ The "Reverse DNS (PTR)" check asks your server's own DNS resolver for the revers
 
 == Upgrade Notice ==
 
+= 1.11.0 =
+The fix panel now names your web host and your DNS provider and says where to add records. It makes two more DNS lookups (your server's IP, your domain's name servers), only when a panel is shown, saved about 6 hours. Nothing is sent to us.
+
 = 1.10.0 =
 Adds a Reverse DNS (PTR) check, one extra DNS lookup of your server's IP when you send straight from your server, and plain text guide links in the fix panel of failing SPF, DKIM and DMARC checks. The plugin requests nothing for the links; hide them with a filter.
 
@@ -210,7 +213,7 @@ The health report no longer sends an email each time it loads. Send a test email
 
 == Changelog ==
 
-= Unreleased =
+= 1.11.0 =
 
 * New: the "How to fix this" panel names the DNS provider of your sending domain ("DNS hosted at") when its name servers are recognised, with a note on where records are edited and, where available, a link to the provider's own guide; one combined note is shown when it is also your web host. The name servers are looked up only when a panel is shown, and are saved for about 6 hours (10 minutes after a failed lookup). New filter `ecehc_detected_dns_provider`.
 * New: the "How to fix this" panel names your web host when it recognises it (from the host's own constants, or the reverse DNS name of your server's IP address) and adds a short note on sending mail and editing DNS there, which you can hide. The reverse DNS name is looked up only when a panel is shown and the host is not recognised from its own settings, and is saved for about 6 hours (10 minutes after a failed lookup). New filter `ecehc_detected_host`.

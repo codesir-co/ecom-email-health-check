@@ -86,6 +86,7 @@ do_action( 'ecehc_email_logged', array $row );
 | `ecehc_dkim_selectors` | `string[] $selectors` | DKIM selector names that are tried. |
 | `ecehc_dnsbl_zones` | `array<string,string> $zones` (zone => name) | Blacklist zones that are queried. Only add lists whose terms allow queries from any site. |
 | `ecehc_server_ip` | `string $ip` | IPv4 address the blacklist and reverse DNS (PTR) checks look up. |
+| `ecehc_detected_host` | `array\|null $host` (`slug` string, `name` string, `confidence` `high` or `medium`) returns the same | Correct or add the detected web host shown in the "How to fix this" panel. Anything other than null or an array with non-empty string `slug` and `name` is ignored (treated as no host). `confidence` must be `high` or `medium`; any other value is treated as `medium`. Built-in host notes exist only for the plugin's own slugs (`wp-engine`, `kinsta`, `siteground`, `pantheon`, `flywheel`, `cloudways`, `godaddy`, `wordpress-com`); another slug only shows its name. |
 | `ecehc_pending_orders_minimum` | `int $minimum` (default 5) | Unpaid orders needed for the WooCommerce warning. |
 | `ecehc_enable_email_log` | `bool $enabled` | Switch the email log feature on or off for the whole site. |
 | `ecehc_log_row` | `array $row` (same keys as `ecehc_email_logged`) | Change a row before it is written. Unknown keys are dropped. |

@@ -8,6 +8,7 @@
 namespace CodeSir\EmailHealthCheck\Admin;
 
 use CodeSir\EmailHealthCheck\Checks\BlacklistCheck;
+use CodeSir\EmailHealthCheck\Support\HostDetector;
 use CodeSir\EmailHealthCheck\Support\SmtpDetector;
 
 defined( 'ABSPATH' ) || exit;
@@ -32,6 +33,7 @@ class RecheckHandler {
 
 		SmtpDetector::clear_cache();
 		BlacklistCheck::clear_cache();
+		HostDetector::clear_cache();
 
 		add_action( 'admin_notices', array( $this, 'notice' ) );
 	}

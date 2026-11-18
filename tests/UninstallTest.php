@@ -84,6 +84,7 @@ $per_site = array(
 	'option:ecehc_last_test_email',
 	'transient:ecehc_smtp_probe',
 	'transient:ecehc_blacklist',
+	'transient:ecehc_host_ptr',
 	'transient:ecehc_redirect_to_dashboard',
 	'option:ecehc_db_version',
 	'option:ecehc_log_settings',

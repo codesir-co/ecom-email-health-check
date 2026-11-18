@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Email Health Check & Log for WooCommerce – SPF, DKIM, DMARC & Alerts 1.10.0\n"
+"Project-Id-Version: Email Health Check & Log for WooCommerce – SPF, DKIM, DMARC & Alerts 1.11.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ecom-email-health-check\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-17T08:51:36+00:00\n"
+"POT-Creation-Date: 2026-11-18T21:57:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ecom-email-health-check\n"
@@ -61,7 +61,7 @@ msgstr ""
 
 #: includes/Admin/ChecklistHandler.php:27
 #: includes/Admin/LogSettingsHandler.php:34
-#: includes/Admin/RecheckHandler.php:30
+#: includes/Admin/RecheckHandler.php:32
 #: includes/Admin/ReviewPromptHandler.php:27
 #: includes/Admin/TestEmailHandler.php:41
 msgid "Security check failed."
@@ -106,8 +106,11 @@ msgstr ""
 msgid "Plain-language guide (outboxhealth.com)"
 msgstr ""
 
+#. translators: %s: web host name
 #: includes/Admin/GuideLink.php:119
-#: views/report-card.php:106
+#: views/report-card.php:131
+#: views/report-card.php:162
+#: views/report-card.php:176
 #: views/review-notice.php:25
 msgid "(opens in a new tab)"
 msgstr ""
@@ -124,7 +127,7 @@ msgstr ""
 msgid "Follow the Pro plan"
 msgstr ""
 
-#: includes/Admin/RecheckHandler.php:40
+#: includes/Admin/RecheckHandler.php:44
 msgid "Checks refreshed."
 msgstr ""
 
@@ -176,24 +179,24 @@ msgid "Your email deliverability checks look healthy"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:168
-#: views/report-card.php:83
+#: views/report-card.php:91
 msgid "Pass"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:170
 #: views/report-card.php:26
-#: views/report-card.php:85
+#: views/report-card.php:93
 msgid "Warning"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:172
 #: views/report-card.php:28
-#: views/report-card.php:89
+#: views/report-card.php:97
 msgid "Fail"
 msgstr ""
 
 #: includes/Admin/SiteHealth.php:174
-#: views/report-card.php:87
+#: views/report-card.php:95
 msgid "Not checked"
 msgstr ""
 
@@ -581,6 +584,46 @@ msgstr ""
 msgid "Health Check"
 msgstr ""
 
+#: includes/Support/DnsProviderGuidance.php:45
+msgid "Your DNS records are edited in your Cloudflare dashboard, under the DNS section for your domain. Changes are not made in WordPress."
+msgstr ""
+
+#: includes/Support/DnsProviderGuidance.php:48
+msgid "Your DNS records are edited in your GoDaddy account, in the DNS settings of your domain. Changes are not made in WordPress."
+msgstr ""
+
+#: includes/Support/DnsProviderGuidance.php:51
+msgid "Your DNS records are edited in your Namecheap account, under Advanced DNS for your domain. Changes are not made in WordPress."
+msgstr ""
+
+#: includes/Support/DnsProviderGuidance.php:54
+msgid "Your DNS records are edited in your Squarespace account, in the DNS settings of your domain. Changes are not made in WordPress."
+msgstr ""
+
+#: includes/Support/DnsProviderGuidance.php:57
+msgid "Your DNS records are edited in the hosted zone for your domain in the Amazon Route 53 console. Changes are not made in WordPress."
+msgstr ""
+
+#: includes/Support/DnsProviderGuidance.php:60
+msgid "Your DNS records are edited in your Wix account, in the DNS settings of your domain. Changes are not made in WordPress."
+msgstr ""
+
+#: includes/Support/DnsProviderGuidance.php:63
+msgid "Your DNS records are edited in the domain settings of your WordPress.com account. Changes are not made in your site's WordPress admin."
+msgstr ""
+
+#: includes/Support/DnsProviderGuidance.php:66
+msgid "Your DNS records are edited in the DNS settings of your domain in your Hostinger account. Changes are not made in WordPress."
+msgstr ""
+
+#: includes/Support/DnsProviderGuidance.php:69
+msgid "Your DNS records are edited in the DNS settings of your domain in your Bluehost account. Changes are not made in WordPress."
+msgstr ""
+
+#: includes/Support/DnsProviderGuidance.php:72
+msgid "Your DNS records are edited in the Networking section of your DigitalOcean account, under your domain. Changes are not made in WordPress."
+msgstr ""
+
 #. translators: %s: domain such as gmail.com
 #: includes/Support/Domain.php:89
 #, php-format
@@ -639,6 +682,38 @@ msgstr ""
 
 #: includes/Support/FixFirst.php:156
 msgid "No problem was found, but the checks could not reach a conclusion."
+msgstr ""
+
+#: includes/Support/HostGuidance.php:46
+msgid "Managed hosts like this often limit or do not support sending email straight from the server, and mail sent that way is easily marked as spam. Sending through an SMTP plugin with a transactional email service is the dependable option."
+msgstr ""
+
+#: includes/Support/HostGuidance.php:47
+msgid "Your SPF, DKIM and DMARC records belong with your domain's DNS, which is wherever your domain's name servers point (your registrar, a DNS service such as Cloudflare, or your host's DNS if you use it). They are not edited in WordPress."
+msgstr ""
+
+#: includes/Support/HostGuidance.php:51
+msgid "Shared and cloud hosts often limit how much email a site can send directly, and their server addresses are shared with other sites. Sending through an SMTP plugin with a transactional email service is the dependable option; check your host's documentation for its limits."
+msgstr ""
+
+#: includes/Support/HostGuidance.php:52
+msgid "Add the records where your domain's DNS is managed: your host's DNS zone editor if your domain uses its name servers, otherwise your registrar or DNS service. They are not edited in WordPress."
+msgstr ""
+
+#: includes/Support/HostGuidance.php:55
+msgid "GoDaddy hosting may limit or relay email from the server, so mail sent straight from your site can be delayed or marked as spam. Sending through an SMTP plugin with a transactional email service is the dependable option."
+msgstr ""
+
+#: includes/Support/HostGuidance.php:56
+msgid "If your domain is registered with GoDaddy, edit its DNS records in your GoDaddy domain settings. If it uses other name servers, edit them there instead."
+msgstr ""
+
+#: includes/Support/HostGuidance.php:59
+msgid "WordPress.com sends your site's email from its own servers, so you have less control over how mail is sent. A mail service connected through your plan, or a transactional email service where your plan allows plugins, is the dependable option."
+msgstr ""
+
+#: includes/Support/HostGuidance.php:60
+msgid "If your domain is managed at WordPress.com, edit its DNS records in your domain settings. If it uses other name servers, edit them there instead."
 msgstr ""
 
 #. translators: 1: mail provider name
@@ -1150,44 +1225,76 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: views/report-card.php:96
+#: views/report-card.php:114
 msgid "How to fix this"
 msgstr ""
 
-#: views/report-card.php:102
-#: views/report-card.php:137
+#: views/report-card.php:117
+msgid "Hosting and DNS:"
+msgstr ""
+
+#: views/report-card.php:117
+msgid "Detected hosting:"
+msgstr ""
+
+#. translators: %s: web host name
+#: views/report-card.php:122
+#, php-format
+msgid "%s (a best guess)"
+msgstr ""
+
+#. translators: %s: web host name
+#: views/report-card.php:127
+#, php-format
+msgid "Notes for %s (not your host? collapse this)"
+msgstr ""
+
+#. translators: %s: web host name
+#. translators: %s: DNS provider name
+#: views/report-card.php:131
+#: views/report-card.php:160
+#, php-format
+msgid "%s documentation"
+msgstr ""
+
+#: views/report-card.php:151
+msgid "DNS hosted at:"
+msgstr ""
+
+#: views/report-card.php:172
+#: views/report-card.php:207
 msgid "Copied"
 msgstr ""
 
-#: views/report-card.php:102
+#: views/report-card.php:172
 msgid "Copy"
 msgstr ""
 
-#: views/report-card.php:106
+#: views/report-card.php:176
 msgid "Official setup guide"
 msgstr ""
 
-#: views/report-card.php:131
+#: views/report-card.php:201
 msgid "Re-check"
 msgstr ""
 
-#: views/report-card.php:132
+#: views/report-card.php:202
 msgid "The mail service detection and blacklist lookups are saved for up to 12 hours. Re-check to refresh them."
 msgstr ""
 
-#: views/report-card.php:137
+#: views/report-card.php:207
 msgid "Copy support report"
 msgstr ""
 
-#: views/report-card.php:138
+#: views/report-card.php:208
 msgid "A plain-text summary to paste into a support ticket. It has your site and mail domains, versions, check results, the plugin that handles your email and, if the blacklist check ran, your server IP address, but no passwords, message contents or full email addresses. Remove anything you would rather not share publicly."
 msgstr ""
 
-#: views/report-card.php:140
+#: views/report-card.php:210
 msgid "Preview the report"
 msgstr ""
 
-#: views/report-card.php:141
+#: views/report-card.php:211
 msgid "Support report"
 msgstr ""
 

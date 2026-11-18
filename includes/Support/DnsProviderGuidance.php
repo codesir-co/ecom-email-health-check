@@ -22,7 +22,7 @@ class DnsProviderGuidance {
 	 */
 	private static function docs(): array {
 		return array(
-			'cloudflare'    => 'https://developers.cloudflare.com/dns/manage-dns-records/how-to/create-dns-records/',
+			'cloudflare'    => 'https://developers.cloudflare.com/dns/manage-dns-records/how-to/create-dns-records/', // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- A documentation link shown to the user; nothing is loaded from it.
 			'godaddy'       => 'https://www.godaddy.com/en/help/add-a-txt-record-19232',
 			'namecheap'     => 'https://www.namecheap.com/support/knowledgebase/article.aspx/317/2237/how-do-i-add-txtspfdkimdmarc-records-for-my-domain/',
 			'squarespace'   => 'https://support.squarespace.com/hc/en-us/articles/360002101888-Edit-your-domain-s-DNS-records',

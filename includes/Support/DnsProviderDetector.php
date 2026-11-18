@@ -39,7 +39,7 @@ class DnsProviderDetector {
 		return array(
 			'cloudflare' => array(
 				'name'     => 'Cloudflare',
-				'suffixes' => array( 'ns.cloudflare.com' ),
+				'suffixes' => array( 'ns.cloudflare.com' ), // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- A name server suffix matched against DNS answers; nothing is loaded from it.
 			),
 			'godaddy' => array(
 				'name'     => 'GoDaddy',

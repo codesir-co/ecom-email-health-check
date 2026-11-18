@@ -119,11 +119,24 @@ function update_option( $name, $value ) {
 	return true;
 }
 
+// In-memory transients (TTL ignored).
+$GLOBALS['ecehc_test_transients'] = array();
+
+function get_transient( $name ) {
+	return array_key_exists( $name, $GLOBALS['ecehc_test_transients'] ) ? $GLOBALS['ecehc_test_transients'][ $name ] : false;
+}
+
+function set_transient( $name, $value, $expiration = 0 ) {
+	$GLOBALS['ecehc_test_transients'][ $name ] = $value;
+	return true;
+}
+
 // Records deleted transients; UninstallTest also gets them through its own recorder when it is loaded.
 $GLOBALS['ecehc_test_deleted_transients'] = array();
 
 function delete_transient( $name ) {
 	$GLOBALS['ecehc_test_deleted_transients'][] = $name;
+	unset( $GLOBALS['ecehc_test_transients'][ $name ] );
 	if ( function_exists( 'ecehc_uninstall_record' ) ) {
 		ecehc_uninstall_record( 'transient:' . $name );
 	}

@@ -126,15 +126,29 @@ ecehc_assert_same( 'cloudflare', $seen[0]['slug'] ?? null, 'the filter receives 
 $GLOBALS['ecehc_test_hooks'] = array();
 DnsProviderDetector::clear_cache();
 
+// Parent walk: only the parent domain has name servers.
+DnsProviderDetector::clear_cache();
+$parent_only = static function ( $host ) {
+	return 'example.com' === $host ? array( 'a.ns.cloudflare.com' ) : array();
+};
+ecehc_assert_same( 'cloudflare', $slug( DnsProviderDetector::detect_for( 'mail.shop.example.com', $parent_only ) ), 'detect_for reaches the provider through the parent walk' );
+DnsProviderDetector::clear_cache();
+ecehc_assert_same( 'route-53', $slug( DnsProviderDetector::from_name_servers( array( 'ns-9.awsdns-02.net' ) ) ), 'Route 53 .net name server' );
+
 // Combined-note rule.
 $gd_dns  = array( 'slug' => 'godaddy', 'name' => 'GoDaddy' );
 $gd_host = array( 'slug' => 'godaddy', 'name' => 'GoDaddy', 'confidence' => 'high' );
 ecehc_assert_true( DnsProviderGuidance::is_same_company( $gd_dns, $gd_host ), 'same slug is one company' );
-ecehc_assert_true( DnsProviderGuidance::is_same_company( array( 'slug' => 'a', 'name' => 'Acme' ), array( 'slug' => 'b', 'name' => 'ACME' ) ), 'same name ignoring case is one company' );
+ecehc_assert_true( DnsProviderGuidance::is_same_company( array( 'slug' => 'a', 'name' => 'Acme' ), array( 'slug' => 'b', 'name' => 'ACME', 'confidence' => 'high' ) ), 'same name ignoring case is one company' );
 ecehc_assert_same( false, DnsProviderGuidance::is_same_company( array( 'slug' => 'cloudflare', 'name' => 'Cloudflare' ), $gd_host ), 'different companies are not combined' );
 ecehc_assert_same( false, DnsProviderGuidance::is_same_company( null, $gd_host ), 'no DNS provider is not combined' );
 ecehc_assert_same( false, DnsProviderGuidance::is_same_company( $gd_dns, null ), 'no host is not combined' );
 ecehc_assert_same( false, DnsProviderGuidance::is_same_company( null, null ), 'nothing detected is not combined' );
+
+ecehc_assert_same( false, DnsProviderGuidance::is_same_company( $gd_dns, array( 'slug' => 'godaddy', 'name' => 'GoDaddy', 'confidence' => 'medium' ) ), 'a medium-confidence host is not combined' );
+ecehc_assert_same( false, DnsProviderGuidance::is_same_company( $gd_dns, array( 'slug' => 'godaddy', 'name' => 'GoDaddy' ) ), 'a host without confidence is not combined' );
+ecehc_assert_same( false, DnsProviderGuidance::is_same_company( $gd_dns, array( 'name' => 'GoDaddy', 'confidence' => 'high' ) ), 'a malformed host (no slug) is not combined' );
+ecehc_assert_same( false, DnsProviderGuidance::is_same_company( array( 'slug' => 'godaddy' ), $gd_host ), 'a malformed DNS provider (no name) is not combined' );
 
 // Guidance table.
 foreach ( array( 'cloudflare', 'godaddy', 'namecheap', 'squarespace', 'route-53', 'wix', 'wordpress-com', 'hostinger', 'bluehost', 'digitalocean' ) as $known ) {

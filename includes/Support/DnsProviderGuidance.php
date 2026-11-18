@@ -83,13 +83,15 @@ class DnsProviderGuidance {
 
 	/**
 	 * Whether the DNS provider and the web host are one company, so one combined note is shown.
-	 * Compared by slug, or by name ignoring case for providers added with filters.
+	 * Compared by slug, or by name ignoring case for providers added with filters. Only a host
+	 * detected with high confidence counts: a "best guess" host is never presented as a confirmed
+	 * combined claim.
 	 *
 	 * @param array{slug: string, name: string}|null $dns  Detected DNS provider.
-	 * @param array{slug: string, name: string}|null $host Detected web host.
+	 * @param array{slug: string, name: string, confidence?: string}|null $host Detected web host.
 	 */
 	public static function is_same_company( ?array $dns, ?array $host ): bool {
-		if ( null === $dns || null === $host || ! isset( $dns['slug'], $dns['name'], $host['slug'], $host['name'] ) ) {
+		if ( null === $dns || null === $host || ! isset( $dns['slug'], $dns['name'], $host['slug'], $host['name'], $host['confidence'] ) || 'high' !== $host['confidence'] ) {
 			return false;
 		}
 

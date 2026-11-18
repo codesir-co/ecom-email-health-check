@@ -37,28 +37,28 @@ class DnsProviderDetector {
 	 */
 	private static function providers(): array {
 		return array(
-			'cloudflare'   => array(
+			'cloudflare' => array(
 				'name'     => 'Cloudflare',
 				'suffixes' => array( 'ns.cloudflare.com' ),
 			),
-			'godaddy'      => array(
+			'godaddy' => array(
 				'name'     => 'GoDaddy',
 				'suffixes' => array( 'domaincontrol.com' ),
 			),
-			'namecheap'    => array(
+			'namecheap' => array(
 				'name'     => 'Namecheap',
 				'suffixes' => array( 'registrar-servers.com' ),
 			),
-			'squarespace'  => array(
+			'squarespace' => array(
 				'name'     => 'Squarespace',
 				'suffixes' => array( 'squarespacedns.com' ),
 			),
-			'route-53'     => array(
+			'route-53' => array(
 				'name'     => 'Amazon Route 53',
 				'suffixes' => array(),
 				'pattern'  => '/(^|\.)awsdns-\d+\.(com|net|org|co\.uk)$/',
 			),
-			'wix'          => array(
+			'wix' => array(
 				'name'     => 'Wix',
 				'suffixes' => array( 'wixdns.net' ),
 			),
@@ -66,11 +66,11 @@ class DnsProviderDetector {
 				'name'     => 'WordPress.com',
 				'suffixes' => array( 'wordpress.com' ),
 			),
-			'hostinger'    => array(
+			'hostinger' => array(
 				'name'     => 'Hostinger',
 				'suffixes' => array( 'dns-parking.com' ),
 			),
-			'bluehost'     => array(
+			'bluehost' => array(
 				'name'     => 'Bluehost',
 				'suffixes' => array( 'bluehost.com' ),
 			),
@@ -140,12 +140,18 @@ class DnsProviderDetector {
 			foreach ( self::providers() as $slug => $provider ) {
 				foreach ( $provider['suffixes'] as $suffix ) {
 					$length = strlen( $suffix );
-					if ( $name === $suffix || ( strlen( $name ) > $length && '.' . $suffix === substr( $name, -( $length + 1 ) ) ) ) {
-						return array( 'slug' => $slug, 'name' => $provider['name'] );
+					if ( $name === $suffix || '.' . $suffix === substr( $name, -( $length + 1 ) ) ) {
+						return array(
+							'slug' => $slug,
+							'name' => $provider['name'],
+						);
 					}
 				}
 				if ( isset( $provider['pattern'] ) && preg_match( $provider['pattern'], $name ) ) {
-					return array( 'slug' => $slug, 'name' => $provider['name'] );
+					return array(
+						'slug' => $slug,
+						'name' => $provider['name'],
+					);
 				}
 			}
 		}
@@ -200,7 +206,14 @@ class DnsProviderDetector {
 			$found = $lookup( $candidate );
 
 			if ( null === $found ) {
-				set_transient( self::TRANSIENT, array( 'domain' => $domain, 'ns' => array() ), self::FAILURE_TTL );
+				set_transient(
+					self::TRANSIENT,
+					array(
+						'domain' => $domain,
+						'ns'     => array(),
+					),
+					self::FAILURE_TTL
+				);
 				return array();
 			}
 
@@ -210,7 +223,14 @@ class DnsProviderDetector {
 			}
 		}
 
-		set_transient( self::TRANSIENT, array( 'domain' => $domain, 'ns' => $names ), self::CACHE_TTL );
+		set_transient(
+			self::TRANSIENT,
+			array(
+				'domain' => $domain,
+				'ns'     => $names,
+			),
+			self::CACHE_TTL
+		);
 
 		return $names;
 	}
@@ -233,7 +253,10 @@ class DnsProviderDetector {
 			return null;
 		}
 
-		return array( 'slug' => $slug, 'name' => $name );
+		return array(
+			'slug' => $slug,
+			'name' => $name,
+		);
 	}
 
 	/**
